@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 12, 2019 at 01:31 AM
+-- Generation Time: May 13, 2019 at 10:24 PM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.3.1
 
@@ -56,6 +56,13 @@ CREATE TABLE `company` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `company`
+--
+
+INSERT INTO `company` (`id`, `Name`, `Code`, `Address`, `Description`, `Min_Slap`, `Max_Slap`, `Discount_Percentage`, `user_id`, `created_at`) VALUES
+(1, 'Abc company', '123', 'karachi', 'asdf', '10', '50', 90, 2, '2019-05-12 19:47:47');
+
 -- --------------------------------------------------------
 
 --
@@ -84,7 +91,8 @@ INSERT INTO `modules` (`id`, `name`, `main_name`, `sort`, `icon`, `url`, `user_i
 (19, 'Sales Men', 'salesmen', 4, 'home', 'salesmen', 2),
 (20, 'Booker', 'booker', 5, 'home', 'booker', 2),
 (21, 'Company', 'company', 6, 'home', 'company', 2),
-(22, 'Product', 'product', 7, 'home', 'product', 2);
+(22, 'Product', 'product', 7, 'home', 'product', 2),
+(23, 'Purchase', 'purchase', 5, 'home', 'purchase', 2);
 
 -- --------------------------------------------------------
 
@@ -142,7 +150,8 @@ INSERT INTO `modules_fileds` (`id`, `name`, `type`, `filed_type`, `options`, `le
 (28, 'Name', 'VARCHAR', 'input', '', 100, 1, 22, 0, NULL, NULL, NULL),
 (29, 'Company', 'INT', 'select', 'Select Company', 10, 1, 22, 1, 'id', 'company', 'id'),
 (30, 'Code', 'VARCHAR', 'input', '', 50, 1, 22, 0, NULL, NULL, NULL),
-(31, 'Description', 'TEXT', 'textarea', '', 0, 0, 22, 0, NULL, NULL, NULL);
+(31, 'Description', 'TEXT', 'textarea', '', 0, 0, 22, 0, NULL, NULL, NULL),
+(32, 'Company', 'INT', 'select', '', 10, 1, 23, 1, 'id', 'company', 'Name');
 
 -- --------------------------------------------------------
 
@@ -174,11 +183,23 @@ INSERT INTO `permission` (`id`, `module_id`, `user_id`, `user_type_id`, `view`, 
 (35, 2, 2, 14, 1, 0, 0, 0, 0, 0),
 (36, 3, 2, 14, 0, 0, 0, 0, 0, 0),
 (37, 5, 2, 14, 0, 0, 0, 0, 0, 0),
-(194, 2, 2, 1, 1, 1, 1, 1, 1, 1),
-(195, 3, 2, 1, 1, 1, 1, 1, 1, 1),
-(196, 5, 2, 1, 1, 1, 1, 1, 1, 1),
-(197, 7, 2, 1, 1, 1, 1, 1, 1, 1),
-(198, 19, 2, 1, 1, 1, 1, 1, 1, 1);
+(223, 2, 2, 0, 0, 0, 0, 0, 0, 0),
+(224, 3, 2, 0, 0, 0, 0, 0, 0, 0),
+(225, 5, 2, 0, 0, 0, 0, 0, 0, 0),
+(226, 7, 2, 0, 0, 0, 0, 0, 0, 0),
+(227, 19, 2, 0, 0, 0, 0, 0, 0, 0),
+(228, 20, 2, 0, 0, 0, 0, 0, 0, 0),
+(229, 21, 2, 0, 1, 0, 0, 0, 0, 0),
+(230, 22, 2, 0, 1, 0, 0, 0, 0, 0),
+(247, 2, 2, 1, 1, 1, 1, 1, 1, 1),
+(248, 3, 2, 1, 1, 1, 1, 1, 1, 1),
+(249, 5, 2, 1, 1, 1, 1, 1, 1, 1),
+(250, 7, 2, 1, 1, 1, 1, 1, 1, 1),
+(251, 19, 2, 1, 1, 1, 1, 1, 1, 1),
+(252, 20, 2, 1, 1, 1, 1, 1, 1, 1),
+(253, 21, 2, 1, 1, 1, 1, 1, 1, 1),
+(254, 22, 2, 1, 1, 1, 1, 1, 1, 1),
+(255, 23, 2, 1, 1, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -191,7 +212,32 @@ CREATE TABLE `product` (
   `Name` varchar(100) NOT NULL,
   `Company` int(10) NOT NULL,
   `Code` varchar(50) NOT NULL,
+  `stock_in_hand` int(11) DEFAULT '0',
+  `purchase_price` int(10) DEFAULT NULL,
+  `sale_price` int(10) DEFAULT NULL,
   `Description` text,
+  `packing_type` varchar(100) DEFAULT NULL,
+  `qty` int(20) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `product`
+--
+
+INSERT INTO `product` (`id`, `Name`, `Company`, `Code`, `stock_in_hand`, `purchase_price`, `sale_price`, `Description`, `packing_type`, `qty`, `user_id`, `created_at`) VALUES
+(1, 'first product', 1, 'fp', 3, NULL, NULL, 'asdf', NULL, NULL, 2, '2019-05-12 19:59:09');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase`
+--
+
+CREATE TABLE `purchase` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `Company` int(10) NOT NULL,
   `user_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -267,7 +313,7 @@ CREATE TABLE `user_type` (
 --
 
 INSERT INTO `user_type` (`id`, `name`, `user_id`) VALUES
-(1, 'Admin', 2),
+(1, 'admin', 2),
 (13, 'Company', 2),
 (14, 'Distribution', 2);
 
@@ -312,6 +358,12 @@ ALTER TABLE `product`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `purchase`
+--
+ALTER TABLE `purchase`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `salesmen`
 --
 ALTER TABLE `salesmen`
@@ -345,30 +397,36 @@ ALTER TABLE `booker`
 -- AUTO_INCREMENT for table `company`
 --
 ALTER TABLE `company`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `modules`
 --
 ALTER TABLE `modules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `modules_fileds`
 --
 ALTER TABLE `modules_fileds`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=199;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=256;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `purchase`
+--
+ALTER TABLE `purchase`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
