@@ -45,12 +45,13 @@
                                 </div>
 
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row after-add-sub">
                                 <div class="col-md-2">
                                     <label for="example-text-input" class="col-form-label">Product
                                         <span class="required">*</span>
                                     </label>
-                                    <select name="product_id" class="form-control product-list">    
+                                    <select name="product_id" class="form-control product-list">
+                                        <option value="">Please Select</option>
                                     </select>
                                 </div>
                             
@@ -130,7 +131,7 @@
 
                     if ( res.data.length > 0 ) {
                         $.each(res.data, function(index, val) {
-                            row += '<option value="'+val.id+'">'+val.Name+'</option>';
+                            row += '<option data-json="'+JSON.stringify(val)+'" value="'+val.id+'">'+val.Name+'</option>';
                         });
                     }
 
@@ -141,19 +142,15 @@
         
     });
 
+    $('.product-list').change(function() {
+        console.log($(this).attr('data-json'));
+    });
+
      $("body").on("click",".add-sub",function(){
         var html = $(".after-add-sub").first().clone();
         $(html).find(".delet").html("<a class='btn btn-danger remove'><i class='fa fa-trash-o' aria-hidden='true'></i> </a> "+' <a class="btn btn-success add-sub"><strong> + </strong> </a>');
         $(".after-add-sub").last().after(html);
-        $(".after-add-sub").last().find('input,select').not('input[type="checkbox"]').val('')
-        $(".after-add-sub").last().find('input[type="checkbox"]').removeAttr('checked')
-        $(".after-add-sub").last().find('.hide-div').hide()
-        var con = 0
-        $(".after-add-sub").each(function() {
-            $(this).find('input[type="checkbox"]').attr('name','required['+con+']')
-            con++
-        })
-        get_tables()
-        filed_type()
+        
+        
     });
 </script>
