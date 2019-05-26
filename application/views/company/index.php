@@ -39,7 +39,7 @@
 										<table id="dataTableExample2" class="table table-bordered table-striped table-hover">
 											<thead>
 												<tr>
-													<th>Id</th><th>Name</th><th>Code</th><th>Address</th><th>Description</th><th>Min Slap</th><th>Max Slap</th><th>Discount Percentage</th><?php 
+													<th>Id</th><th>Name</th><th>Code</th><th>Address</th><th>Description</th><!-- <th>Min Slap</th><th>Max Slap</th><th>Discount Percentage</th> --><?php 
 														if ($permission["edit"] == "1" || $permission["deleted"] == "1"){
 													?>
 													<th>Action</th>
@@ -51,7 +51,7 @@
 										    		foreach ($company as $module) {
 										    	?>
 												<tr>
-													<td><?php echo $module["id"] ?></td><td><?php echo $module["Name"] ?></td><td><?php echo $module["Code"] ?></td><td><?php echo $module["Address"] ?></td><td><?php echo $module["Description"] ?></td><td><?php echo $module["Min_Slap"] ?></td><td><?php echo $module["Max_Slap"] ?></td><td><?php echo $module["Discount_Percentage"] ?></td><?php 
+													<td><?php echo $module["id"] ?></td><td><?php echo $module["Name"] ?></td><td><?php echo $module["Code"] ?></td><td><?php echo $module["Address"] ?></td><td><?php echo $module["Description"] ?></td><!-- <td><?php echo $module["Min_Slap"] ?></td><td><?php echo $module["Max_Slap"] ?></td><td><?php echo $module["Discount_Percentage"] ?></td> --><?php 
 														if ($permission["edit"] == "1" || $permission["deleted"] == "1"){
 													?>
 													<td>

@@ -143,11 +143,11 @@ class MY_Controller extends CI_Controller {
 	        		$contents .= "%this->data['".$controller_name."'] = %this->".ucfirst($module_name)."->get_".$tablename."(%this->id);";
 	        	}
 				else{
-					$contents .= "%this->data['".$controller_name."'] = %this->".ucfirst($module_name)."get_rows('".$tablename."',array('user_id'=>%this->id));";
+					$contents .= "%this->data['".$controller_name."'] = %this->".ucfirst($module_name)."->get_rows('".$tablename."',array('user_id'=>%this->id));";
 				}
 			}
 			else{
-				$contents .= "%this->data['".$controller_name."'] = %this->".ucfirst($module_name)."get_rows('".$tablename."',array('user_id'=>%this->id));";
+				$contents .= "%this->data['".$controller_name."'] = %this->".ucfirst($module_name)."->get_rows('".$tablename."',array('user_id'=>%this->id));";
 			}
 				// %this->data['".$controller_name."'] = %this->".ucfirst($module_name)."->get_rows('".$tablename."',array('user_id'=>%this->id));
 			$contents .="}

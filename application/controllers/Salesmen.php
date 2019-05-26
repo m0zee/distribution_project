@@ -17,7 +17,7 @@
 			}
 			$this->data['title'] = 'Salesmen';
 			if ( $this->permission['view_all'] == '1'){$this->data['salesmen'] = $this->Salesmen_model->all_rows('salesmen');}
-			elseif ($this->permission['view'] == '1') {$this->data['salesmen'] = $this->Salesmen_modelget_rows('salesmen',array('user_id'=>$this->id));}
+			elseif ($this->permission['view'] == '1') {$this->data['salesmen'] = $this->Salesmen_model->get_rows('salesmen',array('user_id'=>$this->id));}
 			$this->data['permission'] = $this->permission;
 			$this->load->template('salesmen/index',$this->data);
 		}public function create()

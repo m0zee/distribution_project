@@ -3,7 +3,7 @@ class Product_model extends MY_Model{
 
 	public function get_product($id = null)
 	{
-		$this->db->select('product.*,company.id')
+		$this->db->select('product.*,company.Name as company')
 				->from('product')->join('company', 'company.id = product.Company'); 
 		if ($id != null) {
 			$this->db->where('product.user_id', $id);

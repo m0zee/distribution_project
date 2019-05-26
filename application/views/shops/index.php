@@ -10,12 +10,12 @@
 							<i class="pe-7s-box1"></i>
 						</div>
 						<div class="header-title">
-							<h1>View Blog</h1>
+							<h1>View Shops</h1>
 							<small> </small>
 							<ol class="breadcrumb">
 								<li><a href="<?php echo base_url() ?>"><i class="pe-7s-home"></i> Home</a></li>
 
-								<li class="active">View Blog</li>
+								<li class="active">View Shops</li>
 							</ol>
 						</div>
 					</div> <!-- /. Content Header (Page header) -->
@@ -25,11 +25,11 @@
 							<div class="panel panel-bd">
 								<div class="panel-heading">
 									<div class="panel-title">
-										<h4>View Blog</h4>
+										<h4>View Shops</h4>
 										<?php 
 											if ($permission["created"] == "1") {
 										?>
-										<a href="<?php echo base_url("blog/create") ?>"><button class="btn btn-info pull-right">Add Blog</button></a>
+										<a href="<?php echo base_url("shops/create") ?>"><button class="btn btn-info pull-right">Add Shops</button></a>
 										<?php } ?>
 									</div>
 								</div>
@@ -39,7 +39,7 @@
 										<table id="dataTableExample2" class="table table-bordered table-striped table-hover">
 											<thead>
 												<tr>
-													<th>Id</th><th>Title</th><th>Description</th><th>Name</th><th>Image</th><?php 
+													<th>Id</th><th>Code</th><th>Name</th><th>Area</th><th>Address</th><?php 
 														if ($permission["edit"] == "1" || $permission["deleted"] == "1"){
 													?>
 													<th>Action</th>
@@ -48,22 +48,22 @@
 											</thead>
 										    <tbody>
 										    	<?php
-										    		foreach ($blog as $module) {
+										    		foreach ($shops as $module) {
 										    	?>
 												<tr>
-													<td><?php echo $module["id"] ?></td><td><?php echo $module["Title"] ?></td><td><?php echo $module["Description"] ?></td><td><?php echo $module["Name"] ?></td><td><a href="<?php echo base_url() ?>/<?php echo $module["image"] ?>">View File</a></td><?php 
+													<td><?php echo $module["id"] ?></td><td><?php echo $module["Code"] ?></td><td><?php echo $module["Name"] ?></td><td><?php echo $module["Area"] ?></td><td><?php echo $module["Address"] ?></td><?php 
 														if ($permission["edit"] == "1" || $permission["deleted"] == "1"){
 													?>
 													<td>
 														<?php 
 															if ($permission["edit"] == "1") {
 														?>
-														<a href="<?php echo base_url() ?>blog/edit/<?php echo $module["id"] ?>"><img src="<?php echo base_url() ?>assets/record1.png" title="View Order" alt="View Order" width="35" height="35"></a>
+														<a href="<?php echo base_url() ?>shops/edit/<?php echo $module["id"] ?>"><img src="<?php echo base_url() ?>assets/record1.png" title="View Order" alt="View Order" width="35" height="35"></a>
 														<?php } ?>
 														<?php 
 															if ($permission["deleted"] == "1") {
 														?>
-		                                                <a href="<?php echo base_url() ?>blog/delete/<?php echo $module["id"] ?>"><img src="<?php echo base_url() ?>assets/d-icon.png" title="Delete" alt="Delete" width="35" height="35"></a>
+		                                                <a href="<?php echo base_url() ?>shops/delete/<?php echo $module["id"] ?>"><img src="<?php echo base_url() ?>assets/d-icon.png" title="Delete" alt="Delete" width="35" height="35"></a>
 		                                                <?php } ?>
 	                                                </td>
 	                                                <?php } ?>

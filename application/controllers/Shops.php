@@ -1,11 +1,11 @@
 <?php
-		    class Booker extends MY_Controller{
+		    class Shops extends MY_Controller{
 
 		    	public function __construct()
 	    {
 	        parent::__construct();
-	        $this->load->model('Booker_model');
-	        $this->module = 'booker';
+	        $this->load->model('Shops_model');
+	        $this->module = 'shops';
 	        $this->user_type = $this->session->userdata('user_type');
 	        $this->id = $this->session->userdata('user_id');
 	        $this->permission = $this->get_permission($this->module,$this->user_type);
@@ -15,18 +15,18 @@
 			{
 				redirect('home');
 			}
-			$this->data['title'] = 'Booker';
-			if ( $this->permission['view_all'] == '1'){$this->data['booker'] = $this->Booker_model->all_rows('booker');}
-			elseif ($this->permission['view'] == '1') {$this->data['booker'] = $this->Booker_model->get_rows('booker',array('user_id'=>$this->id));}
+			$this->data['title'] = 'Shops';
+			if ( $this->permission['view_all'] == '1'){$this->data['shops'] = $this->Shops_model->get_shops();}
+			elseif ($this->permission['view'] == '1') {$this->data['shops'] = $this->Shops_model->get_shops($this->id);}
 			$this->data['permission'] = $this->permission;
-			$this->load->template('booker/index',$this->data);
+			$this->load->template('shops/index',$this->data);
 		}public function create()
 		{
 			if ( $this->permission['created'] == '0') 
 			{
 				redirect('home');
 			}
-			$this->data['title'] = 'Create Booker';$this->load->template('booker/create',$this->data);
+			$this->data['title'] = 'Create Shops';$this->data['table_booker'] = $this->Shops_model->all_rows('booker');$this->load->template('shops/create',$this->data);
 		}
 		public function insert()
 		{
@@ -35,9 +35,9 @@
 				redirect('home');
 			}
 			$data = $this->input->post();
-			$data['user_id'] = $this->session->userdata('user_id');$id = $this->Booker_model->insert('booker',$data);
+			$data['user_id'] = $this->session->userdata('user_id');$id = $this->Shops_model->insert('shops',$data);
 			if ($id) {
-				redirect('booker');
+				redirect('shops');
 			}
 		}public function edit($id)
 		{
@@ -45,8 +45,8 @@
 			{
 				redirect('home');
 			}
-			$this->data['title'] = 'Edit Booker';
-			$this->data['booker'] = $this->Booker_model->get_row_single('booker',array('id'=>$id));$this->load->template('booker/edit',$this->data);
+			$this->data['title'] = 'Edit Shops';
+			$this->data['shops'] = $this->Shops_model->get_row_single('shops',array('id'=>$id));$this->data['table_booker'] = $this->Shops_model->all_rows('booker');$this->load->template('shops/edit',$this->data);
 		}
 
 		public function update()
@@ -57,9 +57,9 @@
 			}
 			$data = $this->input->post();
 			$id = $data['id'];
-			unset($data['id']);$id = $this->Booker_model->update('booker',$data,array('id'=>$id));
+			unset($data['id']);$id = $this->Shops_model->update('shops',$data,array('id'=>$id));
 			if ($id) {
-				redirect('booker');
+				redirect('shops');
 			}
 		}public function delete($id)
 		{
@@ -67,6 +67,6 @@
 			{
 				redirect('home');
 			}
-			$this->Booker_model->delete('booker',array('id'=>$id));
-			redirect('booker');
+			$this->Shops_model->delete('shops',array('id'=>$id));
+			redirect('shops');
 		}}

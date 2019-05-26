@@ -17,7 +17,7 @@
 			}
 			$this->data['title'] = 'Company';
 			if ( $this->permission['view_all'] == '1'){$this->data['company'] = $this->Company_model->all_rows('company');}
-			elseif ($this->permission['view'] == '1') {$this->data['company'] = $this->Company_modelget_rows('company',array('user_id'=>$this->id));}
+			elseif ($this->permission['view'] == '1') {$this->data['company'] = $this->Company_model->get_rows('company',array('user_id'=>$this->id));}
 			$this->data['permission'] = $this->permission;
 			$this->load->template('company/index',$this->data);
 		}public function create()
@@ -35,6 +35,8 @@
 				redirect('home');
 			}
 			$data = $this->input->post();
+			$data['slap'] = json_encode($data['slap']);
+			//print_r($data);die;
 			$data['user_id'] = $this->session->userdata('user_id');$id = $this->Company_model->insert('company',$data);
 			if ($id) {
 				redirect('company');
@@ -57,6 +59,7 @@
 			}
 			$data = $this->input->post();
 			$id = $data['id'];
+			$data['slap'] = json_encode($data['slap']);
 			unset($data['id']);$id = $this->Company_model->update('company',$data,array('id'=>$id));
 			if ($id) {
 				redirect('company');

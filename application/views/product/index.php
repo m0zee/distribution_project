@@ -39,7 +39,7 @@
 										<table id="dataTableExample2" class="table table-bordered table-striped table-hover">
 											<thead>
 												<tr>
-													<th>Id</th><th>Name</th><th>Id</th><th>Code</th><th>Description</th><?php 
+													<th>Id</th><th>Name</th><th>Company</th><th>Stock in Hand</th><th>Code</th><th>Description</th><?php 
 														if ($permission["edit"] == "1" || $permission["deleted"] == "1"){
 													?>
 													<th>Action</th>
@@ -51,7 +51,7 @@
 										    		foreach ($product as $module) {
 										    	?>
 												<tr>
-													<td><?php echo $module["id"] ?></td><td><?php echo $module["Name"] ?></td><td><?php echo $module["id"] ?></td><td><?php echo $module["Code"] ?></td><td><?php echo $module["Description"] ?></td><?php 
+													<td><?php echo $module["id"] ?></td><td><?php echo $module["Name"] ?></td><td><?php echo $module["company"] ?></td><td><?php echo $module["stock_in_hand"] ?></td><td><?php echo $module["Code"] ?></td><td><?php echo $module["Description"] ?></td><?php 
 														if ($permission["edit"] == "1" || $permission["deleted"] == "1"){
 													?>
 													<td>
