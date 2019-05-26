@@ -5,6 +5,7 @@
 	    {
 	        parent::__construct();
 	        $this->load->model('Purchase_model');
+	        $this->load->model('product_model');
 	        $this->module = 'purchase';
 	        $this->user_type = $this->session->userdata('user_type');
 	        $this->id = $this->session->userdata('user_id');
@@ -34,8 +35,28 @@
 			{
 				redirect('home');
 			}
-			$data = $this->input->post();
-			$data['user_id'] = $this->session->userdata('user_id');$id = $this->Purchase_model->insert('purchase',$data);
+
+
+			$data['Company'] = $this->input->post('Company');
+			
+			$data['user_id'] = $this->session->userdata('user_id');
+			$id = $this->Purchase_model->insert('purchase',$data);
+			
+			$products = $this->input->post('product');
+			foreach ($products as $product) {
+				$product_data[] = array_merge($product, ['purchase_id' => $id] );
+				$qty[$product['product_id']] = $product['qty'];
+				$product_ids[] = $product['product_id'];
+			}
+
+			$this->product_model->insert_batch('purchase_details', $product_data);
+
+			$products = $this->product_model->get_product_by_ids($product_ids);
+			foreach ($products as $product) {
+				$qty = $product['qty'] + $qty[$product['id']];
+				$affected = $this->Purchase_model->update('product',['qty' => $qty], ['id' => $product['id']]);
+			}
+
 			if ($id) {
 				redirect('purchase');
 			}
