@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 26, 2019 at 11:22 PM
+-- Generation Time: May 29, 2019 at 09:40 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.21
 
@@ -23,6 +23,55 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `billing`
+--
+
+CREATE TABLE `billing` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `Company` int(100) NOT NULL,
+  `Booker` int(100) NOT NULL,
+  `Date` date NOT NULL,
+  `Shop` int(100) NOT NULL,
+  `Discount` int(100) NOT NULL,
+  `Total_Amount` int(255) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `billing`
+--
+
+INSERT INTO `billing` (`id`, `Company`, `Booker`, `Date`, `Shop`, `Discount`, `Total_Amount`, `user_id`, `created_at`) VALUES
+(4, 2, 1, '2019-05-29', 1, 2, 80, 2, '2019-05-29 17:02:18'),
+(5, 2, 1, '2019-05-29', 1, 2, 42, 2, '2019-05-29 17:02:18');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `billing_detail`
+--
+
+CREATE TABLE `billing_detail` (
+  `id` int(11) NOT NULL,
+  `bill_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `qty` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `billing_detail`
+--
+
+INSERT INTO `billing_detail` (`id`, `bill_id`, `product_id`, `qty`) VALUES
+(2, 4, 1, 10),
+(3, 4, 1, 15),
+(4, 4, 1, 7),
+(5, 5, 1, 6);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `booker`
 --
 
@@ -34,6 +83,13 @@ CREATE TABLE `booker` (
   `user_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `booker`
+--
+
+INSERT INTO `booker` (`id`, `Name`, `Code`, `Phone`, `user_id`, `created_at`) VALUES
+(1, 'Testing Booket', '123', '32381208932', 2, '2019-05-28 20:24:11');
 
 -- --------------------------------------------------------
 
@@ -66,6 +122,28 @@ INSERT INTO `company` (`id`, `Name`, `Code`, `Address`, `Description`, `slap`, `
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `dsr_bills`
+--
+
+CREATE TABLE `dsr_bills` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `Booker` int(100) NOT NULL,
+  `Date` date NOT NULL,
+  `Total_Amount` int(100) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `dsr_bills`
+--
+
+INSERT INTO `dsr_bills` (`id`, `Booker`, `Date`, `Total_Amount`, `user_id`, `created_at`) VALUES
+(2, 1, '2019-05-29', 122, 2, '2019-05-29 17:14:26');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `modules`
 --
 
@@ -93,7 +171,9 @@ INSERT INTO `modules` (`id`, `name`, `main_name`, `sort`, `icon`, `url`, `user_i
 (21, 'Company', 'company', 6, 'home', 'company', 2),
 (22, 'Product', 'product', 7, 'home', 'product', 2),
 (23, 'Purchase', 'purchase', 5, 'home', 'purchase', 2),
-(24, 'Shops', 'shops', 7, 'home', 'shops', 2);
+(24, 'Shops', 'shops', 7, 'home', 'shops', 2),
+(26, 'Billing', 'billing', 7, 'home', 'billing', 2),
+(27, 'Dsr/Bills', 'dsr_bills', 7, 'home', 'dsr_bills', 2);
 
 -- --------------------------------------------------------
 
@@ -157,7 +237,18 @@ INSERT INTO `modules_fileds` (`id`, `name`, `type`, `filed_type`, `options`, `le
 (34, 'Name', 'VARCHAR', 'input', '', 100, 0, 24, 0, NULL, NULL, NULL),
 (35, 'Area', 'VARCHAR', 'input', '', 255, 0, 24, 0, NULL, NULL, NULL),
 (36, 'Address', 'VARCHAR', 'input', '', 255, 0, 24, 0, NULL, NULL, NULL),
-(37, 'Booker', 'INT', 'input', '', 11, 0, 24, 1, 'id', 'booker', 'Name,Code');
+(37, 'Booker', 'INT', 'input', '', 11, 0, 24, 1, 'id', 'booker', 'Name,Code'),
+(38, 'Company', 'INT', 'input', '', 100, 1, 25, 1, 'id', 'company', 'Name'),
+(39, 'Booker', 'INT', 'input', '', 100, 1, 25, 1, 'id', 'booker', 'Name'),
+(40, 'Date', 'DATE', 'input', '', 100, 1, 25, 0, NULL, NULL, NULL),
+(41, 'Company', 'INT', 'input', '', 100, 1, 26, 1, 'id', 'company', 'Name'),
+(42, 'Booker', 'INT', 'input', '', 100, 1, 26, 1, 'id', 'booker', 'Name'),
+(43, 'Date', 'DATE', 'input', '', 100, 1, 26, 0, NULL, NULL, NULL),
+(44, 'Shop', 'INT', 'input', '', 100, 1, 26, 1, 'id', 'shops', 'Name'),
+(45, 'Discount', 'INT', 'input', '', 100, 1, 26, 0, NULL, NULL, NULL),
+(46, 'Booker', 'INT', 'input', '', 100, 1, 27, 1, 'id', 'booker', 'Name'),
+(47, 'Date', 'DATE', 'input', '', 100, 1, 27, 0, NULL, NULL, NULL),
+(48, 'Total_Amount', 'INT', 'input', '', 100, 1, 27, 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -191,16 +282,18 @@ INSERT INTO `permission` (`id`, `module_id`, `user_id`, `user_type_id`, `view`, 
 (228, 20, 2, 0, 0, 0, 0, 0, 0, 0),
 (229, 21, 2, 0, 1, 0, 0, 0, 0, 0),
 (230, 22, 2, 0, 1, 0, 0, 0, 0, 0),
-(256, 2, 2, 1, 1, 1, 1, 1, 1, 1),
-(257, 3, 2, 1, 1, 1, 1, 1, 1, 1),
-(258, 5, 2, 1, 1, 1, 1, 1, 1, 1),
-(259, 7, 2, 1, 1, 1, 1, 1, 1, 1),
-(260, 19, 2, 1, 1, 1, 1, 1, 1, 1),
-(261, 20, 2, 1, 1, 1, 1, 1, 1, 1),
-(262, 21, 2, 1, 1, 1, 1, 1, 1, 1),
-(263, 22, 2, 1, 1, 1, 1, 1, 1, 1),
-(264, 23, 2, 1, 1, 1, 1, 1, 1, 1),
-(265, 24, 2, 1, 1, 1, 1, 1, 1, 1);
+(288, 2, 2, 1, 1, 1, 1, 1, 1, 1),
+(289, 3, 2, 1, 1, 1, 1, 1, 1, 1),
+(290, 5, 2, 1, 1, 1, 1, 1, 1, 1),
+(291, 7, 2, 1, 1, 1, 1, 1, 1, 1),
+(292, 19, 2, 1, 1, 1, 1, 1, 1, 1),
+(293, 20, 2, 1, 1, 1, 1, 1, 1, 1),
+(294, 21, 2, 1, 1, 1, 1, 1, 1, 1),
+(295, 22, 2, 1, 1, 1, 1, 1, 1, 1),
+(296, 23, 2, 1, 1, 1, 1, 1, 1, 1),
+(297, 24, 2, 1, 1, 1, 1, 1, 1, 1),
+(298, 26, 2, 1, 1, 1, 1, 1, 1, 1),
+(299, 27, 2, 1, 1, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -307,6 +400,13 @@ CREATE TABLE `shops` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `shops`
+--
+
+INSERT INTO `shops` (`id`, `Code`, `Name`, `Area`, `Address`, `Booker`, `user_id`, `created_at`) VALUES
+(1, '123', 'Test Shop', 'Garden', 'testing', 1, 2, '2019-05-28 20:41:12');
+
 -- --------------------------------------------------------
 
 --
@@ -370,6 +470,18 @@ INSERT INTO `user_type` (`id`, `name`, `user_id`) VALUES
 --
 
 --
+-- Indexes for table `billing`
+--
+ALTER TABLE `billing`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `billing_detail`
+--
+ALTER TABLE `billing_detail`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `booker`
 --
 ALTER TABLE `booker`
@@ -379,6 +491,12 @@ ALTER TABLE `booker`
 -- Indexes for table `company`
 --
 ALTER TABLE `company`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dsr_bills`
+--
+ALTER TABLE `dsr_bills`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -449,30 +567,45 @@ ALTER TABLE `user_type`
 --
 
 --
+-- AUTO_INCREMENT for table `billing`
+--
+ALTER TABLE `billing`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `billing_detail`
+--
+ALTER TABLE `billing_detail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
 -- AUTO_INCREMENT for table `booker`
 --
 ALTER TABLE `booker`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `company`
 --
 ALTER TABLE `company`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
+-- AUTO_INCREMENT for table `dsr_bills`
+--
+ALTER TABLE `dsr_bills`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
 -- AUTO_INCREMENT for table `modules`
 --
 ALTER TABLE `modules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `modules_fileds`
 --
 ALTER TABLE `modules_fileds`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 --
 -- AUTO_INCREMENT for table `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=266;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=300;
 --
 -- AUTO_INCREMENT for table `product`
 --
@@ -497,7 +630,7 @@ ALTER TABLE `salesmen`
 -- AUTO_INCREMENT for table `shops`
 --
 ALTER TABLE `shops`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `users`
 --
