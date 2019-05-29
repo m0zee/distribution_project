@@ -90,6 +90,7 @@ class Dsr_bills extends MY_Controller
     {
     	$this->data['dsr_bills'] = $this->Dsr_bills_model->get_row_single('dsr_bills', array('id' => $id));
     	$this->data['products'] = $this->Dsr_bills_model->get_products($id);
-    	$this->load->view('print/dsr');
+    	//echo '<pre>';print_r($this->data['products']);die;
+    	$this->load->view('print/dsr', $this->data);
     }
 }

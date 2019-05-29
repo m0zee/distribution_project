@@ -20,4 +20,17 @@ class Dsr_bills_model extends MY_Model
     			 ->group_by(array('Booker','Date'));
     	return $this->db->get()->row()->total;
     }
+
+    public function get_products($id)
+    {
+        $this->db->select('p.Name, sum(bd.qty) as qty, c.Name as company, p.sale_price')
+                 ->from('billing b')
+                 ->join('billing_detail bd', 'bd.bill_id = b.id')
+                 ->join('product p', 'p.id = bd.product_id', 'right')
+                 ->join('dsr_bills d', 'd.Date = b.Date and d.Booker = b.Booker')
+                 ->join('company c', 'c.id = b.Company')
+                 ->group_by('p.id')
+                 ->where('d.id', $id);
+        return $this->db->get()->result_array();
+    }
 }
