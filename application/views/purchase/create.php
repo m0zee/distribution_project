@@ -84,7 +84,7 @@
                                     <label for="example-text-input" class="col-form-label">Total
                                         <span class="required">*</span>
                                     </label>
-                                    <input type="number" class="form-control total" name="product[0][total]" data-name="total">
+                                    <input type="text" readonly="" class="form-control total" name="product[0][total]" data-name="total">
                                 </div>
                                 <div class="col-lg-1 delet pull-right">
                                     <label for="">&nbsp;</label>
@@ -155,6 +155,15 @@
         }
 
     });
+
+    $('.panel-body').on('keyup', '.qty, .rate, .gross_value, .discount', function(){
+        var current_row = $(this).parent().parent();
+
+            // $(current_row).find('.rate').val(product_data.purchase_price);
+            calculate_total(current_row);
+    })
+
+
 
     function calculate_total(current_row){
         var qty = $(current_row).find('.qty').val();

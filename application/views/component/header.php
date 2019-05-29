@@ -221,20 +221,20 @@
 
             </script>
             <script>
-            function count_notification(){
-                $(document).ready(function(){
-                    $.ajax({
-                        url:"<?php echo base_url() ?>admin/count_notification",
-                        type:"get",
-                        success:function(resp){
-                            // console.log(resp);
-                            $('#count_notification').html(resp);
-                        }
-                    });
-                });
-            }
-            count_notification();
+            // function count_notification(){
+            //     $(document).ready(function(){
+            //         $.ajax({
+            //             url:"<?php echo base_url() ?>admin/count_notification",
+            //             type:"get",
+            //             success:function(resp){
+            //                 // console.log(resp);
+            //                 $('#count_notification').html(resp);
+            //             }
+            //         });
+            //     });
+            // }
+            // count_notification();
 
-            setInterval(count_notification,2000);
+            // setInterval(count_notification,2000);
 
             </script>
