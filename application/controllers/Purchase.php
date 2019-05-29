@@ -53,8 +53,8 @@
 
 			$products = $this->product_model->get_product_by_ids($product_ids);
 			foreach ($products as $product) {
-				$qty = $product['qty'] + $qty[$product['id']];
-				$affected = $this->Purchase_model->update('product',['qty' => $qty], ['id' => $product['id']]);
+				$qty = $product['stock_in_hand'] + $qty[$product['id']];
+				$affected = $this->Purchase_model->update('product',['stock_in_hand' => $qty], ['id' => $product['id']]);
 			}
 
 			if ($id) {
@@ -67,7 +67,10 @@
 				redirect('home');
 			}
 			$this->data['title'] = 'Edit Purchase';
-			$this->data['purchase'] = $this->Purchase_model->get_row_single('purchase',array('id'=>$id));$this->data['table_company'] = $this->Purchase_model->all_rows('company');$this->load->template('purchase/edit',$this->data);
+			$this->data['purchase'] = $this->Purchase_model->get_row_single('purchase',array('id'=>$id));
+			$this->data['table_company'] = $this->Purchase_model->all_rows('company');
+			$this->data['purchase_details'] = $this->Purchase_model->get_rows('purchase_details', ['purchase_id' => $id]);
+			$this->load->template('purchase/edit',$this->data);
 		}
 
 		public function update()
@@ -77,11 +80,56 @@
 				redirect('home');
 			}
 			$data = $this->input->post();
-			$id = $data['id'];
-			unset($data['id']);$id = $this->Purchase_model->update('purchase',$data,array('id'=>$id));
-			if ($id) {
-				redirect('purchase');
+			$purchase_details = $this->product_model->get_rows('purchase_details', ['purchase_id' => $data['id']]);
+			foreach ($purchase_details as $pd) {
+				$product = $this->Purchase_model->get_row_single('product', ['id' => $pd['product_id']]);
+				$qty = $product['stock_in_hand'] - $pd['qty'];
+				$affected = $this->Purchase_model->update('product',['stock_in_hand' => $qty], ['id' => $product['id']]);
 			}
+
+			$this->Purchase_model->delete('purchase_details', ['purchase_id', $data['id']]);
+
+
+			$products = $this->input->post('product');
+			$qty = [];
+			foreach ($products as $product) {
+				$product_data[] = array_merge($product, ['purchase_id' => $data['id']] );
+				$qty[$product['product_id']] = $product['qty'];
+				$product_ids[] = $product['product_id'];
+			}
+
+			$this->product_model->insert_batch('purchase_details', $product_data);
+
+			$products = $this->product_model->get_product_by_ids($product_ids);
+			foreach ($products as $product) {
+				$qty = $product['stock_in_hand'] + $qty[$product['id']];
+				$affected = $this->Purchase_model->update('product',['stock_in_hand' => $qty], ['id' => $product['id']]);
+			}
+
+
+			// echo '<pre>FILE: ' . __FILE__ . '<br>LINE: ' . __LINE__ . '<br>';
+			// print_r( $purchase_details );
+			// echo '</pre>'; die;
+			
+			// $products = $this->input->post('product');
+			// foreach ($products as $product) {
+			// 	$product_data[] = array_merge($product, ['purchase_id' => $id] );
+			// 	$qty[$product['product_id']] = $product['qty'];
+			// 	$product_ids[] = $product['product_id'];
+			// }
+
+
+			// $products = $this->product_model->get_product_by_ids($product_ids);
+			// foreach ($products as $product) {
+			// 	$qty = $product['stock_in_hand'] + $qty[$product['id']];
+			// 	$affected = $this->Purchase_model->update('product',['stock_in_hand' => $qty], ['id' => $product['id']]);
+			// }
+
+			// $id = $data['id'];
+			// unset($data['id']);$id = $this->Purchase_model->update('purchase',$data,array('id'=>$id));
+		
+				redirect('purchase');
+			// }
 		}public function delete($id)
 		{
 			if ( $this->permission['deleted'] == '0') 
