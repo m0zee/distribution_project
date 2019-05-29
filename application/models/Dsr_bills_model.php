@@ -23,7 +23,7 @@ class Dsr_bills_model extends MY_Model
 
     public function get_products($id)
     {
-        $this->db->select('p.Name, sum(bd.qty) as qty, c.Name as company, p.sale_price')
+        $this->db->select('p.Name, sum(bd.qty) as qty, c.Name as company, p.sale_price, d.Date')
                  ->from('billing b')
                  ->join('billing_detail bd', 'bd.bill_id = b.id')
                  ->join('product p', 'p.id = bd.product_id', 'right')

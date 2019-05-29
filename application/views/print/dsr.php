@@ -50,19 +50,19 @@
 				    	</div><!--text box-->
 				    	<div class="text-area">
 				    		<div class="left-text">
-				    		 <p>Lorem </p>
+				    		 <p>Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $products[0]['Date'] ?></p>
 				    		</div><!--lft text-->
 				    		<div class="right-text">
-				    		 <p>Lorem </p>
+				    		 <p>Day &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo date('l', strtotime($products[0]['Date'])) ?></p>
 				    		</div><!--rgt text-->
 				    		<div class="left-text1">
-				    		 <p>Lorem </p>
+				    		 <p>Area </p>
 				    		</div><!--lft text1-->
 				    		<div class="left-text2">
-				    		 <p>Lorem Ipsum</p>
+				    		 <p>Salesman Mr.</p>
 				    		</div><!--lft text2-->
 				    		<div class="left-text3">
-				    		 <p>Lorem Ipsum</p>
+				    		 <p>Sales Rep Mr.</p>
 				    		</div><!--lft text3-->
 				    		<hr>
 				    		<hr style="position: relative;bottom: 28px;">
@@ -70,43 +70,43 @@
 				    		<h4>DETAILS</h4>
 				    		<hr style="position: relative;bottom: 10px;">
 				    		<div class="left-text4">
-				    		 <p style="position: relative;bottom: 25px;">Lorem Ipsum :</p>
+				    		 <p style="position: relative;bottom: 25px;">Today's Sales :</p>
 				    		</div><!--lft text4-->
 				    		<div class="left-text5">
-				    		 <p style="position: relative;bottom: 37px;">Lorem Ipsum :</p>
+				    		 <p style="position: relative;bottom: 37px;">Chaques :</p>
 				    		</div><!--lft text5-->
 				    		<div class="left-text6">
-				    		 <p style="position: relative;bottom: 47px;">Lorem Ipsum :</p>
+				    		 <p style="position: relative;bottom: 47px;">Sign Bills :</p>
 				    		</div><!--lft text6-->
 				    		<div class="left-text7">
-				    		 <p style="position: relative;bottom: 57px;">Lorem Ipsum :</p>
+				    		 <p style="position: relative;bottom: 57px;">Distributor Discount :</p>
 				    		</div><!--lft text7-->
 				    		<div class="left-text8">
-				    		 <p style="position: relative;bottom: 67px;">Lorem Ipsum :</p>
+				    		 <p style="position: relative;bottom: 67px;">Company Discount :</p>
 				    		</div><!--lft text8-->
 				    		<div class="left-text9">
-				    		 <p style="position: relative;bottom: 77px;">Lorem Ipsum :</p>
+				    		 <p style="position: relative;bottom: 77px;">T.O :</p>
 				    		</div><!--lft text9-->
 				    		<div class="left-text10">
-				    		 <p style="position: relative;bottom: 87px;">Lorem Ipsum :</p>
+				    		 <p style="position: relative;bottom: 87px;">Sales Return :</p>
 				    		</div><!--lft text10-->
 				    		<div class="left-text11">
-				    		 <p style="position: relative;bottom: 97px;">Lorem Ipsum :</p>
+				    		 <p style="position: relative;bottom: 97px;">Today's Cash :</p>
 				    		</div><!--lft text11-->
 				    		<div class="left-text12">
-				    		 <p style="position: relative;bottom: 107px;word-spacing: 50px;">Lorem  Ipsum   Ipsum</p>
+				    		 <p style="position: relative;bottom: 107px;word-spacing: 50px;">Recovery  Cash   Cheque</p>
 				    		</div><!--lft text12-->
 				    		<div class="left-text13">
-				    		 <p style="position: relative;bottom: 117px;">Lorem Ipsum</p>
+				    		 <p style="position: relative;bottom: 117px;">Total Cash</p>
 				    		</div><!--lft text13-->
 				    		<div class="left-text14">
-				    		 <p style="position: relative;bottom: 127px;">Lorem Ipsum</p>
+				    		 <p style="position: relative;bottom: 127px;">Petrol</p>
 				    		</div><!--lft text14-->
 				    		<div class="left-text15">
-				    		 <p style="position: relative;bottom: 137px;">Lorem Ipsum</p>
+				    		 <p style="position: relative;bottom: 137px;">Other Expenses</p>
 				    		</div><!--lft text15-->
 				    		<div class="left-text16">
-				    		 <p style="position: relative;bottom: 147px;">Lorem Ipsum</p>
+				    		 <p style="position: relative;bottom: 147px;">Net Cash</p>
 				    		</div><!--lft text16-->
 				    		<h4 style="position: relative;bottom: 82px;">NOTE</h4>
 				    		<hr style="position: relative;bottom: 150px;">
@@ -117,26 +117,26 @@
 				    		<hr style="position: relative;bottom: 15px;">
 				    		<hr style="position: relative;top: 10px;">
 				    		<div class="left-text17">
-				    		 <p style="position: relative;bottom: 8px;">Lorem Ipsum</p>
+				    		 <p style="position: relative;bottom: 8px;">TOTAL</p>
 				    		</div><!--lft text17-->
 				    		<div class="left-text18">
-				    		 <p style="position: relative;bottom: 18px;">Lorem Ipsum</p>
+				    		 <p style="position: relative;bottom: 18px;">SHORT</p>
 				    		</div><!--lft text18-->
 				    		<div class="left-text19">
-				    		 <p style="position: relative;bottom: 32px;">Lorem Ipsum</p>
+				    		 <p style="position: relative;bottom: 32px;">EXCES</p>
 				    		</div><!--lft text19-->
 				    		<div class="left-text20">
-				    		 <p style="position: relative;bottom: 40px;">Lorem Ipsum</p>
+				    		 <p style="position: relative;bottom: 40px;">OTHER</p>
 				    		</div><!--lft text20-->
 				    	</div><!-- text area-->
 				    </div><!-- row1-->
 				    <div class="footer">
             <div class="row5">
                <div class="col-lft" style="background-color:none;">
-                  <p style="text-decoration: overline;">Signature of</p>
+                  <p style="text-decoration: overline;">Signature of Salesman</p>
                </div>
                <div class="col-rgt" style="background-color:none;">
-                  <p style="text-decoration: overline;float: right;">Signature of </p>
+                  <p style="text-decoration: overline;float: right;">Signature of Incharge</p>
                </div>
             </div>
          </div>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2019 at 09:40 PM
+-- Generation Time: May 29, 2019 at 11:21 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.21
 
@@ -94,6 +94,24 @@ INSERT INTO `booker` (`id`, `Name`, `Code`, `Phone`, `user_id`, `created_at`) VA
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cheques`
+--
+
+CREATE TABLE `cheques` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `Party_Name` int(100) NOT NULL,
+  `Address` varchar(255) DEFAULT NULL,
+  `Bill_NO` int(100) NOT NULL,
+  `Cheq_Amount` int(100) NOT NULL,
+  `Cheque_Date` date NOT NULL,
+  `Party_Bank` varchar(100) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `company`
 --
 
@@ -144,6 +162,22 @@ INSERT INTO `dsr_bills` (`id`, `Booker`, `Date`, `Total_Amount`, `user_id`, `cre
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ledger_entries`
+--
+
+CREATE TABLE `ledger_entries` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `Company` int(100) NOT NULL,
+  `Date` int(100) NOT NULL,
+  `Amount` int(100) NOT NULL,
+  `Type` int(100) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `modules`
 --
 
@@ -173,7 +207,9 @@ INSERT INTO `modules` (`id`, `name`, `main_name`, `sort`, `icon`, `url`, `user_i
 (23, 'Purchase', 'purchase', 5, 'home', 'purchase', 2),
 (24, 'Shops', 'shops', 7, 'home', 'shops', 2),
 (26, 'Billing', 'billing', 7, 'home', 'billing', 2),
-(27, 'Dsr/Bills', 'dsr_bills', 7, 'home', 'dsr_bills', 2);
+(27, 'Dsr/Bills', 'dsr_bills', 7, 'home', 'dsr_bills', 2),
+(28, 'Ledger Entries', 'ledger_entries', 7, 'home', 'ledger_entries', 2),
+(29, 'Cheques', 'cheques', 7, 'home', 'cheques', 2);
 
 -- --------------------------------------------------------
 
@@ -248,7 +284,23 @@ INSERT INTO `modules_fileds` (`id`, `name`, `type`, `filed_type`, `options`, `le
 (45, 'Discount', 'INT', 'input', '', 100, 1, 26, 0, NULL, NULL, NULL),
 (46, 'Booker', 'INT', 'input', '', 100, 1, 27, 1, 'id', 'booker', 'Name'),
 (47, 'Date', 'DATE', 'input', '', 100, 1, 27, 0, NULL, NULL, NULL),
-(48, 'Total_Amount', 'INT', 'input', '', 100, 1, 27, 0, NULL, NULL, NULL);
+(48, 'Total_Amount', 'INT', 'input', '', 100, 1, 27, 0, NULL, NULL, NULL),
+(49, 'Company', 'INT', 'input', '', 100, 1, 28, 1, 'id', 'company', 'Name'),
+(50, 'Date', 'INT', 'input', '', 100, 1, 28, 0, NULL, NULL, NULL),
+(51, 'Amount', 'INT', 'input', '', 100, 1, 28, 0, NULL, NULL, NULL),
+(52, 'Type', 'INT', 'select', 'Debit,Credit', 100, 1, 28, 0, NULL, NULL, NULL),
+(53, 'Party_Name', 'INT', 'input', '', 100, 1, 29, 1, 'id', 'shops', 'Name'),
+(54, 'Address', 'VARCHAR', 'input', '', 255, 0, 29, 0, NULL, NULL, NULL),
+(55, 'Bill_NO', 'INT', 'input', '', 100, 1, 29, 1, 'id', 'billing', 'id'),
+(56, 'Cheq_Amount', 'INT', 'input', '', 100, 1, 29, 0, NULL, NULL, NULL),
+(57, 'Cheque_Date', 'DATE', 'input', '', 100, 1, 29, 0, NULL, NULL, NULL),
+(58, 'Party_Bank', 'VARCHAR', 'input', '', 100, 1, 29, 0, NULL, NULL, NULL),
+(59, 'Party_Name', 'INT', 'input', '', 100, 1, 29, 1, 'id', 'shops', 'Name'),
+(60, 'Address', 'VARCHAR', 'input', '', 255, 0, 29, 0, NULL, NULL, NULL),
+(61, 'Bill_NO', 'INT', 'input', '', 100, 1, 29, 1, 'id', 'billing', 'id'),
+(62, 'Cheq_Amount', 'INT', 'input', '', 100, 1, 29, 0, NULL, NULL, NULL),
+(63, 'Cheque_Date', 'DATE', 'input', '', 100, 1, 29, 0, NULL, NULL, NULL),
+(64, 'Party_Bank', 'VARCHAR', 'input', '', 100, 1, 29, 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -282,18 +334,20 @@ INSERT INTO `permission` (`id`, `module_id`, `user_id`, `user_type_id`, `view`, 
 (228, 20, 2, 0, 0, 0, 0, 0, 0, 0),
 (229, 21, 2, 0, 1, 0, 0, 0, 0, 0),
 (230, 22, 2, 0, 1, 0, 0, 0, 0, 0),
-(288, 2, 2, 1, 1, 1, 1, 1, 1, 1),
-(289, 3, 2, 1, 1, 1, 1, 1, 1, 1),
-(290, 5, 2, 1, 1, 1, 1, 1, 1, 1),
-(291, 7, 2, 1, 1, 1, 1, 1, 1, 1),
-(292, 19, 2, 1, 1, 1, 1, 1, 1, 1),
-(293, 20, 2, 1, 1, 1, 1, 1, 1, 1),
-(294, 21, 2, 1, 1, 1, 1, 1, 1, 1),
-(295, 22, 2, 1, 1, 1, 1, 1, 1, 1),
-(296, 23, 2, 1, 1, 1, 1, 1, 1, 1),
-(297, 24, 2, 1, 1, 1, 1, 1, 1, 1),
-(298, 26, 2, 1, 1, 1, 1, 1, 1, 1),
-(299, 27, 2, 1, 1, 1, 1, 1, 1, 1);
+(313, 2, 2, 1, 1, 1, 1, 1, 1, 1),
+(314, 3, 2, 1, 1, 1, 1, 1, 1, 1),
+(315, 5, 2, 1, 1, 1, 1, 1, 1, 1),
+(316, 7, 2, 1, 1, 1, 1, 1, 1, 1),
+(317, 19, 2, 1, 1, 1, 1, 1, 1, 1),
+(318, 20, 2, 1, 1, 1, 1, 1, 1, 1),
+(319, 21, 2, 1, 1, 1, 1, 1, 1, 1),
+(320, 22, 2, 1, 1, 1, 1, 1, 1, 1),
+(321, 23, 2, 1, 1, 1, 1, 1, 1, 1),
+(322, 24, 2, 1, 1, 1, 1, 1, 1, 1),
+(323, 26, 2, 1, 1, 1, 1, 1, 1, 1),
+(324, 27, 2, 1, 1, 1, 1, 1, 1, 1),
+(325, 28, 2, 1, 1, 1, 1, 1, 1, 1),
+(326, 29, 2, 1, 1, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -488,6 +542,12 @@ ALTER TABLE `booker`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `cheques`
+--
+ALTER TABLE `cheques`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `company`
 --
 ALTER TABLE `company`
@@ -497,6 +557,12 @@ ALTER TABLE `company`
 -- Indexes for table `dsr_bills`
 --
 ALTER TABLE `dsr_bills`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ledger_entries`
+--
+ALTER TABLE `ledger_entries`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -582,6 +648,11 @@ ALTER TABLE `billing_detail`
 ALTER TABLE `booker`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
+-- AUTO_INCREMENT for table `cheques`
+--
+ALTER TABLE `cheques`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `company`
 --
 ALTER TABLE `company`
@@ -592,20 +663,25 @@ ALTER TABLE `company`
 ALTER TABLE `dsr_bills`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
+-- AUTO_INCREMENT for table `ledger_entries`
+--
+ALTER TABLE `ledger_entries`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `modules`
 --
 ALTER TABLE `modules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT for table `modules_fileds`
 --
 ALTER TABLE `modules_fileds`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 --
 -- AUTO_INCREMENT for table `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=300;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=327;
 --
 -- AUTO_INCREMENT for table `product`
 --
