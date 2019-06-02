@@ -211,7 +211,7 @@
             var discount = get_dis(dis_array, total)
         }
         main.find('[name="Discount[]"]').val(discount)
-        discount = '0.'+discount
+        discount = '0.0'+discount
         total = total - (total * discount)
         main.find('[name="Total_Amount[]"]').val(total)
     }

@@ -41,14 +41,15 @@
 			
 			$data['user_id'] = $this->session->userdata('user_id');
 			$id = $this->Purchase_model->insert('purchase',$data);
-			
+			$total = 0;
 			$products = $this->input->post('product');
 			foreach ($products as $product) {
 				$product_data[] = array_merge($product, ['purchase_id' => $id] );
 				$qty[$product['product_id']] = $product['qty'];
 				$product_ids[] = $product['product_id'];
+				$total += $product['total'];
 			}
-
+			$this->Purchase_model->insert('ledger_entries',array('name' => 'Purchase','Company' =>$data['Company'], 'Date' => date('Y-m-d'), 'Amount' => $total, 'Type' => 'Debit', 'purchase_id' => $id, 'user_id' => $this->session->userdata('user_id')));
 			$this->product_model->insert_batch('purchase_details', $product_data);
 
 			$products = $this->product_model->get_product_by_ids($product_ids);

@@ -43,10 +43,17 @@
 
                                     </div><div class="form-group row">
 
+                                <label for="example-text-input" class="col-sm-3 col-form-label">Name<span class="required">*</span></label>
+                                        <div class="col-sm-9">
+
+                                        <input class="form-control" name="name" type="text" value="<?php echo $ledger_entries["name"] ?>" id="example-text-input" placeholder="" required=""></div>
+
+                                    </div><div class="form-group row">
+
                                 <label for="example-text-input" class="col-sm-3 col-form-label">Date<span class="required">*</span></label>
                                         <div class="col-sm-9">
 
-                                        <input class="form-control" name="Date" type="number" value="<?php echo $ledger_entries["Date"] ?>" id="example-text-input" placeholder="" required=""></div>
+                                        <input class="form-control" name="Date" type="date" value="<?php echo $ledger_entries["Date"] ?>" id="example-text-input" placeholder="" required=""></div>
 
                                     </div><div class="form-group row">
 

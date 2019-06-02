@@ -1,0 +1,53 @@
+body{
+	background-color: #dad3cb;
+	font-family: Archivo Narrow;
+}
+* {
+  box-sizing: border-box;
+}
+.column {
+  float: left;
+  width: 50%;
+ /* padding: 10px;*/
+  height: auto; /* Should be removed. Only for demonstration */
+}
+table{
+	border-collapse: collapse;
+}
+tr{
+	height: 10px;
+}
+th{
+	font-size: 12px;
+}
+td{
+	padding-left: 10px;
+}
+h5{
+	text-align: center;
+	margin: 0px;
+	padding: 5px 5px;
+	font-size: 13px;
+  float: left;
+  width: 100%;
+  clear: both;
+}
+
+.column-left {
+  float: left;
+  width: 50%;
+ /* padding: 10px;*/
+  height: auto; 
+}
+.column-right {
+  float: left;
+  width: 50%;
+  /*padding: 10px;*/
+  height: auto; 
+}
+
+@media print {
+  #printPageButton {
+    display: none;
+  }
+}

@@ -39,7 +39,7 @@
 										<table id="dataTableExample2" class="table table-bordered table-striped table-hover">
 											<thead>
 												<tr>
-													<th>Id</th><th>Name</th><th>Date</th><th>Amount</th><th>Type</th><?php 
+													<th>Id</th><th>Name</th><th>Company</th><th>Date</th><th>Amount</th><th>Type</th><?php 
 														if ($permission["edit"] == "1" || $permission["deleted"] == "1"){
 													?>
 													<th>Action</th>
@@ -51,7 +51,7 @@
 										    		foreach ($ledger_entries as $module) {
 										    	?>
 												<tr>
-													<td><?php echo $module["id"] ?></td><td><?php echo $module["Name"] ?></td><td><?php echo $module["Date"] ?></td><td><?php echo $module["Amount"] ?></td><td><?php echo $module["Type"] ?></td><?php 
+													<td><?php echo $module["id"] ?></td><td><?php echo $module["name"] ?></td><td><?php echo $module["company"] ?></td><td><?php echo $module["Date"] ?></td><td><?php echo $module["Amount"] ?></td><td><?php echo $module["Type"] ?></td><?php 
 														if ($permission["edit"] == "1" || $permission["deleted"] == "1"){
 													?>
 													<td>
