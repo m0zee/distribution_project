@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 02, 2019 at 10:35 PM
+-- Generation Time: Jun 11, 2019 at 12:26 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.21
 
@@ -221,7 +221,10 @@ INSERT INTO `modules` (`id`, `name`, `main_name`, `sort`, `icon`, `url`, `user_i
 (27, 'Dsr/Bills', 'dsr_bills', 7, 'home', 'dsr_bills', 2),
 (28, 'Ledger Entries', 'ledger_entries', 7, 'home', 'ledger_entries', 2),
 (29, 'Cheques', 'cheques', 7, 'home', 'cheques', 2),
-(30, 'Ledger', 'ledger', 7, 'home', 'ledger', 2);
+(30, 'Ledger', 'ledger', 7, 'home', 'ledger', 2),
+(31, 'Sales Men Entries', 'sales_men_entries', 7, 'home', 'sales_men_entries', 2),
+(32, 'Salesmen Balance', 'salesmen_balance', 7, 'home', 'salesmen_balance', 2),
+(33, 'Sales Return', 'salesreturn', 10, 'home', 'salesreturn', 2);
 
 -- --------------------------------------------------------
 
@@ -312,7 +315,12 @@ INSERT INTO `modules_fileds` (`id`, `name`, `type`, `filed_type`, `options`, `le
 (61, 'Bill_NO', 'INT', 'input', '', 100, 1, 29, 1, 'id', 'billing', 'id'),
 (62, 'Cheq_Amount', 'INT', 'input', '', 100, 1, 29, 0, NULL, NULL, NULL),
 (63, 'Cheque_Date', 'DATE', 'input', '', 100, 1, 29, 0, NULL, NULL, NULL),
-(64, 'Party_Bank', 'VARCHAR', 'input', '', 100, 1, 29, 0, NULL, NULL, NULL);
+(64, 'Party_Bank', 'VARCHAR', 'input', '', 100, 1, 29, 0, NULL, NULL, NULL),
+(65, 'Name', 'VARCHAR', 'input', '', 255, 1, 31, 0, NULL, NULL, NULL),
+(66, 'Salesmen', 'INT', 'input', '', 11, 1, 31, 1, 'id', 'salesmen', 'Name'),
+(67, 'Date', 'DATE', 'input', '', 100, 1, 31, 0, NULL, NULL, NULL),
+(68, 'Amount', 'VARCHAR', 'input', '', 100, 1, 31, 0, NULL, NULL, NULL),
+(69, 'Type', 'VARCHAR', 'select', 'Add,Subtract ', 100, 1, 31, 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -346,21 +354,23 @@ INSERT INTO `permission` (`id`, `module_id`, `user_id`, `user_type_id`, `view`, 
 (228, 20, 2, 0, 0, 0, 0, 0, 0, 0),
 (229, 21, 2, 0, 1, 0, 0, 0, 0, 0),
 (230, 22, 2, 0, 1, 0, 0, 0, 0, 0),
-(327, 2, 2, 1, 1, 1, 1, 1, 1, 1),
-(328, 3, 2, 1, 1, 1, 1, 1, 1, 1),
-(329, 5, 2, 1, 1, 1, 1, 1, 1, 1),
-(330, 7, 2, 1, 1, 1, 1, 1, 1, 1),
-(331, 19, 2, 1, 1, 1, 1, 1, 1, 1),
-(332, 20, 2, 1, 1, 1, 1, 1, 1, 1),
-(333, 21, 2, 1, 1, 1, 1, 1, 1, 1),
-(334, 22, 2, 1, 1, 1, 1, 1, 1, 1),
-(335, 23, 2, 1, 1, 1, 1, 1, 1, 1),
-(336, 24, 2, 1, 1, 1, 1, 1, 1, 1),
-(337, 26, 2, 1, 1, 1, 1, 1, 1, 1),
-(338, 27, 2, 1, 1, 1, 1, 1, 1, 1),
-(339, 28, 2, 1, 1, 1, 1, 1, 1, 1),
-(340, 29, 2, 1, 1, 1, 1, 1, 1, 1),
-(341, 30, 2, 1, 1, 1, 1, 1, 1, 1);
+(358, 2, 2, 1, 1, 1, 1, 1, 1, 1),
+(359, 3, 2, 1, 1, 1, 1, 1, 1, 1),
+(360, 5, 2, 1, 1, 1, 1, 1, 1, 1),
+(361, 7, 2, 1, 1, 1, 1, 1, 1, 1),
+(362, 19, 2, 1, 1, 1, 1, 1, 1, 1),
+(363, 20, 2, 1, 1, 1, 1, 1, 1, 1),
+(364, 21, 2, 1, 1, 1, 1, 1, 1, 1),
+(365, 22, 2, 1, 1, 1, 1, 1, 1, 1),
+(366, 23, 2, 1, 1, 1, 1, 1, 1, 1),
+(367, 24, 2, 1, 1, 1, 1, 1, 1, 1),
+(368, 26, 2, 1, 1, 1, 1, 1, 1, 1),
+(369, 27, 2, 1, 1, 1, 1, 1, 1, 1),
+(370, 28, 2, 1, 1, 1, 1, 1, 1, 1),
+(371, 29, 2, 1, 1, 1, 1, 1, 1, 1),
+(372, 30, 2, 1, 1, 1, 1, 1, 1, 1),
+(373, 31, 2, 1, 1, 1, 1, 1, 1, 1),
+(374, 32, 2, 1, 1, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -452,6 +462,23 @@ CREATE TABLE `salesmen` (
   `Name` varchar(50) NOT NULL,
   `Code` varchar(20) NOT NULL,
   `Phone` varchar(50) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_men_entries`
+--
+
+CREATE TABLE `sales_men_entries` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `Name` varchar(255) NOT NULL,
+  `Salesmen` int(11) NOT NULL,
+  `Date` date NOT NULL,
+  `Amount` varchar(100) NOT NULL,
+  `Type` varchar(100) NOT NULL,
   `user_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -628,6 +655,12 @@ ALTER TABLE `salesmen`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `sales_men_entries`
+--
+ALTER TABLE `sales_men_entries`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `shops`
 --
 ALTER TABLE `shops`
@@ -690,17 +723,17 @@ ALTER TABLE `ledger_entries`
 -- AUTO_INCREMENT for table `modules`
 --
 ALTER TABLE `modules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 --
 -- AUTO_INCREMENT for table `modules_fileds`
 --
 ALTER TABLE `modules_fileds`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 --
 -- AUTO_INCREMENT for table `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=342;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=375;
 --
 -- AUTO_INCREMENT for table `product`
 --
@@ -722,6 +755,11 @@ ALTER TABLE `purchase_details`
 ALTER TABLE `salesmen`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `sales_men_entries`
+--
+ALTER TABLE `sales_men_entries`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `shops`
 --
 ALTER TABLE `shops`
@@ -735,7 +773,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_type`
 --
 ALTER TABLE `user_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
