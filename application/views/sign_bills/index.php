@@ -10,12 +10,12 @@
 							<i class="pe-7s-box1"></i>
 						</div>
 						<div class="header-title">
-							<h1>View Cheques</h1>
+							<h1>View Sign bills</h1>
 							<small> </small>
 							<ol class="breadcrumb">
 								<li><a href="<?php echo base_url() ?>"><i class="pe-7s-home"></i> Home</a></li>
 
-								<li class="active">View Cheques</li>
+								<li class="active">View Sign bills</li>
 							</ol>
 						</div>
 					</div> <!-- /. Content Header (Page header) -->
@@ -25,11 +25,11 @@
 							<div class="panel panel-bd">
 								<div class="panel-heading">
 									<div class="panel-title">
-										<h4>View Cheques</h4>
+										<h4>View Sign bills</h4>
 										<?php 
 											if ($permission["created"] == "1") {
 										?>
-										<a href="<?php echo base_url("cheques/create") ?>"><button class="btn btn-info pull-right">Add Cheques</button></a>
+										<a href="<?php echo base_url("sign_bills/create") ?>"><button class="btn btn-info pull-right">Add Sign bills</button></a>
 										<?php } ?>
 									</div>
 								</div>
@@ -39,7 +39,7 @@
 										<table id="dataTableExample2" class="table table-bordered table-striped table-hover">
 											<thead>
 												<tr>
-													<th>Id</th><th>Name</th><th>Address</th><th>Cheq Amount</th><th>Cheque Date</th><th>Party Bank</th><?php 
+													<th>Id</th><th>Name</th><th>Address</th><th>Id</th><th>Net Amount</th><th>Signed Amount</th><th>Due Date</th><?php 
 														if ($permission["edit"] == "1" || $permission["deleted"] == "1"){
 													?>
 													<th>Action</th>
@@ -48,22 +48,22 @@
 											</thead>
 										    <tbody>
 										    	<?php
-										    		foreach ($cheques as $module) {
+										    		foreach ($sign_bills as $module) {
 										    	?>
 												<tr>
-													<td><?php echo $module["id"] ?></td><td><?php echo $module["Name"] ?></td><td><?php echo $module["Address"] ?></td><td><?php echo $module["Cheq_Amount"] ?></td><td><?php echo $module["Cheque_Date"] ?></td><td><?php echo $module["Party_Bank"] ?></td><?php 
+													<td><?php echo $module["id"] ?></td><td><?php echo $module["Name"] ?></td><td><?php echo $module["Address"] ?></td><td><?php echo $module["id"] ?></td><td><?php echo $module["Net_Amount"] ?></td><td><?php echo $module["Signed_Amount"] ?></td><td><?php echo $module["Due_Date"] ?></td><?php 
 														if ($permission["edit"] == "1" || $permission["deleted"] == "1"){
 													?>
 													<td>
 														<?php 
 															if ($permission["edit"] == "1") {
 														?>
-														<a href="<?php echo base_url() ?>cheques/edit/<?php echo $module["id"] ?>"><img src="<?php echo base_url() ?>assets/record1.png" title="View Order" alt="View Order" width="35" height="35"></a>
+														<a href="<?php echo base_url() ?>sign_bills/edit/<?php echo $module["id"] ?>"><img src="<?php echo base_url() ?>assets/record1.png" title="View Order" alt="View Order" width="35" height="35"></a>
 														<?php } ?>
 														<?php 
 															if ($permission["deleted"] == "1") {
 														?>
-		                                                <a href="<?php echo base_url() ?>cheques/delete/<?php echo $module["id"] ?>"><img src="<?php echo base_url() ?>assets/d-icon.png" title="Delete" alt="Delete" width="35" height="35"></a>
+		                                                <a href="<?php echo base_url() ?>sign_bills/delete/<?php echo $module["id"] ?>"><img src="<?php echo base_url() ?>assets/d-icon.png" title="Delete" alt="Delete" width="35" height="35"></a>
 		                                                <?php } ?>
 	                                                </td>
 	                                                <?php } ?>
