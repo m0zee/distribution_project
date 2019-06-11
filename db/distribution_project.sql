@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2019 at 10:03 PM
+-- Generation Time: Jun 11, 2019 at 10:56 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.21
 
@@ -514,15 +514,24 @@ CREATE TABLE `salesreturn` (
   `company` int(10) NOT NULL,
   `booker` int(10) NOT NULL,
   `shop` int(10) NOT NULL,
-  `product` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
   `fresh_qty` int(11) DEFAULT NULL,
   `damage_qty` int(11) DEFAULT NULL,
-  `discount_amount` int(10) DEFAULT NULL,
+  `gross_value` int(11) DEFAULT NULL,
+  `discount` int(10) DEFAULT NULL,
   `rate` int(11) DEFAULT NULL,
-  `total` int(10) DEFAULT NULL,
+  `total` decimal(10,2) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `salesreturn`
+--
+
+INSERT INTO `salesreturn` (`id`, `company`, `booker`, `shop`, `product_id`, `fresh_qty`, `damage_qty`, `gross_value`, `discount`, `rate`, `total`, `user_id`, `created_at`) VALUES
+(1, 1, 1, 1, 1, 12, 1, 8, 1, 4, '7.92', 2, '2019-06-11 20:47:44'),
+(2, 1, 1, 1, 1, 2, 3, 20, 2, 4, '19.60', 2, '2019-06-11 20:32:22');
 
 -- --------------------------------------------------------
 
@@ -857,7 +866,7 @@ ALTER TABLE `salesmen`
 -- AUTO_INCREMENT for table `salesreturn`
 --
 ALTER TABLE `salesreturn`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `sales_men_entries`
 --
