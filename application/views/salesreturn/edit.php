@@ -61,14 +61,82 @@
                                                <?php } ?></select>
                                         </div>
 
-                                    </div><div class="form-group row">
+                                    </div>
+
+
+
+
+
+                                    <div class="form-group row">
+
+                                        <label for="example-text-input" class="col-sm-3 col-form-label">Product
+                                            <span class="required">*</span>
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" name="shop" required="">
+                                                <option>Select Product</option>
+                                                <?php foreach ($table_products as $t) {?>
+                                                    <option value="<?php echo $t["id"] ?>" <?php if($t["id"] == $salesreturn["shop"]) echo "selected" ?>><?php echo $t["Name"] ?></option>
+                                                <?php } ?>
+                                           </select>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group row">
+
+                                        <label for="example-text-input" class="col-sm-3 col-form-label">Fresh Qty</label>
+                                        <div class="col-sm-9">
+
+                                            <input class="form-control" name="fresh_qty" type="number" value="<?php echo $salesreturn["fresh_qty"] ?>" id="example-text-input" placeholder="" >
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group row">
+
+                                        <label for="example-text-input" class="col-sm-3 col-form-label">Damage Qty</label>
+                                        <div class="col-sm-9">
+
+                                            <input class="form-control" name="damage_qty" type="number" value="<?php echo $salesreturn["damage_qty"] ?>" id="example-text-input" placeholder="" >
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group row">
+
+                                        <label for="example-text-input" class="col-sm-3 col-form-label">Rate</label>
+                                        <div class="col-sm-9">
+
+                                            <input class="form-control" name="rate" type="number" value="<?php echo $salesreturn["rate"] ?>" id="example-text-input" placeholder="" >
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group row">
+
+                                        <label for="example-text-input" class="col-sm-3 col-form-label">Gross amount</label>
+                                        <div class="col-sm-9">
+
+                                            <input class="form-control" name="gross_value" type="number" value="<?php echo $salesreturn["gross_value"] ?>" id="example-text-input" placeholder="" >
+                                        </div>
+
+                                    </div>
+
+
+
+
+
+
+                                    <div class="form-group row">
 
                                 <label for="example-text-input" class="col-sm-3 col-form-label">Discount</label>
                                         <div class="col-sm-9">
 
                                         <input class="form-control" name="discount" type="number" value="<?php echo $salesreturn["discount"] ?>" id="example-text-input" placeholder="" ></div>
 
-                                    </div><div class="form-group row">
+                                    </div>
+                                    <div class="form-group row">
 
                                 <label for="example-text-input" class="col-sm-3 col-form-label">Total</label>
                                         <div class="col-sm-9">

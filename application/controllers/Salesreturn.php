@@ -35,7 +35,18 @@
 				redirect('home');
 			}
 			$data = $this->input->post();
-			$data['user_id'] = $this->session->userdata('user_id');$id = $this->Salesreturn_model->insert('salesreturn',$data);
+			foreach ($data['product'] as &$p) {
+				$p['company'] = $this->input->post('company');
+				$p['shop'] = $this->input->post('shop');
+				$p['booker'] = $this->input->post('booker');
+				$p['fresh_qty'] = $p['f_qty'];
+				$p['damage_qty'] = $p['d_qty'];
+				$p['user_id'] = $this->session->userdata('user_id');
+				unset($p['d_qty'], $p['f_qty']);
+			}
+
+			$data =  $data['product'];
+			$id = $this->Salesreturn_model->insert_batch('salesreturn',$data);
 			if ($id) {
 				redirect('salesreturn');
 			}
@@ -46,7 +57,12 @@
 				redirect('home');
 			}
 			$this->data['title'] = 'Edit Salesreturn';
-			$this->data['salesreturn'] = $this->Salesreturn_model->get_row_single('salesreturn',array('id'=>$id));$this->data['table_company'] = $this->Salesreturn_model->all_rows('company');$this->data['table_booker'] = $this->Salesreturn_model->all_rows('booker');$this->data['table_shops'] = $this->Salesreturn_model->all_rows('shops');$this->load->template('salesreturn/edit',$this->data);
+			$this->data['salesreturn'] = $this->Salesreturn_model->get_row_single('salesreturn',array('id'=>$id));
+			$this->data['table_company'] = $this->Salesreturn_model->all_rows('company');
+			$this->data['table_booker'] = $this->Salesreturn_model->all_rows('booker');
+			$this->data['table_shops'] = $this->Salesreturn_model->all_rows('shops');
+			$this->data['table_products'] = $this->Salesreturn_model->all_rows('product');
+			$this->load->template('salesreturn/edit',$this->data);
 		}
 
 		public function update()
