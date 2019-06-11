@@ -39,7 +39,7 @@
 										<table id="dataTableExample2" class="table table-bordered table-striped table-hover">
 											<thead>
 												<tr>
-													<th>Id</th><th>Name</th><th>Address</th><th>Id</th><th>Cheq Amount</th><th>Cheque Date</th><th>Party Bank</th><?php 
+													<th>Id</th><th>Name</th><th>Address</th><th>Cheq Amount</th><th>Cheque Date</th><th>Party Bank</th><?php 
 														if ($permission["edit"] == "1" || $permission["deleted"] == "1"){
 													?>
 													<th>Action</th>
@@ -51,7 +51,7 @@
 										    		foreach ($cheques as $module) {
 										    	?>
 												<tr>
-													<td><?php echo $module["id"] ?></td><td><?php echo $module["Name"] ?></td><td><?php echo $module["Address"] ?></td><td><?php echo $module["id"] ?></td><td><?php echo $module["Cheq_Amount"] ?></td><td><?php echo $module["Cheque_Date"] ?></td><td><?php echo $module["Party_Bank"] ?></td><?php 
+													<td><?php echo $module["id"] ?></td><td><?php echo $module["Name"] ?></td><td><?php echo $module["Address"] ?></td><td><?php echo $module["Cheq_Amount"] ?></td><td><?php echo $module["Cheque_Date"] ?></td><td><?php echo $module["Party_Bank"] ?></td><?php 
 														if ($permission["edit"] == "1" || $permission["deleted"] == "1"){
 													?>
 													<td>
