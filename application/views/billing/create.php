@@ -66,7 +66,7 @@
 
                                     <label for="example-text-input" class="col-sm-3 col-form-label">Date<span class="required">*</span></label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" name="Date[]" type="date" value="<?php echo date('Y-m-d') ?>" id="example-text-input" placeholder="" required="">
+                                        <input class="form-control billing_date" name="Date[]" type="date" value="<?php echo date('Y-m-d') ?>" id="example-text-input" placeholder="" required="">
                                     </div>
 
                                 </div>
@@ -91,7 +91,7 @@
                                         <div class="form-group col-md-6">
                                             <label>Product</label>
                                             <br>
-                                            <select class="form-control product" name="product[0][]">
+                                            <select class="form-control product product-list" name="product[0][]">
                                                 <option value="">Select Product</option>
                                                 <?php foreach ($table_product as $t) {?>
                                                     <option value="<?php echo $t["id"] ?>" data-price="<?php echo $t['sale_price'] ?>">
@@ -119,6 +119,14 @@
                                     <label for="example-text-input" class="col-sm-3 col-form-label">Discount<span class="required">*</span></label>
                                     <div class="col-sm-9">
                                         <input class="form-control" name="Discount[]" type="number" value="0" id="example-text-input" placeholder="" required="">
+                                    </div>
+
+                                </div>
+                                <div class="form-group row">
+
+                                    <label for="example-text-input" class="col-sm-3 col-form-label">Company Discount<span class="required">*</span></label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" name="company_discount[]" type="number" value="0" id="example-text-input" placeholder="" required="">
                                     </div>
 
                                 </div>
@@ -183,6 +191,11 @@
         $('.main-div').last().find('select.booker').val($('.main-div').first().find('select.booker').val())
         $('.main-div').last().find('[name="product[0][]"]').attr('name', 'product['+($('.main-div').length - 1)+'][]')
         $('.main-div').last().find('[name="quantity[0][]"]').attr('name', 'quantity['+($('.main-div').length - 1)+'][]')
+
+        $(".main-div").last().find('input[name="Date[]"]').closest('.row').hide();
+        $('.main-div').last().find('select.company').closest('.row').hide();
+        $('.main-div').last().find('select.booker').closest('.row').hide();
+
     });
     $("body").on("click", ".remove-main", function() {
         $(this).parents(".main-div").remove();
@@ -222,5 +235,51 @@
                 return array.dis[i]
             }
         }
+    }
+
+
+    $('.company').change(function() {
+        var company_id = $(this).val();
+        $.ajax({
+            url: '<?php echo base_url() ?>'+'product/get_product',
+            type: 'POST',
+            dataType: 'json',
+            data: {company_id: company_id},
+            success:function(res){
+                if ( res.status == 200 ) 
+                {
+                    var row = '';
+                    row += '<option value="">Please Select</option>';
+
+                    if ( res.data.length > 0 ) {
+                        $.each(res.data, function(index, val) {
+                            row += "<option data-json='"+JSON.stringify(val)+"' value='"+val.id+"'>"+val.Name+"</option>";
+                        });
+                    }
+
+
+
+                    $('.product-list').html(row);
+                }
+            }
+        })
+        
+    });
+
+    $('.company').first().on('change', function(event) {
+        select_auto_hidden_dropdown('.company', $(this).val());
+    });
+
+    $('.booker').first().on('change', function(event) {
+        select_auto_hidden_dropdown('.booker', $(this).val());
+    });
+
+    $('.billing_date').first().on('change', function(event) {
+        select_auto_hidden_dropdown('.billing_date', $(this).val());
+    });
+
+
+    function select_auto_hidden_dropdown(selector_class, value){
+        $(selector_class).not(":eq(0)").val(value);
     }
 </script>

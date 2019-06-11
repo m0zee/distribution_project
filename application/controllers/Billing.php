@@ -47,6 +47,7 @@
 					'Date' => $data['Date'][$key], 
 					'Shop' => $data['Shop'][$key], 
 					'Discount' => $data['Discount'][$key], 
+					'company_discount' => $data['company_discount'][$key], 
 					'Total_Amount' => $data['Total_Amount'][$key],
 					'user_id' => $this->session->userdata('user_id'),
 				);
