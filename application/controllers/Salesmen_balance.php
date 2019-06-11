@@ -18,7 +18,7 @@ class Salesmen_balance extends MY_Controller{
 		}
 		$this->data['title'] = 'Salesmen Balance';
 		$this->data['permission'] = $this->permission;
-		$this->data['salesman'] = $this->Sales_men_entries_model->all_rows('salesman');
+		$this->data['salesman'] = $this->Sales_men_entries_model->all_rows('salesmen');
 		if ($this->input->post()) {
 			$data = $this->input->post();
 			$this->data['ledger_entries'] = $this->Sales_men_entries_model->get_ledger($data['salesman'], $data['start'], $data['end']);

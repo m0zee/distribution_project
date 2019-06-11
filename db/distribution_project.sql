@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0.1
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2019 at 01:17 PM
--- Server version: 10.1.32-MariaDB
--- PHP Version: 7.1.20
+-- Generation Time: Jun 11, 2019 at 10:03 PM
+-- Server version: 10.1.13-MariaDB
+-- PHP Version: 5.6.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -137,7 +135,7 @@ CREATE TABLE `company` (
 
 INSERT INTO `company` (`id`, `Name`, `Code`, `Address`, `Description`, `slap`, `Min_Slap`, `Max_Slap`, `Discount_Percentage`, `user_id`, `created_at`) VALUES
 (1, 'Abc company', '123', 'karachi', 'asdf', '', '10', '50', 90, 2, '2019-05-12 19:47:47'),
-(2, 'test', '123', 'testing', 'test', '{\"min\":[\"0\",\"2001\"],\"max\":[\"2000\",\"4000\"],\"dis\":[\"2\",\"4\"]}', NULL, NULL, NULL, 2, '2019-05-26 21:11:49');
+(2, 'test', '123', 'testing', 'test', '{"min":["0","2001"],"max":["2000","4000"],"dis":["2","4"]}', NULL, NULL, NULL, 2, '2019-05-26 21:11:49');
 
 -- --------------------------------------------------------
 
@@ -226,7 +224,9 @@ INSERT INTO `modules` (`id`, `name`, `main_name`, `sort`, `icon`, `url`, `user_i
 (30, 'Ledger', 'ledger', 7, 'home', 'ledger', 2),
 (31, 'Sales Men Entries', 'sales_men_entries', 7, 'home', 'sales_men_entries', 2),
 (32, 'Salesmen Balance', 'salesmen_balance', 7, 'home', 'salesmen_balance', 2),
-(33, 'Sales Return', 'salesreturn', 10, 'home', 'salesreturn', 2);
+(33, 'Sales Return', 'salesreturn', 10, 'home', 'salesreturn', 2),
+(34, 'Sign Bills', 'sign_bills', 7, 'home', 'sign_bills', 2),
+(35, 'Recovery', 'recovery', 7, 'home', 'recovery', 2);
 
 -- --------------------------------------------------------
 
@@ -322,7 +322,20 @@ INSERT INTO `modules_fileds` (`id`, `name`, `type`, `filed_type`, `options`, `le
 (66, 'Salesmen', 'INT', 'input', '', 11, 1, 31, 1, 'id', 'salesmen', 'Name'),
 (67, 'Date', 'DATE', 'input', '', 100, 1, 31, 0, NULL, NULL, NULL),
 (68, 'Amount', 'VARCHAR', 'input', '', 100, 1, 31, 0, NULL, NULL, NULL),
-(69, 'Type', 'VARCHAR', 'select', 'Add,Subtract ', 100, 1, 31, 0, NULL, NULL, NULL);
+(69, 'Type', 'VARCHAR', 'select', 'Add,Subtract ', 100, 1, 31, 0, NULL, NULL, NULL),
+(70, 'Party_Name', 'INT', 'input', '', 11, 1, 34, 1, 'id', 'shops', 'Name'),
+(71, 'Address', 'VARCHAR', 'input', '', 255, 1, 34, 0, NULL, NULL, NULL),
+(72, 'Bill_NO', 'INT', 'input', '', 11, 1, 34, 1, 'id', 'billing', 'id'),
+(73, 'Net_Amount', 'VARCHAR', 'input', '', 100, 1, 34, 0, NULL, NULL, NULL),
+(74, 'Signed_Amount', 'VARCHAR', 'input', '', 100, 1, 34, 0, NULL, NULL, NULL),
+(75, 'Due_Date', 'DATE', 'input', '', 100, 1, 34, 0, NULL, NULL, NULL),
+(76, 'Party_Name', 'INT', 'input', '', 11, 1, 35, 1, 'id', 'shops', 'Name'),
+(77, 'Address', 'VARCHAR', 'input', '', 255, 1, 35, 0, NULL, NULL, NULL),
+(78, 'Bill_NO', 'INT', 'input', '', 11, 1, 35, 1, 'id', 'billing', 'id'),
+(79, 'Rcvd_Amount', 'VARCHAR', 'input', '', 100, 1, 35, 0, NULL, NULL, NULL),
+(80, 'Cheque_NO', 'VARCHAR', 'input', '', 100, 0, 35, 0, NULL, NULL, NULL),
+(81, 'Chaque_Date_', 'DATE', 'input', '', 100, 0, 35, 0, NULL, NULL, NULL),
+(82, 'Party_Bank', 'VARCHAR', 'input', '', 255, 0, 35, 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -356,24 +369,26 @@ INSERT INTO `permission` (`id`, `module_id`, `user_id`, `user_type_id`, `view`, 
 (228, 20, 2, 0, 0, 0, 0, 0, 0, 0),
 (229, 21, 2, 0, 1, 0, 0, 0, 0, 0),
 (230, 22, 2, 0, 1, 0, 0, 0, 0, 0),
-(375, 2, 2, 1, 1, 1, 1, 1, 1, 1),
-(376, 3, 2, 1, 1, 1, 1, 1, 1, 1),
-(377, 5, 2, 1, 1, 1, 1, 1, 1, 1),
-(378, 7, 2, 1, 1, 1, 1, 1, 1, 1),
-(379, 19, 2, 1, 1, 1, 1, 1, 1, 1),
-(380, 20, 2, 1, 1, 1, 1, 1, 1, 1),
-(381, 21, 2, 1, 1, 1, 1, 1, 1, 1),
-(382, 22, 2, 1, 1, 1, 1, 1, 1, 1),
-(383, 23, 2, 1, 1, 1, 1, 1, 1, 1),
-(384, 24, 2, 1, 1, 1, 1, 1, 1, 1),
-(385, 26, 2, 1, 1, 1, 1, 1, 1, 1),
-(386, 27, 2, 1, 1, 1, 1, 1, 1, 1),
-(387, 28, 2, 1, 1, 1, 1, 1, 1, 1),
-(388, 29, 2, 1, 1, 1, 1, 1, 1, 1),
-(389, 30, 2, 1, 1, 1, 1, 1, 1, 1),
-(390, 31, 2, 1, 1, 1, 1, 1, 1, 1),
-(391, 32, 2, 1, 1, 1, 1, 1, 1, 1),
-(392, 33, 2, 1, 1, 1, 1, 1, 1, 1);
+(412, 2, 2, 1, 1, 1, 1, 1, 1, 1),
+(413, 3, 2, 1, 1, 1, 1, 1, 1, 1),
+(414, 5, 2, 1, 1, 1, 1, 1, 1, 1),
+(415, 7, 2, 1, 1, 1, 1, 1, 1, 1),
+(416, 19, 2, 1, 1, 1, 1, 1, 1, 1),
+(417, 20, 2, 1, 1, 1, 1, 1, 1, 1),
+(418, 21, 2, 1, 1, 1, 1, 1, 1, 1),
+(419, 22, 2, 1, 1, 1, 1, 1, 1, 1),
+(420, 23, 2, 1, 1, 1, 1, 1, 1, 1),
+(421, 24, 2, 1, 1, 1, 1, 1, 1, 1),
+(422, 26, 2, 1, 1, 1, 1, 1, 1, 1),
+(423, 27, 2, 1, 1, 1, 1, 1, 1, 1),
+(424, 28, 2, 1, 1, 1, 1, 1, 1, 1),
+(425, 29, 2, 1, 1, 1, 1, 1, 1, 1),
+(426, 30, 2, 1, 1, 1, 1, 1, 1, 1),
+(427, 31, 2, 1, 1, 1, 1, 1, 1, 1),
+(428, 32, 2, 1, 1, 1, 1, 1, 1, 1),
+(429, 33, 2, 1, 1, 1, 1, 1, 1, 1),
+(430, 34, 2, 1, 1, 1, 1, 1, 1, 1),
+(431, 35, 2, 1, 1, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -457,6 +472,25 @@ INSERT INTO `purchase_details` (`id`, `purchase_id`, `product_id`, `qty`, `rate`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `recovery`
+--
+
+CREATE TABLE `recovery` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `Party_Name` int(11) NOT NULL,
+  `Address` varchar(255) NOT NULL,
+  `Bill_NO` int(11) NOT NULL,
+  `Rcvd_Amount` varchar(100) NOT NULL,
+  `Cheque_NO` varchar(100) DEFAULT NULL,
+  `Chaque_Date_` date DEFAULT NULL,
+  `Party_Bank` varchar(255) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `salesmen`
 --
 
@@ -530,6 +564,24 @@ CREATE TABLE `shops` (
 
 INSERT INTO `shops` (`id`, `Code`, `Name`, `Area`, `Address`, `Booker`, `user_id`, `created_at`) VALUES
 (1, '123', 'Test Shop', 'Garden', 'testing', 1, 2, '2019-05-28 20:41:12');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sign_bills`
+--
+
+CREATE TABLE `sign_bills` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `Party_Name` int(11) NOT NULL,
+  `Address` varchar(255) NOT NULL,
+  `Bill_NO` int(11) NOT NULL,
+  `Net_Amount` varchar(100) NOT NULL,
+  `Signed_Amount` varchar(100) NOT NULL,
+  `Due_Date` date NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -673,6 +725,12 @@ ALTER TABLE `purchase_details`
   ADD KEY `purchase_id` (`purchase_id`);
 
 --
+-- Indexes for table `recovery`
+--
+ALTER TABLE `recovery`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `salesmen`
 --
 ALTER TABLE `salesmen`
@@ -694,6 +752,12 @@ ALTER TABLE `sales_men_entries`
 -- Indexes for table `shops`
 --
 ALTER TABLE `shops`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sign_bills`
+--
+ALTER TABLE `sign_bills`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -719,116 +783,106 @@ ALTER TABLE `user_type`
 --
 ALTER TABLE `billing`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
 --
 -- AUTO_INCREMENT for table `billing_detail`
 --
 ALTER TABLE `billing_detail`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
 --
 -- AUTO_INCREMENT for table `booker`
 --
 ALTER TABLE `booker`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `cheques`
 --
 ALTER TABLE `cheques`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `company`
 --
 ALTER TABLE `company`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `dsr_bills`
 --
 ALTER TABLE `dsr_bills`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `ledger_entries`
 --
 ALTER TABLE `ledger_entries`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
 --
 -- AUTO_INCREMENT for table `modules`
 --
 ALTER TABLE `modules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 --
 -- AUTO_INCREMENT for table `modules_fileds`
 --
 ALTER TABLE `modules_fileds`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 --
 -- AUTO_INCREMENT for table `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=393;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=432;
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `purchase`
 --
 ALTER TABLE `purchase`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
-
 --
 -- AUTO_INCREMENT for table `purchase_details`
 --
 ALTER TABLE `purchase_details`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
+--
+-- AUTO_INCREMENT for table `recovery`
+--
+ALTER TABLE `recovery`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `salesmen`
 --
 ALTER TABLE `salesmen`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `salesreturn`
 --
 ALTER TABLE `salesreturn`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `sales_men_entries`
 --
 ALTER TABLE `sales_men_entries`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `shops`
 --
 ALTER TABLE `shops`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
+--
+-- AUTO_INCREMENT for table `sign_bills`
+--
+ALTER TABLE `sign_bills`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
-
 --
 -- AUTO_INCREMENT for table `user_type`
 --
 ALTER TABLE `user_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-COMMIT;
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
