@@ -81,7 +81,13 @@
 				redirect('home');
 			}
 			$this->data['title'] = 'Edit Billing';
-			$this->data['billing'] = $this->Billing_model->get_row_single('billing',array('id'=>$id));$this->data['table_company'] = $this->Billing_model->all_rows('company');$this->data['table_booker'] = $this->Billing_model->all_rows('booker');$this->data['table_shops'] = $this->Billing_model->all_rows('shops');$this->load->template('billing/edit',$this->data);
+			$this->data['billing'] = $this->Billing_model->get_row_single('billing',array('id'=>$id));
+			$this->data['billing_detail'] = $this->Billing_model->get_rows('billing_detail',array('bill_id'=>$id));
+			$this->data['table_company'] = $this->Billing_model->all_rows('company');
+			$this->data['table_booker'] = $this->Billing_model->all_rows('booker');
+			$this->data['table_shops'] = $this->Billing_model->all_rows('shops');
+			$this->data['table_product'] = $this->Billing_model->get_rows('product', [ 'company' => $this->data['billing']['Company']]);
+			$this->load->template('billing/edit',$this->data);
 		}
 
 		public function update()
@@ -92,7 +98,23 @@
 			}
 			$data = $this->input->post();
 			$id = $data['id'];
-			unset($data['id']);$id = $this->Billing_model->update('billing',$data,array('id'=>$id));
+			unset($data['id'], $data['quantity'], $data['product']);
+			$this->Billing_model->update('billing',$data,array('id'=>$id));
+
+			$this->Billing_model->delete('billing_detail', ['bill_id' => $id]);
+			foreach ($data['product'][$key] as $k => $v) {
+					$bill_detail = array(
+						'bill_id' => $id, 
+						'product_id	' => $v, 
+						'qty' => $data['quantity'][$key][$k], 
+					);
+					$this->Billing_model->insert('billing_detail',$bill_detail);
+			}
+
+			$data2                 = array('Booker'=>$data['Booker'], 'Date'=>$data['Date']);
+        	
+        	$data2['Total_Amount'] = $this->Dsr_bills_model->get_bills($data2);
+        	$id                   = $this->Dsr_bills_model->insert('dsr_bills', $data2, array('Booker'=>$data['Booker'], 'Date'=>$data['Date']));
 			if ($id) {
 				redirect('billing');
 			}
