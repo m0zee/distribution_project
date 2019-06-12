@@ -36,7 +36,23 @@
 			}
 			$data = $this->input->post();
 			$data['user_id'] = $this->session->userdata('user_id');$id = $this->Recovery_model->insert('recovery',$data);
+			
 			if ($id) {
+				if (!empty($data['Cheque_NO'])) {
+					$data2 = array(
+						'Party_Name' => $data['Party_Name'],
+						'Address' => $data['Address'],
+						'Bill_NO' => $data['Bill_NO'],
+						'Cheq_Amount' => $data['Rcvd_Amount'],
+						'Cheque_Date' => $data['Chaque_Date_']
+						'Party_Bank' => $data['Party_Bank'],
+						'user_id' => $this->session->userdata('user_id')
+					);
+					$this->Recovery_model->insert('cheques',$data2);
+				}
+				$bill = $this->Recovery_model->get_row_single('sign_bills',array('Bill_NO'=>$data['Bill_NO']));
+				$amount = $bill['Rcvd_Amount'] + $data['Rcvd_Amount'];
+				$this->Recovery_model->update('sign_bills',array('Rcvd_Amount' => $amount),array('id'=>$data['id']));
 				redirect('recovery');
 			}
 		}public function edit($id)
