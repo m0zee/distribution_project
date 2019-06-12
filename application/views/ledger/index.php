@@ -35,17 +35,17 @@
                                     <?php
                                         foreach ($company as $key => $value) {
                                     ?>
-                                    <option value="<?php echo $value['id'] ?>"><?php echo $value['Name'] ?></option>
+                                    <option value="<?php echo $value['id'] ?>" <?php if(isset($post) && $post['company'] == $value['id']) echo 'selected' ?>><?php echo $value['Name'] ?></option>
                                     <?php } ?>
                     			</select>
                     		</div>
                     		<div class="col-md-4">
                     			<label>Start Date</label>
-                    			<input type="date" name="start" class="form-control">
+                    			<input type="date" name="start" class="form-control" value="<?php echo (isset($post)) ? $post['start'] : '' ?>">
                     		</div>
                     		<div class="col-md-4">
                     			<label>End Date</label>
-                    			<input type="date" name="end" class="form-control">
+                    			<input type="date" name="end" class="form-control" value="<?php echo (isset($post)) ? $post['end'] : '' ?>">
                     		</div>
                             <div class="col-md-2 pull-right">
                                 <br>
@@ -63,7 +63,15 @@
                 <div class="panel panel-bd">
                     <div class="panel-heading">
                         <div class="panel-title">
-                            <h4>View Ledger</h4>
+                            <h4>
+                                View Ledger
+                                <form method="post" action="<?php echo base_url('ledger/print_ledger') ?>">
+                                    <input type="hidden" name="company" value="<?php echo $post['company'] ?>">
+                                    <input type="hidden" name="start" value="<?php echo $post['start'] ?>">
+                                    <input type="hidden" name="end" value="<?php echo $post['end'] ?>">
+                                    <button type="submit" class="btn btn-info pull-right">Print</button>
+                                </form>
+                            </h4>
                         </div>
                     </div>
                     <div class="panel-body">

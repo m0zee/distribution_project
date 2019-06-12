@@ -21,9 +21,23 @@ class Ledger extends MY_Controller{
 		$this->data['company'] = $this->Ledger_entries_model->all_rows('company');
 		if ($this->input->post()) {
 			$data = $this->input->post();
+			$this->data['post'] = $data;
 			$this->data['ledger_entries'] = $this->Ledger_entries_model->get_ledger($data['company'], $data['start'], $data['end']);
 			//print_r($this->data['ledger_entries']);die;
 		}
 		$this->load->template('ledger/index',$this->data);
+	}
+
+	public function print_ledger()
+	{
+		if ( $this->permission['view'] == '0' && $this->permission['view_all'] == '0' ) 
+		{
+			redirect('home');
+		}
+		$data = $this->input->post();
+		$this->data['company'] = $this->Ledger_entries_model->all_rows('company');
+		$this->data['post'] = $data;
+		$this->data['ledger_entries'] = $this->Ledger_entries_model->get_ledger($data['company'], $data['start'], $data['end']);
+    	$this->load->view('print/ledger', $this->data);
 	}
 }

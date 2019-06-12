@@ -86,6 +86,22 @@ class Dsr_bills extends MY_Controller
         redirect('dsr_bills');
     }
 
+    public function bills($id)
+    {
+        $this->data['dsr_bills'] = $this->Dsr_bills_model->get_rows('dsr_bills', array('id' => $id));
+        //$this->data['products'] = $this->Dsr_bills_model->get_products($id);
+        echo '<pre>';print_r($this->data['dsr_bills']);die;
+        $this->load->view('print/bills', $this->data);
+    }
+
+    public function load_sheet($id)
+    {
+        $this->data['id'] = $id;
+        $this->data['products'] = $this->Dsr_bills_model->get_products($id);
+        //echo '<pre>';print_r($this->data['products']);die;
+        $this->load->view('print/load_sheet', $this->data);
+    }
+
     public function dsr($id)
     {
     	$this->data['dsr_bills'] = $this->Dsr_bills_model->get_row_single('dsr_bills', array('id' => $id));

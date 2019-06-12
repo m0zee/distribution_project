@@ -5,6 +5,7 @@
 	    {
 	        parent::__construct();
 	        $this->load->model('Billing_model');
+        	$this->load->model('Dsr_bills_model');
 	        $this->module = 'billing';
 	        $this->user_type = $this->session->userdata('user_type');
 	        $this->id = $this->session->userdata('user_id');
@@ -40,11 +41,11 @@
 				redirect('home');
 			}
 			$data = $this->input->post();
-			foreach ($data['Company'] as $key => $value) {
+			foreach ($data['Shop'] as $key => $value) {
 				$bill = array(
-					'Company' => $value, 
-					'Booker' => $data['Booker'][$key], 
-					'Date' => $data['Date'][$key], 
+					'Company' => $data['Company'], 
+					'Booker' => $data['Booker'], 
+					'Date' => $data['Date'], 
 					'Shop' => $data['Shop'][$key], 
 					'Discount' => $data['Discount'][$key], 
 					'company_discount' => $data['company_discount'][$key], 
@@ -61,7 +62,12 @@
 					$this->Billing_model->insert('billing_detail',$bill_detail);
 				}
 			}
-			redirect('billing');
+			$data2                 = array('Booker'=>$data['Booker'], 'Date'=>$data['Date']);
+        	$data2['user_id']      = $this->session->userdata('user_id');
+        	$data2['Total_Amount'] = $this->Dsr_bills_model->get_bills($data2);
+        	$id                   = $this->Dsr_bills_model->insert('dsr_bills', $data2);
+			redirect('dsr_bills/load_sheet/'.$id);
+			//redirect('billing');
 			//echo '<pre>';print_r($data);echo '</pre>';die;
 			// $data['user_id'] = $this->session->userdata('user_id');
 			// $id = $this->Billing_model->insert('billing',$data);

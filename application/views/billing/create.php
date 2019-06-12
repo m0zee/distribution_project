@@ -36,7 +36,7 @@
 
                                     <label for="example-text-input" class="col-sm-3 col-form-label">Company<span class="required">*</span></label>
                                     <div class="col-sm-9">
-                                        <select class="form-control company" name="Company[]" required="">
+                                        <select class="form-control company" name="Company" required="">
                                             <option>Select Company</option>
                                             <?php foreach ($table_company as $t) {?>
                                                 <option value="<?php echo $t["id"] ?>" data-slap='<?php echo $t['slap'] ?>'>
@@ -51,7 +51,7 @@
 
                                     <label for="example-text-input" class="col-sm-3 col-form-label">Booker<span class="required">*</span></label>
                                     <div class="col-sm-9">
-                                        <select class="form-control booker" name="Booker[]" required="">
+                                        <select class="form-control booker" name="Booker" required="">
                                             <option>Select Booker</option>
                                             <?php foreach ($table_booker as $t) {?>
                                                 <option value="<?php echo $t["id"] ?>">
@@ -66,7 +66,7 @@
 
                                     <label for="example-text-input" class="col-sm-3 col-form-label">Date<span class="required">*</span></label>
                                     <div class="col-sm-9">
-                                        <input class="form-control billing_date" name="Date[]" type="date" value="<?php echo date('Y-m-d') ?>" id="example-text-input" placeholder="" required="">
+                                        <input class="form-control billing_date" name="Date" type="date" value="<?php echo date('Y-m-d') ?>" id="example-text-input" placeholder="" required="">
                                     </div>
 
                                 </div>
@@ -118,7 +118,7 @@
 
                                     <label for="example-text-input" class="col-sm-3 col-form-label">Discount<span class="required">*</span></label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" name="Discount[]" type="number" value="0" id="example-text-input" placeholder="" required="">
+                                        <input class="form-control" name="Discount[]" type="number" readonly="" value="0" id="example-text-input" placeholder="" required="">
                                     </div>
 
                                 </div>
@@ -200,13 +200,13 @@
     $("body").on("click", ".remove-main", function() {
         $(this).parents(".main-div").remove();
     });
-    $('body').on('keyup', 'input.qty', function() {
+    $('body').on('keyup', 'input.qty, [name="company_discount[]"]', function() {
         set_disandtotal($(this).parents('.main-div'))
     })
     $('body').on('keyup', 'input[name="Discount[]"]', function() {
         set_disandtotal($(this).parents('.main-div'), $(this).val())
     })
-    $('body').on('change', 'select.product, [name="Company[]"]', function() {
+    $('body').on('change', 'select.product, [name="Company"]', function() {
         set_disandtotal($(this).parents('.main-div'))
     })
     function set_disandtotal(main, dis = false) {
@@ -216,7 +216,7 @@
             var qty = $(this).parents('.hide-div').find('input.qty').val()
             total += (price * qty)
         })
-        var dis_array = main.find('[name="Company[]"] option:selected').attr('data-slap')
+        var dis_array = main.find('[name="Company"] option:selected').attr('data-slap')
         if (dis) {
             var discount = dis
         }
@@ -224,8 +224,18 @@
             var discount = get_dis(dis_array, total)
         }
         main.find('[name="Discount[]"]').val(discount)
-        discount = '0.0'+discount
-        total = total - (total * discount)
+        if (discount) {
+            discount = (parseInt(discount) + parseInt(main.find('[name="company_discount[]"]').val()))
+            //discount = '0.0'+discount
+            total = total - (total * discount / 100);
+            //total = total - (total * discount)
+        }
+        else{
+            discount = main.find('[name="company_discount[]"]').val()
+            //discount = '0.0'+discount
+            total = total - (total * discount / 100);
+            //total = total - (total * discount)
+        }
         main.find('[name="Total_Amount[]"]').val(total)
     }
     function get_dis(array, total) {
@@ -253,7 +263,7 @@
 
                     if ( res.data.length > 0 ) {
                         $.each(res.data, function(index, val) {
-                            row += "<option data-json='"+JSON.stringify(val)+"' value='"+val.id+"'>"+val.Name+"</option>";
+                            row += "<option data-json='"+JSON.stringify(val)+"' value='"+val.id+"' data-price="+val.sale_price+">"+val.Name+"</option>";
                         });
                     }
 
