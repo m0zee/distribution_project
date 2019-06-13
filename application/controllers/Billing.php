@@ -5,6 +5,7 @@
 	    {
 	        parent::__construct();
 	        $this->load->model('Billing_model');
+	        $this->load->model('Product_model');
         	$this->load->model('Dsr_bills_model');
 	        $this->module = 'billing';
 	        $this->user_type = $this->session->userdata('user_type');
@@ -55,11 +56,19 @@
 				$bill_id = $this->Billing_model->insert('billing',$bill);
 				foreach ($data['product'][$key] as $k => $v) {
 					$bill_detail = array(
-						'bill_id' => $bill_id, 
-						'product_id	' => $v, 
+						'bill_id' => $bill_id,
+						'product_id	' => $v,
 						'qty' => $data['quantity'][$key][$k], 
 					);
+					$stock_in_hand = $product['stock_in_hand'] - $data['quantity'][$key][$k]; 
+					if ($stock_in_hand < 0) continue;
+					$stock_data = [
+						'stock_in_hand' => $stock_in_hand
+					];
+
 					$this->Billing_model->insert('billing_detail',$bill_detail);
+					$product = $this->Product_model->get_row_single('product', ['id' => $v]);
+					$this->Product_model->update('product', $stock_data, ['id' => $v]); 
 				}
 			}
 			$data2                 = array('Booker'=>$data['Booker'], 'Date'=>$data['Date']);
@@ -100,7 +109,11 @@
 			$id = $data['id'];
 			unset($data['id'], $data['quantity'], $data['product']);
 			$this->Billing_model->update('billing',$data,array('id'=>$id));
-
+			$billing_old_details = $this->Billing_model->get_rows('billing_detail', ['bill_id' => $id]);
+			foreach ($billing_old_details as $bod) {
+				$product = $this->Product_model->get_row_single('product', ['id' => $bod['product_id']]);
+				$this->Product_model->update('product', ['stock_in_hand' => ($product['stock_in_hand'] - $bod['qty']) ]);
+			}
 			$this->Billing_model->delete('billing_detail', ['bill_id' => $id]);
 			foreach ($data['product'][$key] as $k => $v) {
 					$bill_detail = array(
@@ -109,6 +122,8 @@
 						'qty' => $data['quantity'][$key][$k], 
 					);
 					$this->Billing_model->insert('billing_detail',$bill_detail);
+					$product = $this->Product_model->get_row_single('product', ['id' => $v]);
+					$this->Product_model->update('product', $stock_data, ['id' => $v]);
 			}
 
 			$data2                 = array('Booker'=>$data['Booker'], 'Date'=>$data['Date']);

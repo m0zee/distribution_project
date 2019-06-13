@@ -19,7 +19,17 @@
             </div>
         </div>
         <!-- /. Content Header (Page header) -->
+        <?php $temp = []; ?>
+        <?php foreach ($table_product as $tp){
+            $tp['used_qty'] = 0;
+            $temp[$tp['id']] = $tp;
+        }
 
+        ?>
+        <script>
+            var product_stock = <?php echo json_encode($temp);  ?>
+            
+        </script>
         <form method="post" action="<?php echo base_url() ?>billing/insert" enctype="multipart/form-data">
 
             <div class="row">
@@ -289,8 +299,54 @@
         select_auto_hidden_dropdown('.billing_date', $(this).val());
     });
 
-
     function select_auto_hidden_dropdown(selector_class, value){
         $(selector_class).not(":eq(0)").val(value);
+    }
+
+    $('.qty').on('change', function(){
+        
+        $.each(product_stock, function(index, val) {
+            val.used_qty = 0;
+        });
+        // qty         = $(this).val();
+        // $this = $(this);
+        // product_id  = $(this).closest('.row').find('select').val()
+        // console.log(qty);
+        get_all_product_and_qty();
+        // available_stock(qty, product_id, $this);
+    });
+
+
+
+    function available_stock(qty, product_id, $this) {
+        if (parseInt(product_stock[product_id].stock_in_hand) > parseInt(product_stock[product_id].used_qty)) 
+        {
+            var available_qty = parseInt(product_stock[product_id].stock_in_hand) - (parseInt(product_stock[product_id].used_qty) + parseInt(qty));
+            // console.log(available_qty);
+            if (available_qty < 0) 
+            {
+                alert( parseInt(product_stock[product_id].stock_in_hand) - parseInt(product_stock[product_id].used_qty) + ' available qty');
+                // $this.val('');
+            }
+            else{
+
+                product_stock[product_id].used_qty = parseInt(product_stock[product_id].stock_in_hand) - available_qty;
+            }
+
+
+        }
+    }
+
+
+    // second try to calculate stock
+
+    function get_all_product_and_qty() {
+
+        $.each($('.all-q .product'), function(index, val) {
+            var qty = $(val).closest('.row').find('.qty').val();
+            var product_id = $(val).val();
+            var row = $(val).closest('.row');
+            available_stock(qty, product_id, row);
+        });
     }
 </script>
