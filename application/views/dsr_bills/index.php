@@ -53,7 +53,7 @@
 												<tr>
 													<td><?php echo $module["id"] ?></td><td><?php echo $module["Name"] ?></td><td><?php echo $module["Date"] ?></td><td><?php echo $module["Total_Amount"] ?></td>
 													<td>
-														<a href="<?php echo base_url('dsr_bills/dsr/'.$module['id']) ?>" class="btn btn-info">Print DSR</a>
+														<!-- <a href="<?php echo base_url('dsr_bills/dsr/'.$module['id']) ?>" class="btn btn-info">Print DSR</a> -->
 														<a href="<?php echo base_url('dsr_bills/bills/'.$module['id']) ?>" class="btn btn-info">Print Bills</a>
 														<a href="<?php echo base_url('dsr_bills/load_sheet/'.$module['id']) ?>" class="btn btn-info">Print Load Sheet</a>
 														<a href="<?php echo base_url('dsr_bills/submit_dsr/'.$module['id']) ?>" class="btn btn-info">Submit DSR</a>

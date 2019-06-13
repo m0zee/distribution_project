@@ -52,7 +52,7 @@
 				}
 				$bill = $this->Recovery_model->get_row_single('sign_bills',array('Bill_NO'=>$data['Bill_NO']));
 				$amount = $bill['Rcvd_Amount'] + $data['Rcvd_Amount'];
-				$this->Recovery_model->update('sign_bills',array('Rcvd_Amount' => $amount),array('id'=>$data['id']));
+				$this->Recovery_model->update('sign_bills',array('Rcvd_Amount' => $amount),array('id'=>$bill['id']));
 				redirect('recovery');
 			}
 		}public function edit($id)
