@@ -16,9 +16,14 @@
 				redirect('home');
 			}
 			$this->data['title'] = 'Cheques';
-			if ( $this->permission['view_all'] == '1'){$this->data['cheques'] = $this->Cheques_model->get_cheques();}
-			elseif ($this->permission['view'] == '1') {$this->data['cheques'] = $this->Cheques_model->get_cheques($this->id);}
+			$booker = null;
+			if ($this->input->post('booker')) {
+				$booker = $this->input->post('booker');
+			}
+			if ( $this->permission['view_all'] == '1'){$this->data['cheques'] = $this->Cheques_model->get_cheques(null, $booker);}
+			elseif ($this->permission['view'] == '1') {$this->data['cheques'] = $this->Cheques_model->get_cheques($this->id, $booker);}
 			$this->data['permission'] = $this->permission;
+			$this->data['booker'] = $this->Cheques_model->all_rows('booker');
 			$this->load->template('cheques/index',$this->data);
 		}public function create()
 		{

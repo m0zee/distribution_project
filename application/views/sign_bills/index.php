@@ -31,6 +31,17 @@
 										?>
 										<a href="<?php echo base_url("sign_bills/create") ?>"><button class="btn btn-info pull-right">Add Sign bills</button></a>
 										<?php } ?>
+										<form method="post" action="">
+											<select class="form-control" name="booker">
+												<option value="">Select Booker</option>
+												<?php 
+													foreach ($booker as $key => $value) {
+												?>
+												<option value="<?php echo $value['id'] ?>"><?php echo $value['Name'] ?></option>
+												<?php } ?>
+											</select>
+											<button type="submit" class="btn btn-info">Submit</button>
+										</form>
 									</div>
 								</div>
 								<div class="panel-body">

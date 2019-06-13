@@ -16,9 +16,14 @@
 				redirect('home');
 			}
 			$this->data['title'] = 'Sign_bills';
-			if ( $this->permission['view_all'] == '1'){$this->data['sign_bills'] = $this->Sign_bills_model->get_sign_bills();}
-			elseif ($this->permission['view'] == '1') {$this->data['sign_bills'] = $this->Sign_bills_model->get_sign_bills($this->id);}
+			$booker = null;
+			if ($this->input->post('booker')) {
+				$booker = $this->input->post('booker');
+			}
+			if ( $this->permission['view_all'] == '1'){$this->data['sign_bills'] = $this->Sign_bills_model->get_sign_bills(null, $booker);}
+			elseif ($this->permission['view'] == '1') {$this->data['sign_bills'] = $this->Sign_bills_model->get_sign_bills($this->id, $booker);}
 			$this->data['permission'] = $this->permission;
+			$this->data['booker'] = $this->Sign_bills_model->all_rows('booker');
 			$this->load->template('sign_bills/index',$this->data);
 		}public function create()
 		{
