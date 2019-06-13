@@ -69,4 +69,13 @@
 			}
 			$this->Cheques_model->delete('cheques',array('id'=>$id));
 			redirect('cheques');
-		}}
+		}
+
+		public function paid($id)
+		{
+			$id = $this->Cheques_model->update('cheques',array('Status' => 1),array('id'=>$id));
+			if ($id) {
+				redirect('cheques');
+			}
+		}
+	}

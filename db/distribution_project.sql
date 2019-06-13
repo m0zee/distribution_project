@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0.1
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 13, 2019 at 03:18 PM
--- Server version: 10.1.32-MariaDB
--- PHP Version: 7.1.20
+-- Generation Time: Jun 13, 2019 at 09:48 PM
+-- Server version: 10.1.13-MariaDB
+-- PHP Version: 5.6.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -112,6 +110,7 @@ CREATE TABLE `cheques` (
   `Cheq_Amount` int(100) NOT NULL,
   `Cheque_Date` date NOT NULL,
   `Party_Bank` varchar(100) NOT NULL,
+  `Status` varchar(10) NOT NULL DEFAULT '0',
   `user_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -120,8 +119,8 @@ CREATE TABLE `cheques` (
 -- Dumping data for table `cheques`
 --
 
-INSERT INTO `cheques` (`id`, `Party_Name`, `Address`, `Bill_NO`, `Cheq_Amount`, `Cheque_Date`, `Party_Bank`, `user_id`, `created_at`) VALUES
-(1, 1, 'test', 4, 30, '2019-06-11', 'test', 2, '2019-06-13 13:16:30');
+INSERT INTO `cheques` (`id`, `Party_Name`, `Address`, `Bill_NO`, `Cheq_Amount`, `Cheque_Date`, `Party_Bank`, `Status`, `user_id`, `created_at`) VALUES
+(1, 1, 'test', 4, 30, '2019-06-11', 'test', '1', 2, '2019-06-13 19:45:59');
 
 -- --------------------------------------------------------
 
@@ -149,8 +148,8 @@ CREATE TABLE `company` (
 
 INSERT INTO `company` (`id`, `Name`, `Code`, `Address`, `Description`, `slap`, `Min_Slap`, `Max_Slap`, `Discount_Percentage`, `user_id`, `created_at`) VALUES
 (1, 'Abc company', '123', 'karachi', 'asdf', '', '10', '50', 90, 2, '2019-05-12 19:47:47'),
-(2, 'test', '123', 'testing', 'test', '{\"min\":[\"0\",\"2001\"],\"max\":[\"2000\",\"4000\"],\"dis\":[\"2\",\"4\"]}', NULL, NULL, NULL, 2, '2019-05-26 21:11:49'),
-(3, 'New Test Company', 'ntc', 'karachi', 'wedfghjk', '{\"min\":[\"100\",\"201\",\"501\"],\"max\":[\"200\",\"500\",\"50000\"],\"dis\":[\"5\",\"10\",\"\"]}', NULL, NULL, NULL, 2, '2019-06-11 21:53:44');
+(2, 'test', '123', 'testing', 'test', '{"min":["0","2001"],"max":["2000","4000"],"dis":["2","4"]}', NULL, NULL, NULL, 2, '2019-05-26 21:11:49'),
+(3, 'New Test Company', 'ntc', 'karachi', 'wedfghjk', '{"min":["100","201","501"],"max":["200","500","50000"],"dis":["5","10",""]}', NULL, NULL, NULL, 2, '2019-06-11 21:53:44');
 
 -- --------------------------------------------------------
 
@@ -836,128 +835,106 @@ ALTER TABLE `user_type`
 --
 ALTER TABLE `billing`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
 --
 -- AUTO_INCREMENT for table `billing_detail`
 --
 ALTER TABLE `billing_detail`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
 --
 -- AUTO_INCREMENT for table `booker`
 --
 ALTER TABLE `booker`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `cheques`
 --
 ALTER TABLE `cheques`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `company`
 --
 ALTER TABLE `company`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- AUTO_INCREMENT for table `dsr_bills`
 --
 ALTER TABLE `dsr_bills`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- AUTO_INCREMENT for table `ledger_entries`
 --
 ALTER TABLE `ledger_entries`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
 --
 -- AUTO_INCREMENT for table `modules`
 --
 ALTER TABLE `modules`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
-
 --
 -- AUTO_INCREMENT for table `modules_fileds`
 --
 ALTER TABLE `modules_fileds`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
-
 --
 -- AUTO_INCREMENT for table `permission`
 --
 ALTER TABLE `permission`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=432;
-
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- AUTO_INCREMENT for table `purchase`
 --
 ALTER TABLE `purchase`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
-
 --
 -- AUTO_INCREMENT for table `purchase_details`
 --
 ALTER TABLE `purchase_details`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
 --
 -- AUTO_INCREMENT for table `recovery`
 --
 ALTER TABLE `recovery`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `salesmen`
 --
 ALTER TABLE `salesmen`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `salesreturn`
 --
 ALTER TABLE `salesreturn`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- AUTO_INCREMENT for table `sales_men_entries`
 --
 ALTER TABLE `sales_men_entries`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `shops`
 --
 ALTER TABLE `shops`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `sign_bills`
 --
 ALTER TABLE `sign_bills`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
-
 --
 -- AUTO_INCREMENT for table `user_type`
 --
 ALTER TABLE `user_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-COMMIT;
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

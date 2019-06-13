@@ -56,7 +56,11 @@
 														<!-- <a href="<?php echo base_url('dsr_bills/dsr/'.$module['id']) ?>" class="btn btn-info">Print DSR</a> -->
 														<a href="<?php echo base_url('dsr_bills/bills/'.$module['id']) ?>" class="btn btn-info">Print Bills</a>
 														<a href="<?php echo base_url('dsr_bills/load_sheet/'.$module['id']) ?>" class="btn btn-info">Print Load Sheet</a>
+														<?php 
+															if (!$module['salesmen']) {
+														?>
 														<a href="<?php echo base_url('dsr_bills/submit_dsr/'.$module['id']) ?>" class="btn btn-info">Submit DSR</a>
+														<?php } ?>
 													</td>
 													<?php 
 														if ($permission["edit"] == "1" || $permission["deleted"] == "1"){

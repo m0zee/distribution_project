@@ -44,7 +44,7 @@
 						'Address' => $data['Address'],
 						'Bill_NO' => $data['Bill_NO'],
 						'Cheq_Amount' => $data['Rcvd_Amount'],
-						'Cheque_Date' => $data['Chaque_Date_']
+						'Cheque_Date' => $data['Chaque_Date_'],
 						'Party_Bank' => $data['Party_Bank'],
 						'user_id' => $this->session->userdata('user_id')
 					);

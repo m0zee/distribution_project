@@ -39,7 +39,7 @@
 										<table id="dataTableExample2" class="table table-bordered table-striped table-hover">
 											<thead>
 												<tr>
-													<th>Id</th><th>Name</th><th>Address</th><th>Cheq Amount</th><th>Cheque Date</th><th>Party Bank</th><?php 
+													<th>Id</th><th>Shop Name</th><th>Booker</th><th>Address</th><th>Cheq Amount</th><th>Cheque Date</th><th>Party Bank</th><th>Status</th><?php 
 														if ($permission["edit"] == "1" || $permission["deleted"] == "1"){
 													?>
 													<th>Action</th>
@@ -51,13 +51,20 @@
 										    		foreach ($cheques as $module) {
 										    	?>
 												<tr>
-													<td><?php echo $module["id"] ?></td><td><?php echo $module["Name"] ?></td><td><?php echo $module["Address"] ?></td><td><?php echo $module["Cheq_Amount"] ?></td><td><?php echo $module["Cheque_Date"] ?></td><td><?php echo $module["Party_Bank"] ?></td><?php 
+													<td><?php echo $module["id"] ?></td><td><?php echo $module["Name"] ?></td><td><?php echo $module["booker"] ?></td><td><?php echo $module["Address"] ?></td><td><?php echo $module["Cheq_Amount"] ?></td><td><?php echo $module["Cheque_Date"] ?></td><td><?php echo $module["Party_Bank"] ?></td><td><?php echo ($module["Status"] == '0') ? 'Unpaid' : 'Paid' ?></td><?php 
 														if ($permission["edit"] == "1" || $permission["deleted"] == "1"){
 													?>
 													<td>
 														<?php 
 															if ($permission["edit"] == "1") {
 														?>
+
+														<?php 
+															if ($module["Status"] == "0") {
+														?>
+														<a href="<?php echo base_url() ?>cheques/paid/<?php echo $module["id"] ?>"><button class="bt btn-info">Paid</button></a>
+														<?php } ?>
+
 														<a href="<?php echo base_url() ?>cheques/edit/<?php echo $module["id"] ?>"><img src="<?php echo base_url() ?>assets/record1.png" title="View Order" alt="View Order" width="35" height="35"></a>
 														<?php } ?>
 														<?php 

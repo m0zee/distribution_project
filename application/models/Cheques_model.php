@@ -3,8 +3,8 @@
 
 		    	public function get_cheques($id = null)
 					{
-						$this->db->select('cheques.*,shops.Name')
-								 ->from('cheques')->join('shops', 'shops.id = cheques.Party_Name')->join('billing', 'billing.id = cheques.Bill_NO'); if ($id != null) {
+						$this->db->select('cheques.*,shops.Name, booker.Name as booker')
+								 ->from('cheques')->join('shops', 'shops.id = cheques.Party_Name')->join('billing', 'billing.id = cheques.Bill_NO')->join('booker', 'booker.id = billing.Booker'); if ($id != null) {
 								$this->db->where('cheques.user_id', $id);
 							}return $this->db->get()->result_array();
 					}}

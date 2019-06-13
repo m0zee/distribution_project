@@ -39,7 +39,7 @@
 										<table id="dataTableExample2" class="table table-bordered table-striped table-hover">
 											<thead>
 												<tr>
-													<th>Id</th><th>Name</th><th>Address</th><th>Id</th><th>Net Amount</th><th>Signed Amount</th><th>Due Date</th><?php 
+													<th>Id</th><th>Shop Name</th><th>Booker</th><th>Address</th><th>Bill Id</th><th>Net Amount</th><th>Signed Amount</th><th>Rcvd Amount</th><th>Due Date</th><?php 
 														if ($permission["edit"] == "1" || $permission["deleted"] == "1"){
 													?>
 													<th>Action</th>
@@ -51,7 +51,7 @@
 										    		foreach ($sign_bills as $module) {
 										    	?>
 												<tr>
-													<td><?php echo $module["id"] ?></td><td><?php echo $module["Name"] ?></td><td><?php echo $module["Address"] ?></td><td><?php echo $module["id"] ?></td><td><?php echo $module["Net_Amount"] ?></td><td><?php echo $module["Signed_Amount"] ?></td><td><?php echo $module["Due_Date"] ?></td><?php 
+													<td><?php echo $module["id"] ?></td><td><?php echo $module["Name"] ?></td><td><?php echo $module["booker"] ?></td><td><?php echo $module["Address"] ?></td><td><?php echo $module["bill_id"] ?></td><td><?php echo $module["Net_Amount"] ?></td><td><?php echo $module["Signed_Amount"] ?></td><td><?php echo $module["Rcvd_Amount"] ?></td><td><?php echo $module["Due_Date"] ?></td><?php 
 														if ($permission["edit"] == "1" || $permission["deleted"] == "1"){
 													?>
 													<td>
