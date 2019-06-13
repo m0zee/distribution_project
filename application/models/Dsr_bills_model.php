@@ -33,4 +33,19 @@ class Dsr_bills_model extends MY_Model
                  ->where('d.id', $id);
         return $this->db->get()->result_array();
     }
+
+    public function get_all_bills($id)
+    {
+        $this->db->select('b.Date, b.company_discount, b.Discount, b.Total_Amount, booker.Name as booker, shops.Name as shop, c.Name as company, group_concat(bd.qty separator ",") as qty, group_concat(p.Name separator ",") as product, group_concat(p.sale_price separator ",") as rate')
+                 ->from('billing b')
+                 ->join('billing_detail bd', 'bd.bill_id = b.id')
+                 ->join('product p', 'p.id = bd.product_id', 'right')
+                 ->join('dsr_bills d', 'd.Date = b.Date and d.Booker = b.Booker')
+                 ->join('company c', 'c.id = b.Company')
+                 ->join('booker', 'booker.id = b.Booker')
+                 ->join('shops', 'shops.id = b.Shop')
+                 ->group_by('b.id')
+                 ->where('d.id', $id);
+        return $this->db->get()->result_array();
+    }
 }

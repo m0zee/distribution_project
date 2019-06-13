@@ -7,14 +7,20 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('print/style3.css') ?>">
 </head>
 <body>
+	<?php 
+		foreach ($dsr_bills as $key => $value) {
+			$rate = explode(',', $value['rate']);
+			$product = explode(',', $value['product']);
+			$qty = explode(',', $value['qty']);
+	?>
 	<div class="wrapper">
 		<div class="box" >
 			<div class="row">		
 				  <div class="column" style="background-color:none;">
 				  	<div class="left" style="border:1px solid #000;width: 100%;position: relative;left: 20px;height: 121px;text-align: center;">
 					  	<div class="text" style="width: 50%;text-align: center;position: relative;left: 100px;">
-					  		<h1>Z . F</h1>
-					  		 <p style="position: relative;bottom: 20px;">/RADERS</p>
+					  		<h1><?php echo $value['company'] ?></h1>
+					  		 <!-- <p style="position: relative;bottom: 20px;">/RADERS</p> -->
 					  	</div><!-- text-->
 					 </div><!--left-->
 				  </div>
@@ -24,19 +30,19 @@
 							<tbody>
 								<tr>
 									<td>SHOPE NAME </td>
-									<td> FAREE STORE </td>
+									<td> <?php echo $value['shop'] ?> </td>
 								</tr>
 								<tr>
-									<td>DATE 20-04-2019 </td>
-									<td> DAY: TUESDAY</td>
+									<td>DATE <?php echo date('d-m-Y', strtotime($value['Date'])) ?> </td>
+									<td> DAY: <?php echo date('l', strtotime($value['Date'])) ?></td>
 								</tr>
 								<tr>
 									<td>So NAME</td>
-									<td>SHAKEL</td>
+									<td><?php echo $value['booker'] ?></td>
 								</tr>
 								<tr>
 									<td>S.M NAME </td>
-									<td>RAMSHAN</td>
+									<td></td>
 								</tr>
 								<tr>
 									<td>CONTACT</td>
@@ -60,76 +66,33 @@
 							<th>DIS</th>
 							<th>TOTAL</th>
 						</tr>
+
+						<?php 
+							foreach ($product as $k => $v) {
+						?>
 						<tr>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
+							<td style="	text-align: center;"><?php echo $k+1 ?></td>
+							<td style="	text-align: center;"><?php echo $qty[$k] ?></td>
+							<td style="	text-align: center;"><?php echo $product[$k] ?></td>
+							<td style="	text-align: center;"><?php echo $rate[$k] ?></td>
+							<td style="	text-align: center;"><?php echo $value['company_discount'] + $value['Discount'] ?>%</td>
+							<td style="	text-align: center;"><?php echo round(($qty[$k] * $rate[$k]) - ($qty[$k] * $rate[$k] * ($value['company_discount'] + $value['Discount']) / 100)) ?></td>
 						</tr>
-						<tr>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td> </td>
-						</tr>
-						<tr>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-						</tr>
-						<tr>
-							<td style="	text-align: center;">Lorem Ipsum </td>
-							<td style="	text-align: center;">Lorem Ipsum </td>
-							<td style="	text-align: center;">Lorem Ipsum </td>
-							<td style="	text-align: center;">Lorem Ipsum </td>
-							<td style="	text-align: center;">Lorem Ipsum </td>
-							<td style="	text-align: center;">Lorem Ipsum </td>
-						</tr>
-						<tr>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-						</tr>
-						<tr>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-						</tr>
-						<tr>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td style="	text-align: center;"> </td>
-							<td> </td>
-							<td> </td>
-						</tr>
+						<?php } ?>
 						<tr>
 							<th>Total Amount</th>
-							<th>Rate Total</th>
-							<th>Discount Total</th>
-							<th>Main Total</th>
 							<th></th>
 							<th></th>
+							<th></th>
+							<th><?php echo $value['company_discount'] + $value['Discount'] ?>%</th>
+							<th><?php echo $value['Total_Amount'] ?></th>
 						</tr>
 					</tbody>
 				</table>
 			</div><!-- tbl1-->
 		</div><!--row1-->
 	</div><!--wrapper-->
-
+<?php } ?>
 
 
 

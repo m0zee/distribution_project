@@ -169,10 +169,11 @@
 <script type="text/javascript">
     $("body").on("click", ".add-relation", function() {
         var html = $(".hide-div").first().clone();
+        var main = $(this).parents('.main-div')
         $(html).find(".delet").html("<a class='btn btn-danger remove-relation'><i class='fa fa-trash-o' aria-hidden='true'></i> </a> " + ' <a class="btn btn-success add-relation"><strong> + </strong> </a>');
-        $(".hide-div").last().after(html);
-        $(".hide-div").last().find('input,select').not('input[type="checkbox"]').val('')
-        $(".hide-div").last().find('input[type="checkbox"]').removeAttr('checked')
+        main.find(".hide-div").last().after(html);
+        main.find(".hide-div").last().find('input,select').not('input[type="checkbox"]').val('')
+        main.find(".hide-div").last().find('input[type="checkbox"]').removeAttr('checked')
     });
     $("body").on("click", ".remove-relation", function() {
         $(this).parents(".hide-div").remove();
