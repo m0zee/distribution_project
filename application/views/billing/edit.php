@@ -20,7 +20,17 @@
             </div>
         </div>
         <!-- /. Content Header (Page header) -->
+        <?php $temp = []; ?>
+        <?php foreach ($table_product as $tp){
+            $tp['used_qty'] = 0;
+            $temp[$tp['id']] = $tp;
+        }
 
+        ?>
+        <script>
+            var product_stock = <?php echo json_encode($temp);  ?>
+            
+        </script>
         <form method="post" action="<?php echo base_url() ?>billing/update" enctype="multipart/form-data">
             <input type="hidden" name="id" value="<?php echo $billing["id"] ?>">
             <div class="row">
@@ -35,7 +45,7 @@
 
                                 <label for="example-text-input" class="col-sm-3 col-form-label">Company<span class="required">*</span></label>
                                         <div class="col-sm-9">
-                                            <select class="form-control" name="Company" required="">
+                                            <select class="form-control" name="Company" readonly required="">
                                                 <option>Select Company</option><?php foreach ($table_company as $t) {?>
                                                     <option value="<?php echo $t["id"] ?>" <?php if($t["id"] == $billing["Company"]) echo "selected" ?>><?php echo $t["Name"] ?></option>
                                                <?php } ?></select>
@@ -45,7 +55,7 @@
 
                                 <label for="example-text-input" class="col-sm-3 col-form-label">Booker<span class="required">*</span></label>
                                         <div class="col-sm-9">
-                                            <select class="form-control" name="Booker" required="">
+                                            <select class="form-control" name="Booker" readonly required="">
                                                 <option>Select Booker</option><?php foreach ($table_booker as $t) {?>
                                                     <option value="<?php echo $t["id"] ?>" <?php if($t["id"] == $billing["Booker"]) echo "selected" ?>><?php echo $t["Name"] ?></option>
                                                <?php } ?></select>
@@ -56,14 +66,14 @@
                                 <label for="example-text-input" class="col-sm-3 col-form-label">Date<span class="required">*</span></label>
                                         <div class="col-sm-9">
 
-                                        <input class="form-control" name="Date" type="date" value="<?php echo $billing["Date"] ?>" id="example-text-input" placeholder="" required=""></div>
+                                        <input class="form-control" name="Date" readonly type="date" value="<?php echo $billing["Date"] ?>" id="example-text-input" placeholder="" required=""></div>
 
                                     </div>
                                     <div class="form-group row">
 
                                         <label for="example-text-input" class="col-sm-3 col-form-label">Shop<span class="required">*</span></label>
                                         <div class="col-sm-9">
-                                            <select class="form-control" name="Shop" required="">
+                                            <select class="form-control" name="Shop" readonly required="">
                                                 <option>Select Shop</option><?php foreach ($table_shops as $t) {?>
                                                     <option value="<?php echo $t["id"] ?>" <?php if($t["id"] == $billing["Shop"]) echo "selected" ?>><?php echo $t["Name"] ?></option>
                                                <?php } ?></select>
@@ -85,7 +95,7 @@
                                         <label for="example-text-input" class="col-sm-3 col-form-label">Discount<span class="required">*</span></label>
                                         <div class="col-sm-9">
 
-                                        <input class="form-control" name="Discount" type="number" value="<?php echo $billing["Discount"] ?>" id="example-text-input" placeholder="" required=""></div>
+                                        <input class="form-control" readonly name="Discount" type="number" value="<?php echo $billing["Discount"] ?>" id="example-text-input" placeholder="" required=""></div>
 
                                     </div>
 
@@ -249,6 +259,54 @@
     function select_auto_hidden_dropdown(selector_class, value){
         $(selector_class).not(":eq(0)").val(value);
     }
+
+
+    $('body').on('change', '.qty', function(){
+        
+        $.each(product_stock, function(index, val) {
+            val.used_qty = 0;
+        });
+        // qty         = $(this).val();
+        // $this = $(this);
+        // product_id  = $(this).closest('.row').find('select').val()
+        // console.log(qty);
+        get_all_product_and_qty();
+        // available_stock(qty, product_id, $this);
+    });
+
+
+
+    function available_stock(qty, product_id, $this) {
+        if (parseInt(product_stock[product_id].stock_in_hand) > parseInt(product_stock[product_id].used_qty)) 
+        {
+            var available_qty = parseInt(product_stock[product_id].stock_in_hand) - (parseInt(product_stock[product_id].used_qty) + parseInt(qty));
+            // console.log(available_qty);
+            if (available_qty < 0) 
+            {
+                alert( parseInt(product_stock[product_id].stock_in_hand) - parseInt(product_stock[product_id].used_qty) + ' available qty');
+                // $this.val('');
+            }
+            else{
+
+                product_stock[product_id].used_qty = parseInt(product_stock[product_id].stock_in_hand) - available_qty;
+            }
+
+
+        }
+    }
+
+
+    // second try to calculate stock
+
+    function get_all_product_and_qty() {
+
+        $.each($('.hide-div .product'), function(index, val) {
+            var qty = $(val).closest('.row').find('.qty').val();
+            var product_id = $(val).val();
+            var row = $(val).closest('.row');
+            available_stock(qty, product_id, row);
+        });
+    }
 </script>
 
 <script>
@@ -270,7 +328,8 @@
     }
 
     function print_product_row(val) {
-        
+        console.log(parseInt(product_stock[val.product_id].stock_in_hand) + parseInt(val.qty))
+        product_stock[val.product_id].stock_in_hand = parseInt(product_stock[val.product_id].stock_in_hand) + parseInt(val.qty)
         $('.hide-div').last().find('.product').val(val.product_id);
         $('.hide-div').last().find('.qty').val(val.qty);
     }

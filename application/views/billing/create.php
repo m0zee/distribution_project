@@ -206,6 +206,7 @@
         $(".main-div").last().find('input[name="Date[]"]').closest('.row').hide();
         $('.main-div').last().find('select.company').closest('.row').hide();
         $('.main-div').last().find('select.booker').closest('.row').hide();
+        $('.main-div').last().find('input.billing_date').closest('.row').hide();
 
     });
     $("body").on("click", ".remove-main", function() {
@@ -303,7 +304,7 @@
         $(selector_class).not(":eq(0)").val(value);
     }
 
-    $('.qty').on('change', function(){
+    $('body').on('change', '.qty', function(){
         
         $.each(product_stock, function(index, val) {
             val.used_qty = 0;

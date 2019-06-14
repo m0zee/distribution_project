@@ -42,6 +42,7 @@
 				redirect('home');
 			}
 			$data = $this->input->post();
+			//echo '<pre>';print_r($data);echo '</pre>';die;
 			foreach ($data['Shop'] as $key => $value) {
 				$bill = array(
 					'Company' => $data['Company'], 
@@ -60,14 +61,13 @@
 						'product_id	' => $v,
 						'qty' => $data['quantity'][$key][$k], 
 					);
+					$this->Billing_model->insert('billing_detail',$bill_detail);
+					$product = $this->Product_model->get_row_single('product', ['id' => $v]);
 					$stock_in_hand = $product['stock_in_hand'] - $data['quantity'][$key][$k]; 
-					if ($stock_in_hand < 0) continue;
+					//if ($stock_in_hand < 0) continue;
 					$stock_data = [
 						'stock_in_hand' => $stock_in_hand
 					];
-
-					$this->Billing_model->insert('billing_detail',$bill_detail);
-					$product = $this->Product_model->get_row_single('product', ['id' => $v]);
 					$this->Product_model->update('product', $stock_data, ['id' => $v]); 
 				}
 			}
@@ -106,13 +106,19 @@
 				redirect('home');
 			}
 			$data = $this->input->post();
+			//print_r($data);die;
 			$id = $data['id'];
+			$quantity = $data['quantity'];
+			$product = $data['product'];
 			unset($data['id'], $data['quantity'], $data['product']);
 			$this->Billing_model->update('billing',$data,array('id'=>$id));
+			$data['quantity'] = $quantity;
+			$data['product'] = $product;
+			$key = 0;
 			$billing_old_details = $this->Billing_model->get_rows('billing_detail', ['bill_id' => $id]);
 			foreach ($billing_old_details as $bod) {
 				$product = $this->Product_model->get_row_single('product', ['id' => $bod['product_id']]);
-				$this->Product_model->update('product', ['stock_in_hand' => ($product['stock_in_hand'] - $bod['qty']) ]);
+				$this->Product_model->update('product', ['stock_in_hand' => ($product['stock_in_hand'] + $bod['qty']) ], ['id' => $bod['product_id']]);
 			}
 			$this->Billing_model->delete('billing_detail', ['bill_id' => $id]);
 			foreach ($data['product'][$key] as $k => $v) {
@@ -123,16 +129,21 @@
 					);
 					$this->Billing_model->insert('billing_detail',$bill_detail);
 					$product = $this->Product_model->get_row_single('product', ['id' => $v]);
+					$stock_in_hand = $product['stock_in_hand'] - $data['quantity'][$key][$k]; 
+					//if ($stock_in_hand < 0) continue;
+					$stock_data = [
+						'stock_in_hand' => $stock_in_hand
+					];
 					$this->Product_model->update('product', $stock_data, ['id' => $v]);
 			}
 
 			$data2                 = array('Booker'=>$data['Booker'], 'Date'=>$data['Date']);
         	
         	$data2['Total_Amount'] = $this->Dsr_bills_model->get_bills($data2);
-        	$id                   = $this->Dsr_bills_model->insert('dsr_bills', $data2, array('Booker'=>$data['Booker'], 'Date'=>$data['Date']));
-			if ($id) {
+        	$id                   = $this->Dsr_bills_model->update('dsr_bills', $data2, array('Booker'=>$data['Booker'], 'Date'=>$data['Date']));
+			//if ($id) {
 				redirect('billing');
-			}
+			//}
 		}public function delete($id)
 		{
 			if ( $this->permission['deleted'] == '0') 
