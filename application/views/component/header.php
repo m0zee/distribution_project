@@ -71,7 +71,7 @@
                         <i class="material-icons">apps</i>
                     </button>
                     <a class="navbar-brand" href="#">
-                      <img class="main-logo" src="<?php echo base_url() ?>admin_assets/images/logo.png" alt="">
+                      <img class="main-logo" src="<?php echo base_url() ?>admin_assets/images/webewox-logo.jpg" alt="">
 
                         <!--<span>AdminPage</span>-->
                     </a>
@@ -79,9 +79,9 @@
                 <div class="nav-container">
                     <!-- /.navbar-header -->
                     <ul class="nav navbar-nav hidden-xs">
-                        <li><a id="fullscreen" href="#"><i class="material-icons">fullscreen</i> </a></li>
+                        <!-- <li><a id="fullscreen" href="#"><i class="material-icons">fullscreen</i> </a></li> -->
                         <!-- /.Fullscreen -->
-                        <li class="hidden-xs">
+                        <!-- <li class="hidden-xs">
                             <a class="search-trigger" href="#">
                                 <i class="material-icons">search</i>
                             </a>
@@ -94,9 +94,9 @@
                                     </form>
                                 </div>
                             </div>
-                        </li>
+                        </li> -->
                         <!-- /.Full page search -->
-                        <li><a id="menu-toggle" href="#"><i class="material-icons">apps</i></a></li>
+                        <!-- <li><a id="menu-toggle" href="#"><i class="material-icons">apps</i></a></li> -->
                         <!-- /.Sidebar menu toggle icon -->
                         <!--Start dropdown mega menu-->
 
@@ -154,7 +154,7 @@
                         <!--        <li class="rad-dropmenu-footer"><a href="#">See All Tasks</a></li>-->
                         <!--    </ul>-->
                         <!--</li>-->
-                        <li class="dropdown" id="click_notification" >
+                        <!-- <li class="dropdown" id="click_notification" >
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 <i class="material-icons">add_alert</i>
 <span class="label label-success" id="count_notification"></span>                            </a>
@@ -165,11 +165,10 @@
                                 <div id="get_notification" style="overflow:auto;height:300px;">
 
                                 </div>
-                            </ul>  <!-- /.dropdown-alerts -->
-                            <!-- /.dropdown-alerts -->
-                        </li>
+                            </ul>  
+                        </li> -->
                         <!-- /.Dropdown -->
-                        <li class="dropdown">
+                        <!-- <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 <i class="material-icons">person_add</i>
                             </a>
@@ -179,9 +178,9 @@
                                 <li><a href="lockscreen.html"><i class="ti-lock"></i>&nbsp; Lock Screen</a></li>
                                 <li><a href="#"><i class="ti-settings"></i>&nbsp; Settings</a></li>
                                 <li><a href="<?php echo base_url() ?>admin/destroy"><i class="ti-layout-sidebar-left"></i>&nbsp; Logout</a></li>
-                            </ul><!-- /.dropdown-user -->
-                        </li><!-- /.Dropdown -->
-                        <li class="log_out">
+                            </ul>
+                        </li>
+                         --><li class="log_out">
                             <a href="<?php echo base_url() ?>admin/destroy">
                                 <i class="material-icons">power_settings_new</i>
                             </a>
