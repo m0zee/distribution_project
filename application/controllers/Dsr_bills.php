@@ -129,7 +129,7 @@ class Dsr_bills extends MY_Controller
 
         if ($this->input->post()) {
             $data = $this->input->post();
-            echo '<pre>';print_r($data);echo '</pre>';die;
+            //echo '<pre>';print_r($data);echo '</pre>';die;
             if (isset($data['salesmen'])) {
                 $this->Dsr_bills_model->update('dsr_bills', array('salesmen' => $data['salesmen']), array('id' => $id));
             }
@@ -203,18 +203,18 @@ class Dsr_bills extends MY_Controller
                     if ($id) {
                         if (!empty($recovery['Cheque_NO'])) {
                             $data2 = array(
-                                'Party_Name' => $recovery['Party_Name'],
-                                'Address' => $recovery['Address'],
-                                'Bill_NO' => $recovery['Bill_NO'],
-                                'Cheq_Amount' => $recovery['Rcvd_Amount'],
-                                'Cheque_Date' => $recovery['Chaque_Date_'],
-                                'Party_Bank' => $recovery['Party_Bank'],
+                                'Party_Name' => $recovery['Party_Name'][$key],
+                                'Address' => $recovery['Address'][$key],
+                                'Bill_NO' => $recovery['Bill_NO'][$key],
+                                'Cheq_Amount' => $recovery['Rcvd_Amount'][$key],
+                                'Cheque_Date' => $recovery['Chaque_Date_'][$key],
+                                'Party_Bank' => $recovery['Party_Bank'][$key],
                                 'user_id' => $this->session->userdata('user_id')
                             );
-                            $this->Recovery_model->insert('cheques',$data2);
+                            $this->Dsr_bills_model->insert('cheques',$data2);
                         }
-                        $bill = $this->Dsr_bills_model->get_row_single('sign_bills',array('Bill_NO'=>$recovery['Bill_NO']));
-                        $amount = $bill['Rcvd_Amount'] + $recovery['Rcvd_Amount'];
+                        $bill = $this->Dsr_bills_model->get_row_single('sign_bills',array('Bill_NO'=>$recovery['Bill_NO'][$key]));
+                        $amount = $bill['Rcvd_Amount'] + $recovery['Rcvd_Amount'][$key];
                         $this->Dsr_bills_model->update('sign_bills',array('Rcvd_Amount' => $amount),array('id'=>$bill['id']));
                     }
                 }

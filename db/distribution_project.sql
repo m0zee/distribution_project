@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 13, 2019 at 09:48 PM
+-- Generation Time: Jun 14, 2019 at 11:04 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.21
 
@@ -46,7 +46,10 @@ CREATE TABLE `billing` (
 INSERT INTO `billing` (`id`, `Company`, `Booker`, `Date`, `Shop`, `company_discount`, `Discount`, `Total_Amount`, `user_id`, `created_at`) VALUES
 (4, 2, 1, '2019-05-29', 1, NULL, 2, 80, 2, '2019-05-29 17:02:18'),
 (5, 2, 1, '2019-05-29', 1, NULL, 2, 42, 2, '2019-05-29 17:02:18'),
-(6, 3, 1, '2019-06-12', 1, 0, 5, 166, 2, '2019-06-12 19:53:44');
+(6, 3, 1, '2019-06-12', 1, 0, 5, 166, 2, '2019-06-12 19:53:44'),
+(7, 4, 1, '2019-06-14', 1, 3, 5, 1104, 2, '2019-06-14 17:20:24'),
+(8, 3, 2, '2019-06-14', 1, 3, 10, 261, 2, '2019-06-14 18:34:40'),
+(9, 5, 3, '2019-06-14', 1, 0, 0, 200, 2, '2019-06-14 19:34:50');
 
 -- --------------------------------------------------------
 
@@ -71,7 +74,10 @@ INSERT INTO `billing_detail` (`id`, `bill_id`, `product_id`, `qty`) VALUES
 (4, 4, 1, 7),
 (5, 5, 1, 6),
 (6, 6, 2, 5),
-(7, 6, 3, 3);
+(7, 6, 3, 3),
+(8, 7, 4, 30),
+(9, 8, 2, 15),
+(10, 9, 5, 10);
 
 -- --------------------------------------------------------
 
@@ -94,7 +100,8 @@ CREATE TABLE `booker` (
 
 INSERT INTO `booker` (`id`, `Name`, `Code`, `Phone`, `user_id`, `created_at`) VALUES
 (1, 'Testing Booket', '123', '32381208932', 2, '2019-05-28 20:24:11'),
-(2, 'booker new 1', 'bn1', '1234', 2, '2019-06-11 22:08:01');
+(2, 'booker new 1', 'bn1', '1234', 2, '2019-06-11 22:08:01'),
+(3, 'ahsan', '123', '03152265438', 2, '2019-06-14 19:27:10');
 
 -- --------------------------------------------------------
 
@@ -120,7 +127,10 @@ CREATE TABLE `cheques` (
 --
 
 INSERT INTO `cheques` (`id`, `Party_Name`, `Address`, `Bill_NO`, `Cheq_Amount`, `Cheque_Date`, `Party_Bank`, `Status`, `user_id`, `created_at`) VALUES
-(1, 1, 'test', 4, 30, '2019-06-11', 'test', '1', 2, '2019-06-13 19:45:59');
+(10, 1, 'test', 4, 3, '2019-06-15', 'test', '0', 2, '2019-06-14 20:59:18'),
+(11, 0, '', 0, 0, '0000-00-00', '', '0', 2, '2019-06-14 20:59:18'),
+(12, 0, '', 0, 0, '0000-00-00', '', '0', 2, '2019-06-14 21:01:19'),
+(13, 1, 'test', 5, 100, '2019-06-19', 'test', '0', 2, '2019-06-14 21:01:19');
 
 -- --------------------------------------------------------
 
@@ -149,7 +159,9 @@ CREATE TABLE `company` (
 INSERT INTO `company` (`id`, `Name`, `Code`, `Address`, `Description`, `slap`, `Min_Slap`, `Max_Slap`, `Discount_Percentage`, `user_id`, `created_at`) VALUES
 (1, 'Abc company', '123', 'karachi', 'asdf', '', '10', '50', 90, 2, '2019-05-12 19:47:47'),
 (2, 'test', '123', 'testing', 'test', '{"min":["0","2001"],"max":["2000","4000"],"dis":["2","4"]}', NULL, NULL, NULL, 2, '2019-05-26 21:11:49'),
-(3, 'New Test Company', 'ntc', 'karachi', 'wedfghjk', '{"min":["100","201","501"],"max":["200","500","50000"],"dis":["5","10",""]}', NULL, NULL, NULL, 2, '2019-06-11 21:53:44');
+(3, 'New Test Company', 'ntc', 'karachi', 'wedfghjk', '{"min":["100","201","501"],"max":["200","500","50000"],"dis":["5","10",""]}', NULL, NULL, NULL, 2, '2019-06-11 21:53:44'),
+(4, 'testing', '123', 'test', 'test', '{"min":["100","501"],"max":["500","10000"],"dis":["2","5"]}', NULL, NULL, NULL, 2, '2019-06-14 17:12:22'),
+(5, 'dentonic', '123', '', '', '{"min":["1000","2001","3001"],"max":["2000","3000","50000"],"dis":["3","4","5"]}', NULL, NULL, NULL, 2, '2019-06-14 19:15:02');
 
 -- --------------------------------------------------------
 
@@ -173,7 +185,10 @@ CREATE TABLE `dsr_bills` (
 
 INSERT INTO `dsr_bills` (`id`, `Booker`, `Date`, `Total_Amount`, `salesmen`, `user_id`, `created_at`) VALUES
 (2, 1, '2019-05-29', 122, 0, 2, '2019-05-29 17:14:26'),
-(3, 1, '2019-06-12', 166, 1, 2, '2019-06-13 13:16:30');
+(3, 1, '2019-06-12', 166, 1, 2, '2019-06-13 13:16:30'),
+(4, 1, '2019-06-14', 1104, 2, 2, '2019-06-14 17:30:34'),
+(5, 2, '2019-06-14', 261, 2, 2, '2019-06-14 21:01:19'),
+(6, 3, '2019-06-14', 200, 0, 2, '2019-06-14 19:34:50');
 
 -- --------------------------------------------------------
 
@@ -200,7 +215,10 @@ CREATE TABLE `ledger_entries` (
 INSERT INTO `ledger_entries` (`id`, `name`, `Company`, `Date`, `Amount`, `Type`, `purchase_id`, `user_id`, `created_at`) VALUES
 (3, 'Opening Balance ', 1, '2019-05-01', '5000', 'Debit', 0, 2, '2019-05-30 21:29:22'),
 (5, 'Purchase', 1, '2019-05-30', '49.5', 'Debit', 23, 2, '2019-05-30 21:31:15'),
-(6, 'Salary', 1, '2019-05-31', '2000', 'Credit', 0, 2, '2019-05-30 21:31:37');
+(6, 'Salary', 1, '2019-05-31', '2000', 'Credit', 0, 2, '2019-05-30 21:31:37'),
+(7, 'Purchase', 4, '2019-06-14', '582', 'Debit', 24, 2, '2019-06-14 17:18:26'),
+(8, 'Salary', 4, '2019-06-14', '3000', 'Credit', 0, 2, '2019-06-14 17:39:36'),
+(9, 'Purchase', 5, '2019-06-14', '902.5', 'Debit', 25, 2, '2019-06-14 19:33:32');
 
 -- --------------------------------------------------------
 
@@ -433,8 +451,10 @@ CREATE TABLE `product` (
 
 INSERT INTO `product` (`id`, `Name`, `Company`, `Code`, `stock_in_hand`, `purchase_price`, `sale_price`, `Description`, `packing_type`, `qty`, `user_id`, `created_at`) VALUES
 (1, 'first product', 1, 'fp', 43, 10, 4, 'asdf', 'asdf', 15, 2, '2019-05-30 21:31:16'),
-(2, 'New product', 3, 'np', 100, 10, 20, '', 'carton', 200, 2, '2019-06-11 21:57:27'),
-(3, 'New Product 2', 3, 'np2', 200, 15, 25, '', 'carton', 100, 2, '2019-06-11 21:58:22');
+(2, 'New product', 3, 'np', 85, 10, 20, '', 'carton', 200, 2, '2019-06-14 18:34:40'),
+(3, 'New Product 2', 3, 'np2', 200, 15, 25, '', 'carton', 100, 2, '2019-06-11 21:58:22'),
+(4, 'Testing Product', 4, '123', 90, 30, 40, 'test', 'test', 1000, 2, '2019-06-14 17:20:24'),
+(5, 'dentonic small', 5, '123', 2868, 19, 20, '', '', 288, 2, '2019-06-14 19:34:50');
 
 -- --------------------------------------------------------
 
@@ -455,7 +475,9 @@ CREATE TABLE `purchase` (
 
 INSERT INTO `purchase` (`id`, `Company`, `user_id`, `created_at`) VALUES
 (12, 1, 2, '2019-05-23 22:56:14'),
-(23, 1, 2, '2019-05-30 21:31:15');
+(23, 1, 2, '2019-05-30 21:31:15'),
+(24, 4, 2, '2019-06-14 17:18:26'),
+(25, 5, 2, '2019-06-14 19:33:32');
 
 -- --------------------------------------------------------
 
@@ -485,7 +507,9 @@ INSERT INTO `purchase_details` (`id`, `purchase_id`, `product_id`, `qty`, `rate`
 (9, 20, 1, 5, 10, '50', 1, '49.5'),
 (10, 21, 1, 5, 10, '50', 1, '49.5'),
 (11, 22, 1, 5, 10, '50', 1, '49.5'),
-(12, 23, 1, 5, 10, '50', 1, '49.5');
+(12, 23, 1, 5, 10, '50', 1, '49.5'),
+(13, 24, 4, 20, 30, '600', 3, '582'),
+(14, 25, 5, 50, 19, '950', 5, '902.5');
 
 -- --------------------------------------------------------
 
@@ -511,7 +535,8 @@ CREATE TABLE `recovery` (
 --
 
 INSERT INTO `recovery` (`id`, `Party_Name`, `Address`, `Bill_NO`, `Rcvd_Amount`, `Cheque_NO`, `Chaque_Date_`, `Party_Bank`, `user_id`, `created_at`) VALUES
-(1, 1, 'test', 6, '20', '123', '2019-06-25', 'test', 2, '2019-06-13 13:16:30');
+(7, 0, '', 0, '', '', '0000-00-00', '', 2, '2019-06-14 20:59:18'),
+(8, 1, 'test', 5, '100', '123', '2019-06-19', 'test', 2, '2019-06-14 21:01:19');
 
 -- --------------------------------------------------------
 
@@ -563,10 +588,10 @@ CREATE TABLE `salesreturn` (
 --
 
 INSERT INTO `salesreturn` (`id`, `company`, `booker`, `shop`, `product_id`, `fresh_qty`, `damage_qty`, `gross_value`, `discount`, `rate`, `total`, `user_id`, `created_at`) VALUES
-(1, 1, 1, 1, 1, 12, 1, 8, 1, 4, '7.92', 2, '2019-06-11 20:47:44'),
-(2, 1, 1, 1, 1, 2, 3, 20, 2, 4, '19.60', 2, '2019-06-11 20:32:22'),
 (3, 3, 1, 0, 2, 2, 3, 80, 1, 20, '79.20', 2, '2019-06-13 13:16:30'),
-(4, 3, 1, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, 2, '2019-06-13 13:16:30');
+(4, 3, 1, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, 2, '2019-06-13 13:16:30'),
+(10, 3, 2, 3, 2, 5, 5, 200, 3, 20, '194.00', 2, '2019-06-14 20:59:18'),
+(11, 3, 2, 0, 0, 0, 0, 0, 0, 0, '0.00', 2, '2019-06-14 21:01:19');
 
 -- --------------------------------------------------------
 
@@ -584,6 +609,13 @@ CREATE TABLE `sales_men_entries` (
   `user_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sales_men_entries`
+--
+
+INSERT INTO `sales_men_entries` (`id`, `Name`, `Salesmen`, `Date`, `Amount`, `Type`, `user_id`, `created_at`) VALUES
+(1, 'test', 2, '2019-06-14', '1000', 'Subtract ', 2, '2019-06-14 17:41:15');
 
 -- --------------------------------------------------------
 
@@ -607,7 +639,9 @@ CREATE TABLE `shops` (
 --
 
 INSERT INTO `shops` (`id`, `Code`, `Name`, `Area`, `Address`, `Booker`, `user_id`, `created_at`) VALUES
-(1, '123', 'Test Shop', 'Garden', 'testing', 1, 2, '2019-05-28 20:41:12');
+(1, '123', 'Test Shop', 'Garden', 'testing', 1, 2, '2019-05-28 20:41:12'),
+(2, '1', '', '', '', 0, 2, '2019-06-14 18:03:16'),
+(3, '123', 'b.s', 'Garden', 'garden', 3, 2, '2019-06-14 19:32:55');
 
 -- --------------------------------------------------------
 
@@ -633,7 +667,8 @@ CREATE TABLE `sign_bills` (
 --
 
 INSERT INTO `sign_bills` (`id`, `Party_Name`, `Address`, `Bill_NO`, `Net_Amount`, `Signed_Amount`, `Rcvd_Amount`, `Due_Date`, `user_id`, `created_at`) VALUES
-(1, 1, 'test', 5, '50', '30', '', '2019-06-19', 2, '2019-06-13 13:16:30');
+(7, 1, 'test', 5, '400', '200', '100', '2019-06-15', 2, '2019-06-14 21:01:19'),
+(8, 0, '', 0, '', '', '', '0000-00-00', 2, '2019-06-14 21:01:19');
 
 -- --------------------------------------------------------
 
@@ -834,37 +869,37 @@ ALTER TABLE `user_type`
 -- AUTO_INCREMENT for table `billing`
 --
 ALTER TABLE `billing`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `billing_detail`
 --
 ALTER TABLE `billing_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `booker`
 --
 ALTER TABLE `booker`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `cheques`
 --
 ALTER TABLE `cheques`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `company`
 --
 ALTER TABLE `company`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `dsr_bills`
 --
 ALTER TABLE `dsr_bills`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `ledger_entries`
 --
 ALTER TABLE `ledger_entries`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `modules`
 --
@@ -884,22 +919,22 @@ ALTER TABLE `permission`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `purchase`
 --
 ALTER TABLE `purchase`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT for table `purchase_details`
 --
 ALTER TABLE `purchase_details`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `recovery`
 --
 ALTER TABLE `recovery`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `salesmen`
 --
@@ -909,22 +944,22 @@ ALTER TABLE `salesmen`
 -- AUTO_INCREMENT for table `salesreturn`
 --
 ALTER TABLE `salesreturn`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `sales_men_entries`
 --
 ALTER TABLE `sales_men_entries`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `shops`
 --
 ALTER TABLE `shops`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `sign_bills`
 --
 ALTER TABLE `sign_bills`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `users`
 --

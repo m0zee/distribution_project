@@ -19,7 +19,7 @@
 				  <div class="column" style="background-color:none;">
 				  	<div class="left" style="border:1px solid #000;width: 100%;position: relative;left: 20px;height: 121px;text-align: center;">
 					  	<div class="text" style="width: 50%;text-align: center;position: relative;left: 100px;">
-					  		<h1><?php echo $value['company'] ?></h1>
+					  		<h1><?php //echo $value['company'] ?>Z.F Traders</h1>
 					  		 <!-- <p style="position: relative;bottom: 20px;">/RADERS</p> -->
 					  	</div><!-- text-->
 					 </div><!--left-->

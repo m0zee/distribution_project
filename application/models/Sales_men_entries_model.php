@@ -12,7 +12,7 @@
 
 	public function get_ledger($id, $start, $end)
     {
-    	$this->db->select('sum(Amount) as debit_amount, salesmen.id as company_id')
+    	$this->db->select('sum(Amount) as debit_amount, salesmen.id as salesmen_id')
 				 ->from('sales_men_entries')
         		 ->join('salesmen', 'salesmen.id = sales_men_entries.Salesmen')
         		 ->where('salesmen.id', $id)
@@ -30,7 +30,7 @@
         		 ->group_by('salesmen.id');
 		$c = $this->db->get_compiled_select();
 
-        $this->db->select('sales_men_entries.*,salesmen.Name as salesmen, credit_amount, debit_amount')
+        $this->db->select('sales_men_entries.Name as name, sales_men_entries.*,salesmen.Name as salesmen, credit_amount, debit_amount')
         		 ->from('sales_men_entries')
         		 ->join('salesmen', 'salesmen.id = sales_men_entries.Salesmen')
         		 ->join('('.$d.') d', 'd.salesmen_id = salesmen.id', 'left')

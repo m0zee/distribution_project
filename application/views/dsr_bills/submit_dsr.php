@@ -343,7 +343,7 @@
         main.find('[name="salesretun[rate][]"]').val(price)
         var total = 0;
         total += (main.find('[name="salesretun[fresh_qty][]"]').val()) ? parseInt(main.find('[name="salesretun[fresh_qty][]"]').val()) : 0;
-        total += (main.find('[name="salesretun[damage_qty][]"]').val()) ? parseInt(main.find('[name="salesretun[fresh_qty][]"]').val()) : 0;
+        total += (main.find('[name="salesretun[damage_qty][]"]').val()) ? parseInt(main.find('[name="salesretun[damage_qty][]"]').val()) : 0;
         main.find('[name="salesretun[total_qty][]"]').val(total)
         var amount = price * total;
         main.find('[name="salesretun[gross_value][]"]').val(amount)
