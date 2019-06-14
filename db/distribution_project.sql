@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 14, 2019 at 11:04 PM
+-- Generation Time: Jun 15, 2019 at 01:39 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.21
 
@@ -436,8 +436,8 @@ CREATE TABLE `product` (
   `Company` int(10) NOT NULL,
   `Code` varchar(50) NOT NULL,
   `stock_in_hand` int(11) DEFAULT '0',
-  `purchase_price` int(10) DEFAULT NULL,
-  `sale_price` int(10) DEFAULT NULL,
+  `purchase_price` varchar(10) DEFAULT NULL,
+  `sale_price` varchar(10) DEFAULT NULL,
   `Description` text,
   `packing_type` varchar(100) DEFAULT NULL,
   `qty` int(20) DEFAULT NULL,
@@ -450,11 +450,11 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `Name`, `Company`, `Code`, `stock_in_hand`, `purchase_price`, `sale_price`, `Description`, `packing_type`, `qty`, `user_id`, `created_at`) VALUES
-(1, 'first product', 1, 'fp', 43, 10, 4, 'asdf', 'asdf', 15, 2, '2019-05-30 21:31:16'),
-(2, 'New product', 3, 'np', 85, 10, 20, '', 'carton', 200, 2, '2019-06-14 18:34:40'),
-(3, 'New Product 2', 3, 'np2', 200, 15, 25, '', 'carton', 100, 2, '2019-06-11 21:58:22'),
-(4, 'Testing Product', 4, '123', 90, 30, 40, 'test', 'test', 1000, 2, '2019-06-14 17:20:24'),
-(5, 'dentonic small', 5, '123', 2868, 19, 20, '', '', 288, 2, '2019-06-14 19:34:50');
+(1, 'first product', 1, 'fp', 43, '10', '4', 'asdf', 'asdf', 15, 2, '2019-05-30 21:31:16'),
+(2, 'New product', 3, 'np', 85, '10', '20', '', 'carton', 200, 2, '2019-06-14 18:34:40'),
+(3, 'New Product 2', 3, 'np2', 200, '15', '25', '', 'carton', 100, 2, '2019-06-11 21:58:22'),
+(4, 'Testing Product', 4, '123', 90, '30', '40', 'test', 'test', 1000, 2, '2019-06-14 17:20:24'),
+(5, 'dentonic small', 5, '123', 2868, '19.39', '20.83', '', '', 288, 2, '2019-06-14 23:28:41');
 
 -- --------------------------------------------------------
 

@@ -84,7 +84,7 @@
 
                                 <label for="example-text-input" class="col-sm-3 col-form-label">Purchase Price</label>
                                 <div class="col-sm-9">
-                                    <input type="number" value="<?php echo $product['purchase_price'] ?>" class="form-control" name="purchase_price">
+                                    <input type="text" value="<?php echo $product['purchase_price'] ?>" class="form-control" name="purchase_price">
                                 </div>
 
                             </div>
@@ -92,7 +92,7 @@
 
                                 <label for="example-text-input" class="col-sm-3 col-form-label">Sale Price</label>
                                 <div class="col-sm-9">
-                                    <input type="number" value="<?php echo $product['sale_price'] ?>" class="form-control" name="sale_price">
+                                    <input type="text" value="<?php echo $product['sale_price'] ?>" class="form-control" name="sale_price">
                                 </div>
 
                             </div>
