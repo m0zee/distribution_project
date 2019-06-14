@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 15, 2019 at 01:39 AM
+-- Generation Time: Jun 15, 2019 at 01:40 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.21
 
@@ -575,9 +575,9 @@ CREATE TABLE `salesreturn` (
   `product_id` int(11) DEFAULT NULL,
   `fresh_qty` int(11) DEFAULT NULL,
   `damage_qty` int(11) DEFAULT NULL,
-  `gross_value` int(11) DEFAULT NULL,
+  `gross_value` varchar(11) DEFAULT NULL,
   `discount` int(10) DEFAULT NULL,
-  `rate` int(11) DEFAULT NULL,
+  `rate` varchar(11) DEFAULT NULL,
   `total` decimal(10,2) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -588,10 +588,10 @@ CREATE TABLE `salesreturn` (
 --
 
 INSERT INTO `salesreturn` (`id`, `company`, `booker`, `shop`, `product_id`, `fresh_qty`, `damage_qty`, `gross_value`, `discount`, `rate`, `total`, `user_id`, `created_at`) VALUES
-(3, 3, 1, 0, 2, 2, 3, 80, 1, 20, '79.20', 2, '2019-06-13 13:16:30'),
+(3, 3, 1, 0, 2, 2, 3, '80', 1, '20', '79.20', 2, '2019-06-13 13:16:30'),
 (4, 3, 1, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, 2, '2019-06-13 13:16:30'),
-(10, 3, 2, 3, 2, 5, 5, 200, 3, 20, '194.00', 2, '2019-06-14 20:59:18'),
-(11, 3, 2, 0, 0, 0, 0, 0, 0, 0, '0.00', 2, '2019-06-14 21:01:19');
+(10, 3, 2, 3, 2, 5, 5, '200', 3, '20', '194.00', 2, '2019-06-14 20:59:18'),
+(11, 3, 2, 0, 0, 0, 0, '0', 0, '0', '0.00', 2, '2019-06-14 21:01:19');
 
 -- --------------------------------------------------------
 
