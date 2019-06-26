@@ -199,7 +199,16 @@ class Dsr_bills extends MY_Controller
             $data = $this->input->post();
             //echo '<pre>';print_r($data);echo '</pre>';die;
             if (isset($data['salesmen'])) {
-                $this->Dsr_bills_model->update('dsr_bills', array('salesmen' => $data['salesmen']), array('id' => $id));
+                $dsr_data = array(
+                    'salesmen' => $data['salesmen'],
+                    'dsr_sales_return' => $data['dsr_sales_return'],
+                    'dsr_cheque' => $data['dsr_cheque'],
+                    'dsr_sign_bills' => $data['dsr_sign_bills'],
+                    'dsr_recovery' => $data['dsr_recovery'],
+                    'dsr_total' => $data['dsr_total'],
+                    'dsr_cash' => $data['dsr_cash'],
+                );
+                $this->Dsr_bills_model->update('dsr_bills', $dsr_data, array('id' => $id));
             }
             if (isset($data['salesretun'])) {
                 $salesretun = $data['salesretun'];
@@ -218,6 +227,13 @@ class Dsr_bills extends MY_Controller
                         'total' => $salesretun['total'][$key],
                         'user_id' => $this->session->userdata('user_id')
                     );
+
+                    $product = $this->Product_model->get_row_single('product', ['id' => $salesretun['product_id'][$key]]);
+                    $stock_in_hand = $product['stock_in_hand'] + $salesretun['fresh_qty'][$key]; 
+                    $stock_data = [
+                        'stock_in_hand' => $stock_in_hand
+                    ];
+                    $this->Dsr_bills_model->update('product', $stock_data, ['id' => $salesretun['product_id'][$key]]); 
                 }
                 $this->Dsr_bills_model->insert_batch('salesreturn',$post);
             }

@@ -39,7 +39,7 @@
 										<table id="dataTableExample2" class="table table-bordered table-striped table-hover">
 											<thead>
 												<tr>
-													<th>Id</th><th>Name</th><th>Date</th><th>Total Amount</th><?php 
+													<th>Id</th><th>Name</th><th>Date</th><th>Total Amount</th><th>Return Amount</th><th>Sales Return Amount</th><th>Cheque Amount</th><th>Sign Bill Amount</th><th>Recovery Amount</th><th>Final Amount</th><th>Cash Amount</th><?php 
 														if ($permission["edit"] == "1" || $permission["deleted"] == "1"){
 													?>
 													<th>Action</th>
@@ -51,11 +51,16 @@
 										    		foreach ($dsr_bills as $module) {
 										    	?>
 												<tr>
-													<td><?php echo $module["id"] ?></td><td><?php echo $module["Name"] ?></td><td><?php echo $module["Date"] ?></td><td><?php echo $module["Total_Amount"] ?></td>
+													<td><?php echo $module["id"] ?></td><td><?php echo $module["Name"] ?></td><td><?php echo $module["Date"] ?></td><td><?php echo $module["Total_Amount"] ?></td><td><?php echo $module["return_amount"] ?></td><td><?php echo $module["dsr_sales_return"] ?></td><td><?php echo $module["dsr_cheque"] ?></td><td><?php echo $module["dsr_sign_bills"] ?></td><td><?php echo $module["dsr_recovery"] ?></td><td><?php echo $module["dsr_total"] ?></td><td><?php echo $module["dsr_cash"] ?></td>
 													<td>
 														<!-- <a href="<?php echo base_url('dsr_bills/dsr/'.$module['id']) ?>" class="btn btn-info">Print DSR</a> -->
+														<?php 
+															if (!$module['salesmen']) {
+														?>
 														<a href="<?php echo base_url('dsr_bills/bills/'.$module['id']) ?>" class="btn btn-info">Print Bills</a>
 														<a href="<?php echo base_url('dsr_bills/load_sheet/'.$module['id']) ?>" class="btn btn-info">Print Load Sheet</a>
+														<?php } ?>
+														
 														<?php 
 															if (!$module['return_amount']) {
 														?>

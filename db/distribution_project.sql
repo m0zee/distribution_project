@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 26, 2019 at 09:56 PM
+-- Generation Time: Jun 27, 2019 at 01:07 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.21
 
@@ -162,6 +162,12 @@ CREATE TABLE `dsr_bills` (
   `Total_Amount` int(100) NOT NULL,
   `return_amount` varchar(100) NOT NULL,
   `salesmen` int(11) NOT NULL,
+  `dsr_sales_return` varchar(100) NOT NULL,
+  `dsr_cheque` varchar(100) NOT NULL,
+  `dsr_sign_bills` varchar(100) NOT NULL,
+  `dsr_recovery` varchar(100) NOT NULL,
+  `dsr_total` varchar(100) NOT NULL,
+  `dsr_cash` varchar(100) NOT NULL,
   `user_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -170,8 +176,8 @@ CREATE TABLE `dsr_bills` (
 -- Dumping data for table `dsr_bills`
 --
 
-INSERT INTO `dsr_bills` (`id`, `Company`, `Booker`, `Date`, `Total_Amount`, `return_amount`, `salesmen`, `user_id`, `created_at`) VALUES
-(1, 1, 1, '2019-06-25', 794, '72', 0, 2, '2019-06-26 19:40:52');
+INSERT INTO `dsr_bills` (`id`, `Company`, `Booker`, `Date`, `Total_Amount`, `return_amount`, `salesmen`, `dsr_sales_return`, `dsr_cheque`, `dsr_sign_bills`, `dsr_recovery`, `dsr_total`, `dsr_cash`, `user_id`, `created_at`) VALUES
+(1, 1, 1, '2019-06-25', 794, '72', 0, '', '', '', '', '', '', 2, '2019-06-26 19:40:52');
 
 -- --------------------------------------------------------
 
@@ -239,7 +245,11 @@ INSERT INTO `modules` (`id`, `name`, `main_name`, `sort`, `icon`, `url`, `user_i
 (33, 'Sales Return', 'salesreturn', 10, 'home', 'salesreturn', 2),
 (34, 'Sign Bills', 'sign_bills', 7, 'home', 'sign_bills', 2),
 (35, 'Recovery', 'recovery', 7, 'home', 'recovery', 2),
-(36, 'Product Types', 'product_type', 7, 'home', 'product_type', 2);
+(36, 'Product Types', 'product_type', 7, 'home', 'product_type', 2),
+(37, 'Cash Report', 'cash_report', 7, 'home', 'cash_report', 2),
+(38, 'Stock Report', 'stock_report', 7, 'home', 'stock_report', 2),
+(39, 'Sign Bills Report', 'sign_bills_report', 7, 'home', 'sign_bills_report', 2),
+(40, 'Sales Report', 'sales_report', 7, 'home', 'sales_report', 2);
 
 -- --------------------------------------------------------
 
@@ -385,27 +395,31 @@ INSERT INTO `permission` (`id`, `module_id`, `user_id`, `user_type_id`, `view`, 
 (228, 20, 2, 0, 0, 0, 0, 0, 0, 0),
 (229, 21, 2, 0, 1, 0, 0, 0, 0, 0),
 (230, 22, 2, 0, 1, 0, 0, 0, 0, 0),
-(432, 2, 2, 1, 1, 1, 1, 1, 1, 1),
-(433, 3, 2, 1, 1, 1, 1, 1, 1, 1),
-(434, 5, 2, 1, 1, 1, 1, 1, 1, 1),
-(435, 7, 2, 1, 1, 1, 1, 1, 1, 1),
-(436, 19, 2, 1, 1, 1, 1, 1, 1, 1),
-(437, 20, 2, 1, 1, 1, 1, 1, 1, 1),
-(438, 21, 2, 1, 1, 1, 1, 1, 1, 1),
-(439, 22, 2, 1, 1, 1, 1, 1, 1, 1),
-(440, 23, 2, 1, 1, 1, 1, 1, 1, 1),
-(441, 24, 2, 1, 1, 1, 1, 1, 1, 1),
-(442, 26, 2, 1, 1, 1, 1, 1, 1, 1),
-(443, 27, 2, 1, 1, 1, 1, 1, 1, 1),
-(444, 28, 2, 1, 1, 1, 1, 1, 1, 1),
-(445, 29, 2, 1, 1, 1, 1, 1, 1, 1),
-(446, 30, 2, 1, 1, 1, 1, 1, 1, 1),
-(447, 31, 2, 1, 1, 1, 1, 1, 1, 1),
-(448, 32, 2, 1, 1, 1, 1, 1, 1, 1),
-(449, 33, 2, 1, 1, 1, 1, 1, 1, 1),
-(450, 34, 2, 1, 1, 1, 1, 1, 1, 1),
-(451, 35, 2, 1, 1, 1, 1, 1, 1, 1),
-(452, 36, 2, 1, 1, 1, 1, 1, 1, 1);
+(738, 2, 2, 1, 1, 1, 1, 1, 1, 1),
+(739, 3, 2, 1, 1, 1, 1, 1, 1, 1),
+(740, 5, 2, 1, 1, 1, 1, 1, 1, 1),
+(741, 7, 2, 1, 1, 1, 1, 1, 1, 1),
+(742, 19, 2, 1, 1, 1, 1, 1, 1, 1),
+(743, 20, 2, 1, 1, 1, 1, 1, 1, 1),
+(744, 21, 2, 1, 1, 1, 1, 1, 1, 1),
+(745, 22, 2, 1, 1, 1, 1, 1, 1, 1),
+(746, 23, 2, 1, 1, 1, 1, 1, 1, 1),
+(747, 24, 2, 1, 1, 1, 1, 1, 1, 1),
+(748, 26, 2, 1, 1, 1, 1, 1, 1, 1),
+(749, 27, 2, 1, 1, 1, 1, 1, 1, 1),
+(750, 28, 2, 1, 1, 1, 1, 1, 1, 1),
+(751, 29, 2, 1, 1, 1, 1, 1, 1, 1),
+(752, 30, 2, 1, 1, 1, 1, 1, 1, 1),
+(753, 31, 2, 1, 1, 1, 1, 1, 1, 1),
+(754, 32, 2, 1, 1, 1, 1, 1, 1, 1),
+(755, 33, 2, 1, 1, 1, 1, 1, 1, 1),
+(756, 34, 2, 1, 1, 1, 1, 1, 1, 1),
+(757, 35, 2, 1, 1, 1, 1, 1, 1, 1),
+(758, 36, 2, 1, 1, 1, 1, 1, 1, 1),
+(759, 37, 2, 1, 1, 1, 1, 1, 1, 1),
+(760, 38, 2, 1, 1, 1, 1, 1, 1, 1),
+(761, 39, 2, 1, 1, 1, 1, 1, 1, 1),
+(762, 40, 2, 1, 1, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -868,7 +882,7 @@ ALTER TABLE `ledger_entries`
 -- AUTO_INCREMENT for table `modules`
 --
 ALTER TABLE `modules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT for table `modules_fileds`
 --
@@ -878,7 +892,7 @@ ALTER TABLE `modules_fileds`
 -- AUTO_INCREMENT for table `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=453;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=763;
 --
 -- AUTO_INCREMENT for table `product`
 --
