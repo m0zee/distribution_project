@@ -262,6 +262,94 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-6"></div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-4"><label>Total Amount</label></div>
+                                            <div class="col-md-8"><input type="text" class="form-control total" readonly="" name="" value="<?php echo $dsr['Total_Amount'] ?>"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-6"></div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-4"><label>Return Amount</label></div>
+                                            <div class="col-md-8"><input type="text" class="form-control return" readonly="" name="" value="<?php echo $dsr['return_amount'] ?>"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-6"></div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-4"><label>Sales Return</label></div>
+                                            <div class="col-md-8"><input type="text" class="form-control sales_return" readonly="" name="dsr_sales_return" value="0"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-6"></div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-4"><label>Cheque</label></div>
+                                            <div class="col-md-8"><input type="text" class="form-control cheque" readonly="" name="dsr_cheque" value="0"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-6"></div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-4"><label>Sign Bills</label></div>
+                                            <div class="col-md-8"><input type="text" class="form-control sign" readonly="" name="dsr_sign_bills" value="0"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-6"></div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-4"><label>Recovery</label></div>
+                                            <div class="col-md-8"><input type="text" class="form-control recovery" readonly="" name="dsr_recovery" value="0"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-6"></div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-4"><label>Final Amount</label></div>
+                                            <div class="col-md-8"><input type="text" class="form-control" readonly="" name="dsr_total" value="<?php echo ($dsr['Total_Amount'] - $dsr['return_amount']) ?>"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-6"></div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-4"><label>Dsr Received Cash</label></div>
+                                            <div class="col-md-8"><input type="text" class="form-control" name="dsr_cash" value="0"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-group row">
 
                                 <div class="col-sm-12">
@@ -352,5 +440,65 @@
             amount = amount - (amount * discount / 100);
         }
         main.find('[name="salesretun[total][]"]').val(amount)
+        calculate_sales_return();
+    }
+
+    function calculate_sales_return() {
+        var total = 0;
+        $('.hide-div').each(function() {
+            total += parseInt($(this).find('[name="salesretun[total][]"]').val());
+        })
+        $('.sales_return').val(total)
+        final_total()
+    }
+    $('body').on('keyup', '[name="chaque[Cheq_Amount][]"]', function() {
+        calculate_chaque();
+    })
+    function calculate_chaque() {
+        var total = 0;
+        $('.hide-div2').each(function() {
+            total += parseInt($(this).find('[name="chaque[Cheq_Amount][]"]').val());
+        })
+        $('.cheque').val(total)
+        final_total()
+    }
+
+    $('body').on('keyup', '[name="sign_bills[Signed_Amount][]"]', function() {
+        calculate_sign();
+    })
+    function calculate_sign() {
+        var total = 0;
+        $('.hide-div3').each(function() {
+            total += parseInt($(this).find('[name="sign_bills[Signed_Amount][]"]').val());
+        })
+        $('.sign').val(total)
+        final_total()
+    }
+
+    $('body').on('keyup', '[name="recovery[Rcvd_Amount][]"]', function() {
+        calculate_recovery();
+    })
+    function calculate_recovery() {
+        var total = 0;
+        $('.hide-div4').each(function() {
+            if (!$(this).find('[name="recovery[Cheque_NO][]"]').val()) {
+                total += parseInt($(this).find('[name="recovery[Rcvd_Amount][]"]').val());
+            }
+        })
+        $('.recovery').val(total)
+        final_total()
+    }
+    $('.sales_return, .cheque, .sign, .recovery').change(function(){
+        final_total()
+    })
+    function final_total() {
+        var total = 0;
+        total += parseInt($('.total').val());
+        total -= parseInt($('.return').val());
+        total -= parseInt($('.sales_return').val());
+        total -= parseInt($('.cheque').val());
+        total -= parseInt($('.sign').val());
+        total += parseInt($('.recovery').val());
+        $('[name="dsr_total"]').val(total)
     }
 </script>

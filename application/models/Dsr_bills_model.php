@@ -63,4 +63,13 @@ class Dsr_bills_model extends MY_Model
                  ->where('d.id', $id);
         return $this->db->get()->result_array();
     }
+
+    public function get_casd_report($date)
+    {
+        $this->db->select('s.Name as name, d.dsr_cash as amount, d.id')
+                 ->from('dsr_bills d')
+                 ->join('salesmen s', 's.id = d.salesmen', 'left')
+                 ->where('DATE(d.created_at)', $date);
+        return $this->db->get()->result_array();
+    }
 }
