@@ -57,7 +57,7 @@ class Product extends MY_Controller
             'id' => $id
         ));
         $this->data['table_company'] = $this->Product_model->all_rows('company');
-        $this->data['table_type'] = $this->Product_model->all_rows('product_type');
+        $this->data['table_type'] = $this->Product_model->get_rows('product_type', ['Company' => $this->data['product']['Company']]);
         $this->load->template('product/edit', $this->data);
     }
     

@@ -40,6 +40,7 @@
 			$data['Company'] = $this->input->post('Company');
 			
 			$data['user_id'] = $this->session->userdata('user_id');
+			// $id = 5;
 			$id = $this->Purchase_model->insert('purchase',$data);
 			$total = 0;
 			$products = $this->input->post('product');
@@ -49,13 +50,18 @@
 				$product_ids[] = $product['product_id'];
 				$total += $product['total'];
 			}
+
+			
 			$this->Purchase_model->insert('ledger_entries',array('name' => 'Purchase','Company' =>$data['Company'], 'Date' => date('Y-m-d'), 'Amount' => $total, 'Type' => 'Debit', 'purchase_id' => $id, 'user_id' => $this->session->userdata('user_id')));
 			$this->product_model->insert_batch('purchase_details', $product_data);
 
 			$products = $this->product_model->get_product_by_ids($product_ids);
+			// echo '<pre>FILE: ' . __FILE__ . '<br>LINE: ' . __LINE__ . '<br>';
+			// print_r( $qty );
+			// echo '</pre>'; die;
 			foreach ($products as $product) {
-				$qty = $product['stock_in_hand'] + $qty[$product['id']];
-				$affected = $this->Purchase_model->update('product',['stock_in_hand' => $qty], ['id' => $product['id']]);
+				$quantity = $product['stock_in_hand'] + $qty[$product['id']];
+				$affected = $this->Purchase_model->update('product',['stock_in_hand' => $quantity], ['id' => $product['id']]);
 			}
 
 			if ($id) {
@@ -103,8 +109,8 @@
 
 			$products = $this->product_model->get_product_by_ids($product_ids);
 			foreach ($products as $product) {
-				$qty = $product['stock_in_hand'] + $qty[$product['id']];
-				$affected = $this->Purchase_model->update('product',['stock_in_hand' => $qty], ['id' => $product['id']]);
+				$quantity = $product['stock_in_hand'] + $qty[$product['id']];
+				$affected = $this->Purchase_model->update('product',['stock_in_hand' => $quantity], ['id' => $product['id']]);
 			}
 
 

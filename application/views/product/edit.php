@@ -44,7 +44,7 @@
 
                                 <label for="example-text-input" class="col-sm-3 col-form-label">Company<span class="required">*</span></label>
                                 <div class="col-sm-9">
-                                    <select class="form-control" name="Company" required="">
+                                    <select class="form-control" disabled="" name="Company" required="">
                                         <option>Select Company</option>
                                         <?php foreach ($table_company as $t) {?>
                                             <option value="<?php echo $t["id"] ?>" <?php if($t[ "id"]==$product["Company"]) echo "selected" ?>>

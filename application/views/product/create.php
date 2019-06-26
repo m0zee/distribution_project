@@ -58,13 +58,13 @@
 
                                 <label for="example-text-input" class="col-sm-3 col-form-label">Product Type<span class="required">*</span></label>
                                 <div class="col-sm-9">
-                                    <select class="form-control" name="Type" required="">
+                                    <select class="form-control product_type" name="Type" required="">
                                         <option>Select Product Type</option>
-                                        <?php foreach ($table_type as $t) {?>
-                                            <option value="<?php echo $t["id"] ?>">
-                                                <?php echo $t["Name"] ?>
-                                            </option>
-                                            <?php } ?>
+                                        <?php //foreach ($table_type as $t) {?>
+                                            <!-- <option value="<?php //echo $t["id"] ?>">
+                                                <?php //echo $t["Name"] ?>
+                                            </option> -->
+                                            <?php //} ?>
                                     </select>
                                 </div>
 
@@ -155,3 +155,38 @@
 </div>
 <!-- /#wrapper -->
 <!-- START CORE PLUGINS -->
+
+<script>
+    
+    $('select[name=Company]').change(function() {
+        var company_id = $(this).val();
+        get_product_type(company_id);
+    });
+
+
+    function get_product_type(company_id){
+        if (company_id < 1) return false;
+
+        $.ajax({
+            url: '<?php echo base_url('product_type/get_product_type_by_company_id') ?>',
+            type: 'POST',
+            dataType: 'json',
+            data: {company_id: company_id},
+            success: function (res) {
+                if ( res.status == 200 ) 
+                {
+                    var row = '';
+                    row += '<option value="">Please Select</option>';
+                    if ( res.data.length > 0 ) {
+                        $.each(res.data, function(index, val) {
+                            row += "<option value='"+val.id+"' >"+val.Name+"</option>";
+                        });
+                    }
+                    $('.product_type').html(row);
+                }
+ 
+            }
+        })
+        
+    }
+</script>

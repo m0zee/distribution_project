@@ -47,7 +47,7 @@
                                         <div class="col-sm-9">
                                             <select class="form-control" name="Company" readonly required="">
                                                 <option>Select Company</option><?php foreach ($table_company as $t) {?>
-                                                    <option value="<?php echo $t["id"] ?>" <?php if($t["id"] == $billing["Company"]) echo "selected" ?>><?php echo $t["Name"] ?></option>
+                                                    <option value="<?php echo $t["id"] ?>" data-slap='<?php echo $t['slap'] ?>' <?php if($t["id"] == $billing["Company"]) echo "selected" ?>><?php echo $t["Name"] ?></option>
                                                <?php } ?></select>
                                         </div>
 
@@ -95,7 +95,25 @@
                                         <label for="example-text-input" class="col-sm-3 col-form-label">Discount<span class="required">*</span></label>
                                         <div class="col-sm-9">
 
-                                        <input class="form-control" readonly name="Discount" type="number" value="<?php echo $billing["Discount"] ?>" id="example-text-input" placeholder="" required=""></div>
+                                        <input class="form-control" name="Discount" type="number" value="<?php echo $billing["Discount"] ?>" id="example-text-input" placeholder="" required=""></div>
+
+                                    </div>
+
+                                    <div class="form-group row">
+
+                                        <label for="example-text-input" class="col-sm-3 col-form-label">Extra Discount<span class="required">*</span></label>
+                                        <div class="col-sm-9">
+
+                                        <input class="form-control" name="extra_discount" type="number" value="<?php echo $billing["extra_discount"] ?>" id="example-text-input" placeholder="" required=""></div>
+
+                                    </div>
+
+                                    <div class="form-group row">
+
+                                        <label for="example-text-input" class="col-sm-3 col-form-label">TO<span class="required">*</span></label>
+                                        <div class="col-sm-9">
+
+                                        <input class="form-control" name="extra_discount" type="number" value="<?php echo $billing["t_o"] ?>" id="example-text-input" placeholder="" required=""></div>
 
                                     </div>
 
@@ -104,30 +122,59 @@
                                         <label for="example-text-input" class="col-sm-3 col-form-label">Total Amount<span class="required">*</span></label>
                                         <div class="col-sm-9">
 
-                                        <input class="form-control" name="Total_Amount" type="number" value="<?php echo $billing["Total_Amount"] ?>" id="example-text-input" placeholder="" required=""></div>
+                                        <input class="form-control" name="Total_Amount" type="number" step="any" value="<?php echo $billing["Total_Amount"] ?>" id="example-text-input" placeholder="" required=""></div>
 
                                     </div>
 
                                     
                                     <div class="hide-div row">
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-2">
                                             <label>Product</label>
                                             <br>
                                             <select class="form-control product product-list" name="product[0][]">
                                                 <option value="">Select Product</option>
                                                 <?php foreach ($table_product as $t) {?>
-                                                    <option value="<?php echo $t["id"] ?>" data-price="<?php echo $t['sale_price'] ?>">
+                                                    <option value="<?php echo $t["id"] ?>" 
+                                                        data-json='<?php echo json_encode($t) ?>'
+                                                        data-price="<?php echo $t['sale_price'] ?>">
                                                         <?php echo $t["Name"] ?>
                                                     </option>
                                                     <?php } ?>
                                             </select>
                                             <!-- <input type="number" name="product[]" class="form-control"> -->
                                         </div>
-                                        <div class="form-group col-md-6">
+
+                                        <div class="form-group col-md-2">
+                                            <label>Rate</label>
+                                            <br>
+                                            <input type="number" name="rate[0][]" class="form-control rate">
+                                        </div>
+
+                                        <div class="form-group col-md-2">
                                             <label>Quantity</label>
                                             <br>
                                             <input type="number" name="quantity[0][]" class="form-control qty">
                                         </div>
+
+                                        <div class="form-group col-md-2">
+                                            <label>Gross Amount</label>
+                                            <br>
+                                            <input type="text" readonly="" name="gross[0][]" class="form-control gross">
+                                        </div>
+
+                                        <div class="form-group col-md-2">
+                                            <label>Discount</label>
+                                            <br>
+                                            <input type="number" name="product_discount[0][]" class="form-control product_discount">
+                                        </div>
+
+                                        <div class="form-group col-md-2">
+                                            <label>Total</label>
+                                            <br>
+                                            <input type="text" name="product_total[0][]" readonly="" class="form-control product_total">
+                                        </div>
+
+
                                         <div class="form-group row">
                                             <div class="col-lg-2 delet pull-right">
                                                 <button type="button" class="add-relation btn btn-success ">Add More</button>
@@ -163,47 +210,96 @@
         $(".hide-div").last().find('input,select').not('input[type="checkbox"]').val('')
         $(".hide-div").last().find('input[type="checkbox"]').removeAttr('checked')
     });
-    $("body").on("click", ".remove-relation", function() {
-        $(this).parents(".hide-div").remove();
-    });
-
-    $('body').on('keyup', 'input.qty, [name="company_discount[]"]', function() {
+    $('body').on('change', 'select.product', function() {
+        set_producttotal($(this).parents('.hide-div'))
+    })
+    $('body').on('keyup', '.qty, .product_discount', function() {
+        set_producttotal($(this).parents('.hide-div'), ($(this).hasClass('product_discount')) ? true : false)
+    })
+    $('body').on('keyup', 'input.qty, [name="company_discount"], [name="extra_discount"], [name="t_o"]', function() {
         set_disandtotal($(this).parents('.main-div'))
     })
-    $('body').on('keyup', 'input[name="Discount[]"]', function() {
+    $('body').on('keyup', 'input[name="Discount"]', function() {
         set_disandtotal($(this).parents('.main-div'), $(this).val())
     })
     $('body').on('change', 'select.product, [name="Company"]', function() {
         set_disandtotal($(this).parents('.main-div'))
     })
+    
+    function set_producttotal(div, dis = false) {
+        var product = div.find('select.product option:selected').attr('data-json')
+        product = JSON.parse(product)
+        div.find('.rate').val(product.sale_price)
+        if (!dis) {
+            div.find('.product_discount').val(product.discount)
+        }
+        if (!div.find('.qty').val()) {
+            div.find('.qty').val(0)
+        }
+        var qty = div.find('.qty').val()
+        div.find('.gross').val((product.sale_price * qty))
+        var total = (product.sale_price * qty)
+        var discount = div.find('.product_discount').val()
+        total = total - (total * discount / 100);
+        div.find('.product_total').val(total)
+        //console.log(JSON.parse(product))
+    }
     function set_disandtotal(main, dis = false) {
         var total = 0;
+        var gross_total = 0;
         main.find('select.product').each(function() {
-            var price = $(this).find('option:selected').attr('data-price')
-            var qty = $(this).parents('.hide-div').find('input.qty').val()
-            total += (price * qty)
+            //alert($(this).parents('.hide-div').find('input.product_total').val())
+            // var price = $(this).find('option:selected').attr('data-price')
+            // var qty = $(this).parents('.hide-div').find('input.qty').val()
+            // total += (price * qty)
+            total += parseInt($(this).parents('.hide-div').find('input.product_total').val())
+            var product = $(this).find('option:selected').attr('data-json')
+            product = JSON.parse(product)
+            if (product.Slap != 'No') {
+                gross_total += parseInt($(this).parents('.hide-div').find('input.product_total').val())
+            }
         })
-        var dis_array = main.find('[name="Company"] option:selected').attr('data-slap')
+        var dis_array = $('[name="Company"] option:selected').attr('data-slap')
+        //var dis_array = main.find('[name="Company"] option:selected').attr('data-slap')
         if (dis) {
             var discount = dis
         }
         else{
-            var discount = get_dis(dis_array, total)
+            var discount = get_dis(dis_array, gross_total)
         }
-        main.find('[name="Discount[]"]').val(discount)
+        main.find('[name="Discount"]').val(discount)
+        var discount_total = 0;
         if (discount) {
-            discount = (parseInt(discount) + parseInt(main.find('[name="company_discount[]"]').val()))
-            //discount = '0.0'+discount
-            total = total - (total * discount / 100);
-            //total = total - (total * discount)
+            discount_total += (gross_total * discount / 100);
         }
-        else{
-            discount = main.find('[name="company_discount[]"]').val()
-            //discount = '0.0'+discount
-            total = total - (total * discount / 100);
-            //total = total - (total * discount)
+        if(main.find('[name="company_discount"]').val()){
+            discount_total += (total * parseInt(main.find('[name="company_discount"]').val()) / 100);
         }
-        main.find('[name="Total_Amount[]"]').val(total)
+        if(main.find('[name="extra_discount"]').val()){
+            discount_total += (total * parseInt(main.find('[name="extra_discount"]').val()) / 100);
+        }
+        if(main.find('[name="t_o"]').val()){
+            discount_total += parseInt(main.find('[name="t_o"]').val());
+        }
+        
+        // alert(gross_total)
+        // alert(discount_total)
+        // alert(total)
+        total = (total - discount_total)
+        // if (discount) {
+        //     discount = (parseInt(discount) + parseInt(main.find('[name="company_discount"]').val()) + parseInt(main.find('[name="extra_discount"]').val()))
+        //     //discount = '0.0'+discount
+        //     total = total - ((total * discount / 100) + parseInt(main.find('[name="t_o"]').val()));
+        //     //total = total - (total * discount)
+        // }
+        // else{
+        //     discount = (parseInt(main.find('[name="company_discount"]').val()) + parseInt(main.find('[name="extra_discount"]').val()))
+        //     //discount = '0.0'+discount
+        //     total = total - ((total * discount / 100) + parseInt(main.find('[name="t_o"]').val()));
+        //     //total = total - (total * discount / 100);
+        //     //total = total - (total * discount)
+        // }
+        main.find('[name="Total_Amount"]').val(total)
     }
     function get_dis(array, total) {
         array = JSON.parse(array)
@@ -328,10 +424,15 @@
     }
 
     function print_product_row(val) {
+        console.log(val);
         console.log(parseInt(product_stock[val.product_id].stock_in_hand) + parseInt(val.qty))
         product_stock[val.product_id].stock_in_hand = parseInt(product_stock[val.product_id].stock_in_hand) + parseInt(val.qty)
         $('.hide-div').last().find('.product').val(val.product_id);
         $('.hide-div').last().find('.qty').val(val.qty);
+        $('.hide-div').last().find('.rate').val(val.rate);
+        $('.hide-div').last().find('.gross').val(val.gross);
+        $('.hide-div').last().find('.product_discount').val(val.product_discount);
+        $('.hide-div').last().find('.product_total').val(val.product_total);
     }
 
 
