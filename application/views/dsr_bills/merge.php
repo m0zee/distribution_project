@@ -11,32 +11,32 @@
                 <i class="pe-7s-note2"></i>
             </div>
             <div class="header-title">
-                <h1>Add Dsr bills</h1>
+                <h1>Merge Load Sheet</h1>
                 <small></small>
                 <ol class="breadcrumb">
                     <li><a href="index.html"><i class="pe-7s-home"></i> Home</a></li>
-                    <li class="active">Add Dsr bills</li>
+                    <li class="active">Merge Load Sheet</li>
                 </ol>
             </div>
         </div>
         <!-- /. Content Header (Page header) -->
 
-        <form method="post" action="<?php echo base_url() ?>dsr_bills/insert" enctype="multipart/form-data">
+        <form method="post" action="" enctype="multipart/form-data">
 
             <div class="row">
                 <div class="col-sm-12">
                     <div class="panel panel-bd ">
                         <div class="panel-heading">
                             <div class="panel-title">
-                                <h4>Add Dsr bills</h4>
+                                <h4>Merge Load Sheet</h4>
                             </div>
                         </div>
                         <div class="panel-body"><div class="form-group row">
 
-                                <label for="example-text-input" class="col-sm-3 col-form-label">Company<span class="required">*</span></label>
+                                <label for="example-text-input" class="col-sm-3 col-form-label">First Booker<span class="required">*</span></label>
                                         <div class="col-sm-9">
-                                            <select class="form-control" name="Company" required="">
-                                                <option>Select Company</option><?php foreach ($table_company as $t) {?>
+                                            <select class="form-control" name="first_booker" required="">
+                                                <option>Select Booker</option><?php foreach ($table_booker as $t) {?>
                                                     <option value="<?php echo $t["id"] ?>"><?php echo $t["Name"] ?></option>
                                                <?php } ?></select>
                                         </div>
@@ -45,7 +45,7 @@
 
                                 <label for="example-text-input" class="col-sm-3 col-form-label">Booker<span class="required">*</span></label>
                                         <div class="col-sm-9">
-                                            <select class="form-control" name="Booker" required="">
+                                            <select class="form-control" name="booker" required="">
                                                 <option>Select Booker</option><?php foreach ($table_booker as $t) {?>
                                                     <option value="<?php echo $t["id"] ?>"><?php echo $t["Name"] ?></option>
                                                <?php } ?></select>
@@ -54,7 +54,7 @@
                                     </div><div class="form-group row">
 
                                 <label for="example-text-input" class="col-sm-3 col-form-label">Date<span class="required">*</span></label>
-                                        <div class="col-sm-9"><input class="form-control" name="Date" type="date" value="" id="example-text-input" placeholder="" required=""></div>
+                                        <div class="col-sm-9"><input class="form-control" name="date" type="date" value="" id="example-text-input" placeholder="" required=""></div>
 
                                     </div><!-- <div class="form-group row">
 

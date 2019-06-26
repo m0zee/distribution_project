@@ -10,12 +10,12 @@
 							<i class="pe-7s-box1"></i>
 						</div>
 						<div class="header-title">
-							<h1>View Dsr bills</h1>
+							<h1>View Product type</h1>
 							<small> </small>
 							<ol class="breadcrumb">
 								<li><a href="<?php echo base_url() ?>"><i class="pe-7s-home"></i> Home</a></li>
 
-								<li class="active">View Dsr bills</li>
+								<li class="active">View Product type</li>
 							</ol>
 						</div>
 					</div> <!-- /. Content Header (Page header) -->
@@ -25,11 +25,11 @@
 							<div class="panel panel-bd">
 								<div class="panel-heading">
 									<div class="panel-title">
-										<h4>View Dsr bills</h4>
+										<h4>View Product type</h4>
 										<?php 
 											if ($permission["created"] == "1") {
 										?>
-										<a href="<?php echo base_url("dsr_bills/create") ?>"><button class="btn btn-info pull-right">Add Dsr bills</button></a>
+										<a href="<?php echo base_url("product_type/create") ?>"><button class="btn btn-info pull-right">Add Product type</button></a>
 										<?php } ?>
 									</div>
 								</div>
@@ -39,7 +39,7 @@
 										<table id="dataTableExample2" class="table table-bordered table-striped table-hover">
 											<thead>
 												<tr>
-													<th>Id</th><th>Name</th><th>Date</th><th>Total Amount</th><?php 
+													<th>Id</th><th>Name</th><th>Company</th><th>Slap</th><?php 
 														if ($permission["edit"] == "1" || $permission["deleted"] == "1"){
 													?>
 													<th>Action</th>
@@ -48,41 +48,24 @@
 											</thead>
 										    <tbody>
 										    	<?php
-										    		foreach ($dsr_bills as $module) {
+										    		foreach ($product_type as $module) {
 										    	?>
 												<tr>
-													<td><?php echo $module["id"] ?></td><td><?php echo $module["Name"] ?></td><td><?php echo $module["Date"] ?></td><td><?php echo $module["Total_Amount"] ?></td>
-													<td>
-														<!-- <a href="<?php echo base_url('dsr_bills/dsr/'.$module['id']) ?>" class="btn btn-info">Print DSR</a> -->
-														<a href="<?php echo base_url('dsr_bills/bills/'.$module['id']) ?>" class="btn btn-info">Print Bills</a>
-														<a href="<?php echo base_url('dsr_bills/load_sheet/'.$module['id']) ?>" class="btn btn-info">Print Load Sheet</a>
-														<?php 
-															if (!$module['return_amount']) {
-														?>
-														<a href="<?php echo base_url('dsr_bills/submit_return/'.$module['id']) ?>" class="btn btn-info">Submit Return</a>
-														<?php } ?>
-														
-														<?php 
-															if (!$module['salesmen']) {
-														?>
-														<a href="<?php echo base_url('dsr_bills/submit_dsr/'.$module['id']) ?>" class="btn btn-info">Submit DSR</a>
-														<?php } ?>
-													</td>
-													<?php 
+													<td><?php echo $module["id"] ?></td><td><?php echo $module["Name"] ?></td><td><?php echo $module["company"] ?></td><td><?php echo $module["Slap"] ?></td><?php 
 														if ($permission["edit"] == "1" || $permission["deleted"] == "1"){
 													?>
-													<!-- <td>
+													<td>
 														<?php 
 															if ($permission["edit"] == "1") {
 														?>
-														<a href="<?php echo base_url() ?>dsr_bills/edit/<?php echo $module["id"] ?>"><img src="<?php echo base_url() ?>assets/record1.png" title="View Order" alt="View Order" width="35" height="35"></a>
+														<a href="<?php echo base_url() ?>product_type/edit/<?php echo $module["id"] ?>"><img src="<?php echo base_url() ?>assets/record1.png" title="View Order" alt="View Order" width="35" height="35"></a>
 														<?php } ?>
 														<?php 
 															if ($permission["deleted"] == "1") {
 														?>
-		                                                <a href="<?php echo base_url() ?>dsr_bills/delete/<?php echo $module["id"] ?>"><img src="<?php echo base_url() ?>assets/d-icon.png" title="Delete" alt="Delete" width="35" height="35"></a>
+		                                                <a href="<?php echo base_url() ?>product_type/delete/<?php echo $module["id"] ?>"><img src="<?php echo base_url() ?>assets/d-icon.png" title="Delete" alt="Delete" width="35" height="35"></a>
 		                                                <?php } ?>
-	                                                </td> -->
+	                                                </td>
 	                                                <?php } ?>
 												</tr>
 												<?php } ?>

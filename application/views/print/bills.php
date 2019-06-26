@@ -12,6 +12,8 @@
 			$rate = explode(',', $value['rate']);
 			$product = explode(',', $value['product']);
 			$qty = explode(',', $value['qty']);
+			$product_discount = explode(',', $value['product_discount']);
+			$product_total = explode(',', $value['product_total']);
 	?>
 	<div class="wrapper">
 		<div class="box" >
@@ -75,8 +77,10 @@
 							<td style="	text-align: center;"><?php echo $qty[$k] ?></td>
 							<td style="	text-align: center;"><?php echo $product[$k] ?></td>
 							<td style="	text-align: center;"><?php echo $rate[$k] ?></td>
-							<td style="	text-align: center;"><?php echo $value['company_discount'] + $value['Discount'] ?>%</td>
-							<td style="	text-align: center;"><?php echo round(($qty[$k] * $rate[$k]) - ($qty[$k] * $rate[$k] * ($value['company_discount'] + $value['Discount']) / 100)) ?></td>
+							<td style="	text-align: center;"><?php echo $product_discount[$k] ?>%</td>
+							<td style="	text-align: center;"><?php echo $product_total[$k] ?></td>
+							<!-- <td style="	text-align: center;"><?php echo $value['company_discount'] + $value['Discount'] ?>%</td>
+							<td style="	text-align: center;"><?php echo round(($qty[$k] * $rate[$k]) - ($qty[$k] * $rate[$k] * ($value['company_discount'] + $value['Discount']) / 100)) ?></td> -->
 						</tr>
 						<?php } ?>
 						<tr>

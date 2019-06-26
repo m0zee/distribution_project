@@ -33,6 +33,16 @@
                         </div>
                         <div class="panel-body"><div class="form-group row">
 
+                                <label for="example-text-input" class="col-sm-3 col-form-label">Company<span class="required">*</span></label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" name="Company" required="">
+                                                <option>Select Company</option><?php foreach ($table_company as $t) {?>
+                                                    <option value="<?php echo $t["id"] ?>" <?php if($t["id"] == $dsr_bills["Company"]) echo "selected" ?>><?php echo $t["Name"] ?></option>
+                                               <?php } ?></select>
+                                        </div>
+
+                                    </div><div class="form-group row">
+
                                 <label for="example-text-input" class="col-sm-3 col-form-label">Booker<span class="required">*</span></label>
                                         <div class="col-sm-9">
                                             <select class="form-control" name="Booker" required="">

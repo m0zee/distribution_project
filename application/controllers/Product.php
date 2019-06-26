@@ -32,6 +32,7 @@ class Product extends MY_Controller
         }
         $this->data['title']         = 'Create Product';
         $this->data['table_company'] = $this->Product_model->all_rows('company');
+        $this->data['table_type'] = $this->Product_model->all_rows('product_type');
         $this->load->template('product/create', $this->data);
     }
     public function insert()
@@ -56,6 +57,7 @@ class Product extends MY_Controller
             'id' => $id
         ));
         $this->data['table_company'] = $this->Product_model->all_rows('company');
+        $this->data['table_type'] = $this->Product_model->all_rows('product_type');
         $this->load->template('product/edit', $this->data);
     }
     
@@ -70,9 +72,10 @@ class Product extends MY_Controller
         $id = $this->Product_model->update('product', $data, array(
             'id' => $id
         ));
-        if ($id) {
-            redirect('product');
-        }
+        redirect('product');
+        // if ($id) {
+        //     redirect('product');
+        // }
     }
     public function delete($id)
     {
@@ -88,7 +91,8 @@ class Product extends MY_Controller
     public function get_product()
     {
     	$company_id = $this->input->post('company_id');
-    	$products = $this->Product_model->get_rows('product', ['Company' => $company_id]);
+        //$products = $this->Product_model->get_rows('product', ['Company' => $company_id]);
+    	$products = $this->Product_model->get_company_product($company_id);
     	echo json_encode(['status' => 200, 'data' => $products]); die();
     }
 }

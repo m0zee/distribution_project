@@ -56,6 +56,21 @@
                             </div>
                             <div class="form-group row">
 
+                                <label for="example-text-input" class="col-sm-3 col-form-label">Product Type<span class="required">*</span></label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" name="Type" required="">
+                                        <option>Select Product Type</option>
+                                        <?php foreach ($table_type as $t) {?>
+                                            <option value="<?php echo $t["id"] ?>">
+                                                <?php echo $t["Name"] ?>
+                                            </option>
+                                            <?php } ?>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="form-group row">
+
                                 <label for="example-text-input" class="col-sm-3 col-form-label">Code<span class="required">*</span></label>
                                 <div class="col-sm-9">
                                     <input class="form-control" name="Code" type="text" value="" id="example-text-input" placeholder="" required="">
@@ -83,6 +98,14 @@
                                 <label for="example-text-input" class="col-sm-3 col-form-label">Stock In hand</label>
                                 <div class="col-sm-9">
                                     <input type="number" value="0" class="form-control" name="stock_in_hand">
+                                </div>
+
+                            </div>
+                            <div class="form-group row">
+
+                                <label for="example-text-input" class="col-sm-3 col-form-label">Product Discount</label>
+                                <div class="col-sm-9">
+                                    <input type="text" value="0" class="form-control" name="discount">
                                 </div>
 
                             </div>

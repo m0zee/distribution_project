@@ -4,7 +4,7 @@ class Main_model extends MY_Model
 {
 	public function get_menu($role)
 	{
-		return $this->db->query('SELECT m.* FROM modules m JOIN permission p ON p.module_id = m.id WHERE p.user_type_id = '.$role.' AND (p.view = 1 OR p.view_all = 1) GROUP BY m.id ORDER BY m.sort')->result_array();
+		return $this->db->query('SELECT m.* FROM modules m JOIN permission p ON p.module_id = m.id WHERE p.user_type_id = '.$role.' AND (p.view = 1 OR p.view_all = 1) GROUP BY m.id ORDER BY m.sort, m.name')->result_array();
 	}
 
 	public function get_user_permission($module,$role)

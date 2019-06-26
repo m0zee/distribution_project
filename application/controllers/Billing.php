@@ -51,7 +51,9 @@
 					'Shop' => $data['Shop'][$key], 
 					'Discount' => $data['Discount'][$key], 
 					'company_discount' => $data['company_discount'][$key], 
-					'Total_Amount' => $data['Total_Amount'][$key],
+					'extra_discount' => $data['extra_discount'][$key], 
+					't_o' => $data['t_o'][$key], 
+					'Total_Amount' => round($data['Total_Amount'][$key]),
 					'user_id' => $this->session->userdata('user_id'),
 				);
 				$bill_id = $this->Billing_model->insert('billing',$bill);
@@ -60,22 +62,33 @@
 						'bill_id' => $bill_id,
 						'product_id	' => $v,
 						'qty' => $data['quantity'][$key][$k], 
+						'rate' => $data['rate'][$key][$k], 
+						'gross' => $data['gross'][$key][$k], 
+						'product_discount' => $data['product_discount'][$key][$k], 
+						'product_total' => $data['product_total'][$key][$k], 
 					);
 					$this->Billing_model->insert('billing_detail',$bill_detail);
-					$product = $this->Product_model->get_row_single('product', ['id' => $v]);
-					$stock_in_hand = $product['stock_in_hand'] - $data['quantity'][$key][$k]; 
-					//if ($stock_in_hand < 0) continue;
-					$stock_data = [
-						'stock_in_hand' => $stock_in_hand
-					];
-					$this->Product_model->update('product', $stock_data, ['id' => $v]); 
+					if (!isset($data['old'])) {
+						$product = $this->Product_model->get_row_single('product', ['id' => $v]);
+						$stock_in_hand = $product['stock_in_hand'] - $data['quantity'][$key][$k]; 
+						//if ($stock_in_hand < 0) continue;
+						$stock_data = [
+							'stock_in_hand' => $stock_in_hand
+						];
+						$this->Product_model->update('product', $stock_data, ['id' => $v]); 
+					}
 				}
 			}
-			$data2                 = array('Booker'=>$data['Booker'], 'Date'=>$data['Date']);
-        	$data2['user_id']      = $this->session->userdata('user_id');
-        	$data2['Total_Amount'] = $this->Dsr_bills_model->get_bills($data2);
-        	$id                   = $this->Dsr_bills_model->insert('dsr_bills', $data2);
-			redirect('dsr_bills/load_sheet/'.$id);
+			if (!isset($data['old'])) {
+				$data2                 = array('Booker'=>$data['Booker'], 'Date'=>$data['Date'], 'Company'=>$data['Company']);
+	        	$data2['user_id']      = $this->session->userdata('user_id');
+	        	$data2['Total_Amount'] = $this->Dsr_bills_model->get_bills($data2);
+	        	$id                   = $this->Dsr_bills_model->insert('dsr_bills', $data2);
+	        	redirect('dsr_bills/load_sheet/'.$id);
+			}
+			else{
+				redirect('billing');
+			}
 			//redirect('billing');
 			//echo '<pre>';print_r($data);echo '</pre>';die;
 			// $data['user_id'] = $this->session->userdata('user_id');
@@ -110,6 +123,7 @@
 			$id = $data['id'];
 			$quantity = $data['quantity'];
 			$product = $data['product'];
+			$data['Total_Amount'] = round($data['Total_Amount']);
 			unset($data['id'], $data['quantity'], $data['product']);
 			$this->Billing_model->update('billing',$data,array('id'=>$id));
 			$data['quantity'] = $quantity;

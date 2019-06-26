@@ -57,6 +57,21 @@
                             </div>
                             <div class="form-group row">
 
+                                <label for="example-text-input" class="col-sm-3 col-form-label">Product Type<span class="required">*</span></label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" name="Type" required="">
+                                        <option>Select Product Type</option>
+                                        <?php foreach ($table_type as $t) {?>
+                                            <option value="<?php echo $t["id"] ?>" <?php if($t[ "id"]==$product["Type"]) echo "selected" ?>>
+                                                <?php echo $t["Name"] ?>
+                                            </option>
+                                            <?php } ?>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="form-group row">
+
                                 <label for="example-text-input" class="col-sm-3 col-form-label">Code<span class="required">*</span></label>
                                 <div class="col-sm-9">
 
@@ -77,6 +92,14 @@
                                 <label for="example-text-input" class="col-sm-3 col-form-label">Quantity in a pack</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" value="<?php echo $product["qty"] ?>" name="qty">
+                                </div>
+
+                            </div>
+                            <div class="form-group row">
+
+                                <label for="example-text-input" class="col-sm-3 col-form-label">Purchase Discount</label>
+                                <div class="col-sm-9">
+                                    <input type="text" value="<?php echo $product['discount'] ?>" class="form-control" name="discount">
                                 </div>
 
                             </div>

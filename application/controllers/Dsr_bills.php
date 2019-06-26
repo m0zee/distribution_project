@@ -32,6 +32,7 @@ class Dsr_bills extends MY_Controller
         }
         $this->data['title']        = 'Create Dsr_bills';
         $this->data['table_booker'] = $this->Dsr_bills_model->all_rows('booker');
+        $this->data['table_company'] = $this->Dsr_bills_model->all_rows('company');
         $this->load->template('dsr_bills/create', $this->data);
     }
     public function insert()
@@ -56,6 +57,7 @@ class Dsr_bills extends MY_Controller
         $this->data['dsr_bills']    = $this->Dsr_bills_model->get_row_single('dsr_bills', array(
             'id' => $id
         ));
+        $this->data['table_company'] = $this->Dsr_bills_model->all_rows('company');
         $this->data['table_booker'] = $this->Dsr_bills_model->all_rows('booker');
         $this->load->template('dsr_bills/edit', $this->data);
     }
@@ -86,6 +88,28 @@ class Dsr_bills extends MY_Controller
         redirect('dsr_bills');
     }
 
+    public function merge()
+    {
+        if ($this->permission['created'] == '0') {
+            redirect('home');
+        }
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            $this->data['products'] = $this->Dsr_bills_model->get_merge_products($data);
+            //print_r($this->db->last_query());
+            //print_r($this->data['products']);die;
+            $this->data['merge'] = true;
+            $this->load->view('print/load_sheet', $this->data);
+            //die;
+        }
+        else{
+            $this->data['title']        = 'Merge Load Sheet';
+            $this->data['table_booker'] = $this->Dsr_bills_model->all_rows('booker');
+            $this->data['table_company'] = $this->Dsr_bills_model->all_rows('company');
+            $this->load->template('dsr_bills/merge', $this->data);
+        }
+    }
+
     public function bills($id)
     {
         //$this->data['dsr_bills'] = $this->Dsr_bills_model->get_rows('dsr_bills', array('id' => $id));
@@ -93,6 +117,15 @@ class Dsr_bills extends MY_Controller
         //$this->data['products'] = $this->Dsr_bills_model->get_products($id);
         //echo '<pre>';print_r($this->data['dsr_bills']);die;
         $this->load->view('print/bills', $this->data);
+    }
+
+    public function print_dsr($id)
+    {
+        //$this->data['dsr_bills'] = $this->Dsr_bills_model->get_rows('dsr_bills', array('id' => $id));
+        $this->data['dsr_bills'] = $this->Dsr_bills_model->get_all_bills($id);
+        //$this->data['products'] = $this->Dsr_bills_model->get_products($id);
+        //echo '<pre>';print_r($this->data['dsr_bills']);die;
+        $this->load->view('print/print_dsr', $this->data);
     }
 
     public function load_sheet($id)
@@ -109,6 +142,41 @@ class Dsr_bills extends MY_Controller
     	$this->data['products'] = $this->Dsr_bills_model->get_products($id);
     	//echo '<pre>';print_r($this->data['products']);die;
     	$this->load->view('print/dsr', $this->data);
+    }
+
+    public function submit_return($id)
+    {
+        if ($this->permission['created'] == '0') {
+            redirect('home');
+        }
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            $total = 0;
+            foreach ($data['bill_id'] as $key => $value) {
+                $total += $data['bill_total'][$key];
+                $this->Dsr_bills_model->update('billing',array('final_amount'=>$data['bill_total'][$key]),array('id'=>$value));
+                foreach ($data['bill_detail_id'][$value] as $k => $v) {
+                    $this->Dsr_bills_model->update('billing_detail',array('final_total'=>$data['final_total'][$value][$k], 'return_qty'=>$data['return_qty'][$value][$k]),array('id'=>$v));
+                    $product_id = $this->Dsr_bills_model->get_row_single('billing_detail', array('id' => $v));
+                    $product_id = $product_id['product_id'];
+                    $product = $this->Dsr_bills_model->get_row_single('product', ['id' => $product_id]);
+                    $stock_in_hand = $product['stock_in_hand'] + $data['return_qty'][$value][$k]; 
+                    $stock_data = [
+                        'stock_in_hand' => $stock_in_hand
+                    ];
+                    $this->Dsr_bills_model->update('product', $stock_data, ['id' => $product_id]); 
+                }
+            }
+            $dsr = $this->Dsr_bills_model->get_row_single('dsr_bills', array('id' => $id));
+            $return_total = $dsr['Total_Amount'] - $total;
+            $this->Dsr_bills_model->update('dsr_bills',array('return_amount'=>$return_total),array('id'=>$id));
+            redirect('dsr_bills');
+            //echo '<pre>';print_r($this->input->post());echo '</pre>';die;
+        }
+        $this->data['title']        = 'Submit Return';
+        $this->data['dsr_bills'] = $this->Dsr_bills_model->get_all_bills($id);
+        $this->load->template('dsr_bills/submit_return', $this->data);
+
     }
 
     public function submit_dsr($id)

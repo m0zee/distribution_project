@@ -42,6 +42,15 @@
                         </div>
                         <div class="panel-body">
                             <div class="main-div">
+                                <div class="form-group row old-bill">
+
+                                <label for="example-text-input" class="col-sm-3 col-form-label">Old Bill<span class="required">*</span></label>
+                                        <div class="col-sm-9"><div class="radio radio-info radio-inline">
+            <input type="radio"  name="old" id="inlineCheckbox1" value="Yes">
+            <label for="inlineCheckbox1"> Yes </label>
+        </div></div>
+
+                                    </div>
                                 <div class="form-group row">
 
                                     <label for="example-text-input" class="col-sm-3 col-form-label">Company<span class="required">*</span></label>
@@ -98,7 +107,7 @@
 
                                 <div class="all-q ">
                                     <div class="hide-div row">
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-2">
                                             <label>Product</label>
                                             <br>
                                             <select class="form-control product product-list" name="product[0][]">
@@ -109,12 +118,31 @@
                                                     </option>
                                                     <?php } ?>
                                             </select>
-                                            <!-- <input type="number" name="product[]" class="form-control"> -->
                                         </div>
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-2">
+                                            <label>Rate</label>
+                                            <br>
+                                            <input type="text" readonly name="rate[0][]" class="form-control rate">
+                                        </div>
+                                        <div class="form-group col-md-2">
                                             <label>Quantity</label>
                                             <br>
                                             <input type="number" name="quantity[0][]" class="form-control qty">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label>Gross Amount</label>
+                                            <br>
+                                            <input type="text" readonly name="gross[0][]" class="form-control gross">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label>Discount</label>
+                                            <br>
+                                            <input type="number" name="product_discount[0][]" class="form-control product_discount">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label>Total</label>
+                                            <br>
+                                            <input type="text" name="product_total[0][]" readonly class="form-control product_total">
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-lg-2 delet pull-right">
@@ -128,7 +156,7 @@
 
                                     <label for="example-text-input" class="col-sm-3 col-form-label">Discount<span class="required">*</span></label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" name="Discount[]" type="number" readonly="" value="0" id="example-text-input" placeholder="" required="">
+                                        <input class="form-control" name="Discount[]" type="number" value="0" id="example-text-input" placeholder="" >
                                     </div>
 
                                 </div>
@@ -136,7 +164,23 @@
 
                                     <label for="example-text-input" class="col-sm-3 col-form-label">Company Discount<span class="required">*</span></label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" name="company_discount[]" type="number" value="0" id="example-text-input" placeholder="" required="">
+                                        <input class="form-control" name="company_discount[]" type="number" value="0" id="example-text-input" placeholder="" >
+                                    </div>
+
+                                </div>
+                                <div class="form-group row">
+
+                                    <label for="example-text-input" class="col-sm-3 col-form-label">Extra Discount<span class="required">*</span></label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" name="extra_discount[]" type="number" value="0" id="example-text-input" placeholder="" >
+                                    </div>
+
+                                </div>
+                                <div class="form-group row">
+
+                                    <label for="example-text-input" class="col-sm-3 col-form-label">TO<span class="required">*</span></label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" name="t_o[]" type="number" value="0" id="example-text-input" placeholder="" >
                                     </div>
 
                                 </div>
@@ -178,8 +222,8 @@
 <!-- START CORE PLUGINS -->
 <script type="text/javascript">
     $("body").on("click", ".add-relation", function() {
-        var html = $(".hide-div").first().clone();
         var main = $(this).parents('.main-div')
+        var html = main.find(".hide-div").first().clone();
         $(html).find(".delet").html("<a class='btn btn-danger remove-relation'><i class='fa fa-trash-o' aria-hidden='true'></i> </a> " + ' <a class="btn btn-success add-relation"><strong> + </strong> </a>');
         main.find(".hide-div").last().after(html);
         main.find(".hide-div").last().find('input,select').not('input[type="checkbox"]').val('')
@@ -191,6 +235,10 @@
 
     $("body").on("click", ".add-main", function() {
         var html = $(".main-div").first().clone();
+        html.find('.old-bill').remove()
+        html.find('[name="Date"]').parents().remove()
+        html.find('[name="Company"]').parents().remove()
+        html.find('[name="Booker"]').parents().remove()
         html.find('.hide-div').not('.hide-div:first-child').remove()
         $(html).find(".delet-main").html("<a class='btn btn-danger remove-main'><i class='fa fa-trash-o' aria-hidden='true'></i> </a> " + ' <a class="btn btn-success add-main"><strong> + </strong> </a>');
         $(".main-div").last().after(html);
@@ -202,6 +250,10 @@
         $('.main-div').last().find('select.booker').val($('.main-div').first().find('select.booker').val())
         $('.main-div').last().find('[name="product[0][]"]').attr('name', 'product['+($('.main-div').length - 1)+'][]')
         $('.main-div').last().find('[name="quantity[0][]"]').attr('name', 'quantity['+($('.main-div').length - 1)+'][]')
+        $('.main-div').last().find('[name="rate[0][]"]').attr('name', 'rate['+($('.main-div').length - 1)+'][]')
+        $('.main-div').last().find('[name="gross[0][]"]').attr('name', 'gross['+($('.main-div').length - 1)+'][]')
+        $('.main-div').last().find('[name="product_discount[0][]"]').attr('name', 'product_discount['+($('.main-div').length - 1)+'][]')
+        $('.main-div').last().find('[name="product_total[0][]"]').attr('name', 'product_total['+($('.main-div').length - 1)+'][]')
 
         $(".main-div").last().find('input[name="Date[]"]').closest('.row').hide();
         $('.main-div').last().find('select.company').closest('.row').hide();
@@ -212,7 +264,13 @@
     $("body").on("click", ".remove-main", function() {
         $(this).parents(".main-div").remove();
     });
-    $('body').on('keyup', 'input.qty, [name="company_discount[]"]', function() {
+    $('body').on('change', 'select.product', function() {
+        set_producttotal($(this).parents('.hide-div'))
+    })
+    $('body').on('keyup', '.qty, .product_discount', function() {
+        set_producttotal($(this).parents('.hide-div'), ($(this).hasClass('product_discount')) ? true : false)
+    })
+    $('body').on('keyup', 'input.qty, [name="company_discount[]"], [name="extra_discount[]"], [name="t_o[]"]', function() {
         set_disandtotal($(this).parents('.main-div'))
     })
     $('body').on('keyup', 'input[name="Discount[]"]', function() {
@@ -221,33 +279,80 @@
     $('body').on('change', 'select.product, [name="Company"]', function() {
         set_disandtotal($(this).parents('.main-div'))
     })
+    
+    function set_producttotal(div, dis = false) {
+        var product = div.find('select.product option:selected').attr('data-json')
+        product = JSON.parse(product)
+        div.find('.rate').val(product.sale_price)
+        if (!dis) {
+            div.find('.product_discount').val(product.discount)
+        }
+        if (!div.find('.qty').val()) {
+            div.find('.qty').val(0)
+        }
+        var qty = div.find('.qty').val()
+        div.find('.gross').val((product.sale_price * qty))
+        var total = (product.sale_price * qty)
+        var discount = div.find('.product_discount').val()
+        total = total - (total * discount / 100);
+        div.find('.product_total').val(total)
+        //console.log(JSON.parse(product))
+    }
     function set_disandtotal(main, dis = false) {
         var total = 0;
+        var gross_total = 0;
         main.find('select.product').each(function() {
-            var price = $(this).find('option:selected').attr('data-price')
-            var qty = $(this).parents('.hide-div').find('input.qty').val()
-            total += (price * qty)
+            //alert($(this).parents('.hide-div').find('input.product_total').val())
+            // var price = $(this).find('option:selected').attr('data-price')
+            // var qty = $(this).parents('.hide-div').find('input.qty').val()
+            // total += (price * qty)
+            total += parseInt($(this).parents('.hide-div').find('input.product_total').val())
+            var product = $(this).find('option:selected').attr('data-json')
+            product = JSON.parse(product)
+            if (product.Slap != 'No') {
+                gross_total += parseInt($(this).parents('.hide-div').find('input.product_total').val())
+            }
         })
-        var dis_array = main.find('[name="Company"] option:selected').attr('data-slap')
+        var dis_array = $('[name="Company"] option:selected').attr('data-slap')
+        //var dis_array = main.find('[name="Company"] option:selected').attr('data-slap')
         if (dis) {
             var discount = dis
         }
         else{
-            var discount = get_dis(dis_array, total)
+            var discount = get_dis(dis_array, gross_total)
         }
         main.find('[name="Discount[]"]').val(discount)
+        var discount_total = 0;
         if (discount) {
-            discount = (parseInt(discount) + parseInt(main.find('[name="company_discount[]"]').val()))
-            //discount = '0.0'+discount
-            total = total - (total * discount / 100);
-            //total = total - (total * discount)
+            discount_total += (gross_total * discount / 100);
         }
-        else{
-            discount = main.find('[name="company_discount[]"]').val()
-            //discount = '0.0'+discount
-            total = total - (total * discount / 100);
-            //total = total - (total * discount)
+        if(main.find('[name="company_discount[]"]').val()){
+            discount_total += (total * parseInt(main.find('[name="company_discount[]"]').val()) / 100);
         }
+        if(main.find('[name="extra_discount[]"]').val()){
+            discount_total += (total * parseInt(main.find('[name="extra_discount[]"]').val()) / 100);
+        }
+        if(main.find('[name="t_o[]"]').val()){
+            discount_total += parseInt(main.find('[name="t_o[]"]').val());
+        }
+        
+        // alert(gross_total)
+        // alert(discount_total)
+        // alert(total)
+        total = (total - discount_total)
+        // if (discount) {
+        //     discount = (parseInt(discount) + parseInt(main.find('[name="company_discount[]"]').val()) + parseInt(main.find('[name="extra_discount[]"]').val()))
+        //     //discount = '0.0'+discount
+        //     total = total - ((total * discount / 100) + parseInt(main.find('[name="t_o[]"]').val()));
+        //     //total = total - (total * discount)
+        // }
+        // else{
+        //     discount = (parseInt(main.find('[name="company_discount[]"]').val()) + parseInt(main.find('[name="extra_discount[]"]').val()))
+        //     //discount = '0.0'+discount
+        //     total = total - ((total * discount / 100) + parseInt(main.find('[name="t_o[]"]').val()));
+        //     //total = total - (total * discount / 100);
+        //     //total = total - (total * discount)
+        // }
         main.find('[name="Total_Amount[]"]').val(total)
     }
     function get_dis(array, total) {

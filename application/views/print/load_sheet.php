@@ -53,7 +53,11 @@
       <!--end of wrapper-->
       <center>
          <button onclick="myFunction()" id="printPageButton">Print this page</button>
+         <?php if(!isset($merge)): ?>
+         <a href="<?php echo base_url('dsr_bills/merge') ?>"><button>Merge Load Sheet</button></a>
          <a href="<?php echo base_url('dsr_bills/bills/'.$id) ?>"><button>Print Bills</button></a>
+         <a href="<?php echo base_url('dsr_bills/print_dsr/'.$id) ?>"><button>Print Dsr</button></a>
+         <?php endif; ?>
       </center>
       <script>
          function myFunction() {

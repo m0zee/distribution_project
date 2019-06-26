@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 15, 2019 at 01:40 AM
+-- Generation Time: Jun 26, 2019 at 09:56 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.21
 
@@ -34,7 +34,10 @@ CREATE TABLE `billing` (
   `Shop` int(100) NOT NULL,
   `company_discount` int(11) DEFAULT NULL,
   `Discount` int(100) NOT NULL,
+  `extra_discount` varchar(10) NOT NULL,
+  `t_o` varchar(10) NOT NULL,
   `Total_Amount` int(255) NOT NULL,
+  `final_amount` varchar(100) NOT NULL,
   `user_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -43,13 +46,9 @@ CREATE TABLE `billing` (
 -- Dumping data for table `billing`
 --
 
-INSERT INTO `billing` (`id`, `Company`, `Booker`, `Date`, `Shop`, `company_discount`, `Discount`, `Total_Amount`, `user_id`, `created_at`) VALUES
-(4, 2, 1, '2019-05-29', 1, NULL, 2, 80, 2, '2019-05-29 17:02:18'),
-(5, 2, 1, '2019-05-29', 1, NULL, 2, 42, 2, '2019-05-29 17:02:18'),
-(6, 3, 1, '2019-06-12', 1, 0, 5, 166, 2, '2019-06-12 19:53:44'),
-(7, 4, 1, '2019-06-14', 1, 3, 5, 1104, 2, '2019-06-14 17:20:24'),
-(8, 3, 2, '2019-06-14', 1, 3, 10, 261, 2, '2019-06-14 18:34:40'),
-(9, 5, 3, '2019-06-14', 1, 0, 0, 200, 2, '2019-06-14 19:34:50');
+INSERT INTO `billing` (`id`, `Company`, `Booker`, `Date`, `Shop`, `company_discount`, `Discount`, `extra_discount`, `t_o`, `Total_Amount`, `final_amount`, `user_id`, `created_at`) VALUES
+(1, 1, 1, '2019-06-25', 1, 2, 0, '3', '50', 318, '246', 2, '2019-06-26 19:30:14'),
+(2, 1, 1, '2019-06-25', 2, 4, 0, '2', '100', 476, '476', 2, '2019-06-26 19:30:14');
 
 -- --------------------------------------------------------
 
@@ -61,23 +60,24 @@ CREATE TABLE `billing_detail` (
   `id` int(11) NOT NULL,
   `bill_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `qty` int(11) NOT NULL
+  `qty` int(11) NOT NULL,
+  `rate` varchar(11) NOT NULL,
+  `gross` varchar(11) NOT NULL,
+  `product_discount` varchar(11) NOT NULL,
+  `product_total` varchar(11) NOT NULL,
+  `return_qty` varchar(100) NOT NULL,
+  `final_total` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `billing_detail`
 --
 
-INSERT INTO `billing_detail` (`id`, `bill_id`, `product_id`, `qty`) VALUES
-(2, 4, 1, 10),
-(3, 4, 1, 15),
-(4, 4, 1, 7),
-(5, 5, 1, 6),
-(6, 6, 2, 5),
-(7, 6, 3, 3),
-(8, 7, 4, 30),
-(9, 8, 2, 15),
-(10, 9, 5, 10);
+INSERT INTO `billing_detail` (`id`, `bill_id`, `product_id`, `qty`, `rate`, `gross`, `product_discount`, `product_total`, `return_qty`, `final_total`) VALUES
+(1, 1, 1, 10, '25', '250', '0', '250', '3', '175'),
+(2, 1, 2, 5, '28', '140', '2', '137.2', '0', ' 137.2'),
+(3, 2, 2, 10, '28', '280', '2', '274.4', '0', '274.4'),
+(4, 2, 3, 10, '35', '350', '3', '339.5', '0', ' 339.5');
 
 -- --------------------------------------------------------
 
@@ -99,9 +99,8 @@ CREATE TABLE `booker` (
 --
 
 INSERT INTO `booker` (`id`, `Name`, `Code`, `Phone`, `user_id`, `created_at`) VALUES
-(1, 'Testing Booket', '123', '32381208932', 2, '2019-05-28 20:24:11'),
-(2, 'booker new 1', 'bn1', '1234', 2, '2019-06-11 22:08:01'),
-(3, 'ahsan', '123', '03152265438', 2, '2019-06-14 19:27:10');
+(1, 'First Booker', '123', '1255664372', 2, '2019-06-24 22:22:26'),
+(2, 'second booker', '124', '', 2, '2019-06-25 20:33:23');
 
 -- --------------------------------------------------------
 
@@ -121,16 +120,6 @@ CREATE TABLE `cheques` (
   `user_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `cheques`
---
-
-INSERT INTO `cheques` (`id`, `Party_Name`, `Address`, `Bill_NO`, `Cheq_Amount`, `Cheque_Date`, `Party_Bank`, `Status`, `user_id`, `created_at`) VALUES
-(10, 1, 'test', 4, 3, '2019-06-15', 'test', '0', 2, '2019-06-14 20:59:18'),
-(11, 0, '', 0, 0, '0000-00-00', '', '0', 2, '2019-06-14 20:59:18'),
-(12, 0, '', 0, 0, '0000-00-00', '', '0', 2, '2019-06-14 21:01:19'),
-(13, 1, 'test', 5, 100, '2019-06-19', 'test', '0', 2, '2019-06-14 21:01:19');
 
 -- --------------------------------------------------------
 
@@ -157,11 +146,7 @@ CREATE TABLE `company` (
 --
 
 INSERT INTO `company` (`id`, `Name`, `Code`, `Address`, `Description`, `slap`, `Min_Slap`, `Max_Slap`, `Discount_Percentage`, `user_id`, `created_at`) VALUES
-(1, 'Abc company', '123', 'karachi', 'asdf', '', '10', '50', 90, 2, '2019-05-12 19:47:47'),
-(2, 'test', '123', 'testing', 'test', '{"min":["0","2001"],"max":["2000","4000"],"dis":["2","4"]}', NULL, NULL, NULL, 2, '2019-05-26 21:11:49'),
-(3, 'New Test Company', 'ntc', 'karachi', 'wedfghjk', '{"min":["100","201","501"],"max":["200","500","50000"],"dis":["5","10",""]}', NULL, NULL, NULL, 2, '2019-06-11 21:53:44'),
-(4, 'testing', '123', 'test', 'test', '{"min":["100","501"],"max":["500","10000"],"dis":["2","5"]}', NULL, NULL, NULL, 2, '2019-06-14 17:12:22'),
-(5, 'dentonic', '123', '', '', '{"min":["1000","2001","3001"],"max":["2000","3000","50000"],"dis":["3","4","5"]}', NULL, NULL, NULL, 2, '2019-06-14 19:15:02');
+(1, 'First Company', '123', 'company', 'company', '{"min":["1000","2001","3001"],"max":["2000","3000","10000"],"dis":["2","3","5"]}', NULL, NULL, NULL, 2, '2019-06-24 19:37:33');
 
 -- --------------------------------------------------------
 
@@ -171,9 +156,11 @@ INSERT INTO `company` (`id`, `Name`, `Code`, `Address`, `Description`, `slap`, `
 
 CREATE TABLE `dsr_bills` (
   `id` int(11) UNSIGNED NOT NULL,
+  `Company` int(11) NOT NULL,
   `Booker` int(100) NOT NULL,
   `Date` date NOT NULL,
   `Total_Amount` int(100) NOT NULL,
+  `return_amount` varchar(100) NOT NULL,
   `salesmen` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -183,12 +170,8 @@ CREATE TABLE `dsr_bills` (
 -- Dumping data for table `dsr_bills`
 --
 
-INSERT INTO `dsr_bills` (`id`, `Booker`, `Date`, `Total_Amount`, `salesmen`, `user_id`, `created_at`) VALUES
-(2, 1, '2019-05-29', 122, 0, 2, '2019-05-29 17:14:26'),
-(3, 1, '2019-06-12', 166, 1, 2, '2019-06-13 13:16:30'),
-(4, 1, '2019-06-14', 1104, 2, 2, '2019-06-14 17:30:34'),
-(5, 2, '2019-06-14', 261, 2, 2, '2019-06-14 21:01:19'),
-(6, 3, '2019-06-14', 200, 0, 2, '2019-06-14 19:34:50');
+INSERT INTO `dsr_bills` (`id`, `Company`, `Booker`, `Date`, `Total_Amount`, `return_amount`, `salesmen`, `user_id`, `created_at`) VALUES
+(1, 1, 1, '2019-06-25', 794, '72', 0, 2, '2019-06-26 19:40:52');
 
 -- --------------------------------------------------------
 
@@ -213,12 +196,7 @@ CREATE TABLE `ledger_entries` (
 --
 
 INSERT INTO `ledger_entries` (`id`, `name`, `Company`, `Date`, `Amount`, `Type`, `purchase_id`, `user_id`, `created_at`) VALUES
-(3, 'Opening Balance ', 1, '2019-05-01', '5000', 'Debit', 0, 2, '2019-05-30 21:29:22'),
-(5, 'Purchase', 1, '2019-05-30', '49.5', 'Debit', 23, 2, '2019-05-30 21:31:15'),
-(6, 'Salary', 1, '2019-05-31', '2000', 'Credit', 0, 2, '2019-05-30 21:31:37'),
-(7, 'Purchase', 4, '2019-06-14', '582', 'Debit', 24, 2, '2019-06-14 17:18:26'),
-(8, 'Salary', 4, '2019-06-14', '3000', 'Credit', 0, 2, '2019-06-14 17:39:36'),
-(9, 'Purchase', 5, '2019-06-14', '902.5', 'Debit', 25, 2, '2019-06-14 19:33:32');
+(1, 'Purchase', 1, '2019-06-24', '1537.9', 'Debit', 1, 2, '2019-06-24 19:48:00');
 
 -- --------------------------------------------------------
 
@@ -260,7 +238,8 @@ INSERT INTO `modules` (`id`, `name`, `main_name`, `sort`, `icon`, `url`, `user_i
 (32, 'Salesmen Balance', 'salesmen_balance', 7, 'home', 'salesmen_balance', 2),
 (33, 'Sales Return', 'salesreturn', 10, 'home', 'salesreturn', 2),
 (34, 'Sign Bills', 'sign_bills', 7, 'home', 'sign_bills', 2),
-(35, 'Recovery', 'recovery', 7, 'home', 'recovery', 2);
+(35, 'Recovery', 'recovery', 7, 'home', 'recovery', 2),
+(36, 'Product Types', 'product_type', 7, 'home', 'product_type', 2);
 
 -- --------------------------------------------------------
 
@@ -369,7 +348,10 @@ INSERT INTO `modules_fileds` (`id`, `name`, `type`, `filed_type`, `options`, `le
 (79, 'Rcvd_Amount', 'VARCHAR', 'input', '', 100, 1, 35, 0, NULL, NULL, NULL),
 (80, 'Cheque_NO', 'VARCHAR', 'input', '', 100, 0, 35, 0, NULL, NULL, NULL),
 (81, 'Chaque_Date_', 'DATE', 'input', '', 100, 0, 35, 0, NULL, NULL, NULL),
-(82, 'Party_Bank', 'VARCHAR', 'input', '', 255, 0, 35, 0, NULL, NULL, NULL);
+(82, 'Party_Bank', 'VARCHAR', 'input', '', 255, 0, 35, 0, NULL, NULL, NULL),
+(83, 'Name', 'VARCHAR', 'input', '', 100, 1, 36, 0, NULL, NULL, NULL),
+(84, 'Company', 'INT', 'input', '', 11, 1, 36, 1, 'id', 'company', 'Name'),
+(85, 'Slap', 'VARCHAR', 'radio', 'Yes,No', 100, 1, 36, 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -403,26 +385,27 @@ INSERT INTO `permission` (`id`, `module_id`, `user_id`, `user_type_id`, `view`, 
 (228, 20, 2, 0, 0, 0, 0, 0, 0, 0),
 (229, 21, 2, 0, 1, 0, 0, 0, 0, 0),
 (230, 22, 2, 0, 1, 0, 0, 0, 0, 0),
-(412, 2, 2, 1, 1, 1, 1, 1, 1, 1),
-(413, 3, 2, 1, 1, 1, 1, 1, 1, 1),
-(414, 5, 2, 1, 1, 1, 1, 1, 1, 1),
-(415, 7, 2, 1, 1, 1, 1, 1, 1, 1),
-(416, 19, 2, 1, 1, 1, 1, 1, 1, 1),
-(417, 20, 2, 1, 1, 1, 1, 1, 1, 1),
-(418, 21, 2, 1, 1, 1, 1, 1, 1, 1),
-(419, 22, 2, 1, 1, 1, 1, 1, 1, 1),
-(420, 23, 2, 1, 1, 1, 1, 1, 1, 1),
-(421, 24, 2, 1, 1, 1, 1, 1, 1, 1),
-(422, 26, 2, 1, 1, 1, 1, 1, 1, 1),
-(423, 27, 2, 1, 1, 1, 1, 1, 1, 1),
-(424, 28, 2, 1, 1, 1, 1, 1, 1, 1),
-(425, 29, 2, 1, 1, 1, 1, 1, 1, 1),
-(426, 30, 2, 1, 1, 1, 1, 1, 1, 1),
-(427, 31, 2, 1, 1, 1, 1, 1, 1, 1),
-(428, 32, 2, 1, 1, 1, 1, 1, 1, 1),
-(429, 33, 2, 1, 1, 1, 1, 1, 1, 1),
-(430, 34, 2, 1, 1, 1, 1, 1, 1, 1),
-(431, 35, 2, 1, 1, 1, 1, 1, 1, 1);
+(432, 2, 2, 1, 1, 1, 1, 1, 1, 1),
+(433, 3, 2, 1, 1, 1, 1, 1, 1, 1),
+(434, 5, 2, 1, 1, 1, 1, 1, 1, 1),
+(435, 7, 2, 1, 1, 1, 1, 1, 1, 1),
+(436, 19, 2, 1, 1, 1, 1, 1, 1, 1),
+(437, 20, 2, 1, 1, 1, 1, 1, 1, 1),
+(438, 21, 2, 1, 1, 1, 1, 1, 1, 1),
+(439, 22, 2, 1, 1, 1, 1, 1, 1, 1),
+(440, 23, 2, 1, 1, 1, 1, 1, 1, 1),
+(441, 24, 2, 1, 1, 1, 1, 1, 1, 1),
+(442, 26, 2, 1, 1, 1, 1, 1, 1, 1),
+(443, 27, 2, 1, 1, 1, 1, 1, 1, 1),
+(444, 28, 2, 1, 1, 1, 1, 1, 1, 1),
+(445, 29, 2, 1, 1, 1, 1, 1, 1, 1),
+(446, 30, 2, 1, 1, 1, 1, 1, 1, 1),
+(447, 31, 2, 1, 1, 1, 1, 1, 1, 1),
+(448, 32, 2, 1, 1, 1, 1, 1, 1, 1),
+(449, 33, 2, 1, 1, 1, 1, 1, 1, 1),
+(450, 34, 2, 1, 1, 1, 1, 1, 1, 1),
+(451, 35, 2, 1, 1, 1, 1, 1, 1, 1),
+(452, 36, 2, 1, 1, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -434,8 +417,10 @@ CREATE TABLE `product` (
   `id` int(11) UNSIGNED NOT NULL,
   `Name` varchar(100) NOT NULL,
   `Company` int(10) NOT NULL,
+  `Type` int(11) NOT NULL,
   `Code` varchar(50) NOT NULL,
   `stock_in_hand` int(11) DEFAULT '0',
+  `discount` varchar(10) NOT NULL,
   `purchase_price` varchar(10) DEFAULT NULL,
   `sale_price` varchar(10) DEFAULT NULL,
   `Description` text,
@@ -449,12 +434,35 @@ CREATE TABLE `product` (
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`id`, `Name`, `Company`, `Code`, `stock_in_hand`, `purchase_price`, `sale_price`, `Description`, `packing_type`, `qty`, `user_id`, `created_at`) VALUES
-(1, 'first product', 1, 'fp', 43, '10', '4', 'asdf', 'asdf', 15, 2, '2019-05-30 21:31:16'),
-(2, 'New product', 3, 'np', 85, '10', '20', '', 'carton', 200, 2, '2019-06-14 18:34:40'),
-(3, 'New Product 2', 3, 'np2', 200, '15', '25', '', 'carton', 100, 2, '2019-06-11 21:58:22'),
-(4, 'Testing Product', 4, '123', 90, '30', '40', 'test', 'test', 1000, 2, '2019-06-14 17:20:24'),
-(5, 'dentonic small', 5, '123', 2868, '19.39', '20.83', '', '', 288, 2, '2019-06-14 23:28:41');
+INSERT INTO `product` (`id`, `Name`, `Company`, `Type`, `Code`, `stock_in_hand`, `discount`, `purchase_price`, `sale_price`, `Description`, `packing_type`, `qty`, `user_id`, `created_at`) VALUES
+(1, 'First Product', 1, 1, '123', 255, '0', '20', '25', '', '', 0, 2, '2019-06-26 19:40:51'),
+(2, 'Second Product ', 1, 2, '124', 496, '2', '23', '28', '', '', 0, 2, '2019-06-26 19:40:52'),
+(3, 'Third Product', 1, 3, '125', 460, '3', '30', '35', '', '', 0, 2, '2019-06-26 19:40:52'),
+(4, 'Fourth Product', 1, 0, '126', 170, '0', '27', '32', '', '', 0, 2, '2019-06-24 19:45:31');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_type`
+--
+
+CREATE TABLE `product_type` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `Name` varchar(100) NOT NULL,
+  `Company` int(11) NOT NULL,
+  `Slap` varchar(100) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `product_type`
+--
+
+INSERT INTO `product_type` (`id`, `Name`, `Company`, `Slap`, `user_id`, `created_at`) VALUES
+(1, 'Consumer', 1, 'Yes', 2, '2019-06-24 19:38:22'),
+(2, 'Soap', 1, 'No', 2, '2019-06-24 19:38:39'),
+(3, 'Pad', 1, 'No', 2, '2019-06-24 19:38:55');
 
 -- --------------------------------------------------------
 
@@ -474,10 +482,7 @@ CREATE TABLE `purchase` (
 --
 
 INSERT INTO `purchase` (`id`, `Company`, `user_id`, `created_at`) VALUES
-(12, 1, 2, '2019-05-23 22:56:14'),
-(23, 1, 2, '2019-05-30 21:31:15'),
-(24, 4, 2, '2019-06-14 17:18:26'),
-(25, 5, 2, '2019-06-14 19:33:32');
+(1, 1, 2, '2019-06-24 19:48:00');
 
 -- --------------------------------------------------------
 
@@ -501,15 +506,10 @@ CREATE TABLE `purchase_details` (
 --
 
 INSERT INTO `purchase_details` (`id`, `purchase_id`, `product_id`, `qty`, `rate`, `gross_value`, `discount`, `total`) VALUES
-(2, 12, 1, 4, 10, '40', 1, '40'),
-(3, 12, 1, 3, 10, '30', 4, '29'),
-(8, 19, 1, 5, 10, '50', 1, '49.5'),
-(9, 20, 1, 5, 10, '50', 1, '49.5'),
-(10, 21, 1, 5, 10, '50', 1, '49.5'),
-(11, 22, 1, 5, 10, '50', 1, '49.5'),
-(12, 23, 1, 5, 10, '50', 1, '49.5'),
-(13, 24, 4, 20, 30, '600', 3, '582'),
-(14, 25, 5, 50, 19, '950', 5, '902.5');
+(1, 1, 1, 10, 20, '200', 5, '190'),
+(2, 1, 2, 10, 23, '230', 7, '213.9'),
+(3, 1, 3, 20, 30, '600', 10, '540'),
+(4, 1, 4, 25, 27, '675', 12, '594');
 
 -- --------------------------------------------------------
 
@@ -530,14 +530,6 @@ CREATE TABLE `recovery` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `recovery`
---
-
-INSERT INTO `recovery` (`id`, `Party_Name`, `Address`, `Bill_NO`, `Rcvd_Amount`, `Cheque_NO`, `Chaque_Date_`, `Party_Bank`, `user_id`, `created_at`) VALUES
-(7, 0, '', 0, '', '', '0000-00-00', '', 2, '2019-06-14 20:59:18'),
-(8, 1, 'test', 5, '100', '123', '2019-06-19', 'test', 2, '2019-06-14 21:01:19');
-
 -- --------------------------------------------------------
 
 --
@@ -552,14 +544,6 @@ CREATE TABLE `salesmen` (
   `user_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `salesmen`
---
-
-INSERT INTO `salesmen` (`id`, `Name`, `Code`, `Phone`, `user_id`, `created_at`) VALUES
-(1, 'Sales men test 1', 'smt1', '098765432', 2, '2019-06-11 21:10:31'),
-(2, 'sales men new', 'smn', '12345', 2, '2019-06-11 22:07:40');
 
 -- --------------------------------------------------------
 
@@ -583,16 +567,6 @@ CREATE TABLE `salesreturn` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `salesreturn`
---
-
-INSERT INTO `salesreturn` (`id`, `company`, `booker`, `shop`, `product_id`, `fresh_qty`, `damage_qty`, `gross_value`, `discount`, `rate`, `total`, `user_id`, `created_at`) VALUES
-(3, 3, 1, 0, 2, 2, 3, '80', 1, '20', '79.20', 2, '2019-06-13 13:16:30'),
-(4, 3, 1, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, 2, '2019-06-13 13:16:30'),
-(10, 3, 2, 3, 2, 5, 5, '200', 3, '20', '194.00', 2, '2019-06-14 20:59:18'),
-(11, 3, 2, 0, 0, 0, 0, '0', 0, '0', '0.00', 2, '2019-06-14 21:01:19');
-
 -- --------------------------------------------------------
 
 --
@@ -609,13 +583,6 @@ CREATE TABLE `sales_men_entries` (
   `user_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `sales_men_entries`
---
-
-INSERT INTO `sales_men_entries` (`id`, `Name`, `Salesmen`, `Date`, `Amount`, `Type`, `user_id`, `created_at`) VALUES
-(1, 'test', 2, '2019-06-14', '1000', 'Subtract ', 2, '2019-06-14 17:41:15');
 
 -- --------------------------------------------------------
 
@@ -639,9 +606,8 @@ CREATE TABLE `shops` (
 --
 
 INSERT INTO `shops` (`id`, `Code`, `Name`, `Area`, `Address`, `Booker`, `user_id`, `created_at`) VALUES
-(1, '123', 'Test Shop', 'Garden', 'testing', 1, 2, '2019-05-28 20:41:12'),
-(2, '1', '', '', '', 0, 2, '2019-06-14 18:03:16'),
-(3, '123', 'b.s', 'Garden', 'garden', 3, 2, '2019-06-14 19:32:55');
+(1, '123', 'First Shop', 'test', 'test', 1, 2, '2019-06-24 22:23:48'),
+(2, '124', 'Second Shop', 'Garden', 'test', 1, 2, '2019-06-24 22:24:24');
 
 -- --------------------------------------------------------
 
@@ -661,14 +627,6 @@ CREATE TABLE `sign_bills` (
   `user_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `sign_bills`
---
-
-INSERT INTO `sign_bills` (`id`, `Party_Name`, `Address`, `Bill_NO`, `Net_Amount`, `Signed_Amount`, `Rcvd_Amount`, `Due_Date`, `user_id`, `created_at`) VALUES
-(7, 1, 'test', 5, '400', '200', '100', '2019-06-15', 2, '2019-06-14 21:01:19'),
-(8, 0, '', 0, '', '', '', '0000-00-00', 2, '2019-06-14 21:01:19');
 
 -- --------------------------------------------------------
 
@@ -799,6 +757,12 @@ ALTER TABLE `product`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `product_type`
+--
+ALTER TABLE `product_type`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `purchase`
 --
 ALTER TABLE `purchase`
@@ -869,97 +833,102 @@ ALTER TABLE `user_type`
 -- AUTO_INCREMENT for table `billing`
 --
 ALTER TABLE `billing`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `billing_detail`
 --
 ALTER TABLE `billing_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `booker`
 --
 ALTER TABLE `booker`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `cheques`
 --
 ALTER TABLE `cheques`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `company`
 --
 ALTER TABLE `company`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `dsr_bills`
 --
 ALTER TABLE `dsr_bills`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `ledger_entries`
 --
 ALTER TABLE `ledger_entries`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `modules`
 --
 ALTER TABLE `modules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 --
 -- AUTO_INCREMENT for table `modules_fileds`
 --
 ALTER TABLE `modules_fileds`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 --
 -- AUTO_INCREMENT for table `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=432;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=453;
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `product_type`
+--
+ALTER TABLE `product_type`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `purchase`
 --
 ALTER TABLE `purchase`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `purchase_details`
 --
 ALTER TABLE `purchase_details`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `recovery`
 --
 ALTER TABLE `recovery`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `salesmen`
 --
 ALTER TABLE `salesmen`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `salesreturn`
 --
 ALTER TABLE `salesreturn`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `sales_men_entries`
 --
 ALTER TABLE `sales_men_entries`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `shops`
 --
 ALTER TABLE `shops`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `sign_bills`
 --
 ALTER TABLE `sign_bills`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `users`
 --
