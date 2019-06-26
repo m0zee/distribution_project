@@ -72,4 +72,57 @@ class Dsr_bills_model extends MY_Model
                  ->where('DATE(d.created_at)', $date);
         return $this->db->get()->result_array();
     }
+
+    public function get_sales_report($date)
+    {
+        $this->db->select('sign_bills.id, Date as date, booker.Name as booker, company.Name as company, sum(Total_Amount - return_amount) as amount, dsr_sales_return')
+                 ->from('dsr_bills')
+                 ->join('booker', 'booker.id = dsr_bills.Booker')
+                 ->join('company', 'company.id = dsr_bills.Company')
+                 ->where('Date >=', $data['start'])
+                 ->where('Date <=', $data['end']);
+        if ($data['booker']) {
+            $this->db->where('booker.id', $data['booker']);
+        }
+        if ($data['company']) {
+            $this->db->where('company.id', $data['company']);
+        }
+        return $this->db->get()->result_array();
+    }
+
+    public function get_bills_sales_report($data)
+    {
+        $this->db->select('sum(billing_detail.final_total) as bills_total, billing.company_discount, billing.Discount, billing.t_o, billing.extra_discount, billing.final_amount')
+                 ->from('billing')
+                 ->join('billing_detail', 'billing_detail.bill_id = billing.id')
+                 ->where('billing.Date >=', $data['start'])
+                 ->where('billing.Date <=', $data['end'])
+                 ->group_by('billing.id');
+        if ($data['booker']) {
+            $this->db->where('billing.Booker', $data['booker']);
+        }
+        if ($data['company']) {
+            $this->db->where('billing.Company', $data['company']);
+        }     
+        return $this->db->get()->result_array();    
+    }
+
+    public function get_type_report($data)
+    {
+        $this->db->select('product_type.Name, sum(billing_detail.final_total) as amount')
+                 ->from('product')
+                 ->join('product_type', 'product.Type = product_type.id')
+                 ->join('billing_detail', 'billing_detail.product_id = product.id')
+                 ->join('billing', 'billing_detail.bill_id = billing.id')
+                 ->where('billing.Date >=', $data['start'])
+                 ->where('billing.Date <=', $data['end'])
+                 ->group_by('product_type.id');
+        if ($data['booker']) {
+            $this->db->where('billing.Booker', $data['booker']);
+        }
+        if ($data['company']) {
+            $this->db->where('billing.Company', $data['company']);
+        }     
+        return $this->db->get()->result_array();    
+    }
 }

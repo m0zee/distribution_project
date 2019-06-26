@@ -24,7 +24,6 @@ class Sign_bills_report extends MY_Controller{
 			$data = $this->input->post();
 			$this->data['post'] = $data;
 			$this->data['entries'] = $this->Sign_bills_model->get_bills_report($data);
-			//$this->data['entries'] = $this->Product_model->get_rows('product', array('Company'=>$data['company']));
 		}
 		$this->load->template('report/bills',$this->data);
 	}

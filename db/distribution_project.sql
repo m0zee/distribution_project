@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 27, 2019 at 12:16 AM
+-- Generation Time: Jun 27, 2019 at 01:07 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.21
 
@@ -248,7 +248,8 @@ INSERT INTO `modules` (`id`, `name`, `main_name`, `sort`, `icon`, `url`, `user_i
 (36, 'Product Types', 'product_type', 7, 'home', 'product_type', 2),
 (37, 'Cash Report', 'cash_report', 7, 'home', 'cash_report', 2),
 (38, 'Stock Report', 'stock_report', 7, 'home', 'stock_report', 2),
-(39, 'Sign Bills Report', 'sign_bills_report', 7, 'home', 'sign_bills_report', 2);
+(39, 'Sign Bills Report', 'sign_bills_report', 7, 'home', 'sign_bills_report', 2),
+(40, 'Sales Report', 'sales_report', 7, 'home', 'sales_report', 2);
 
 -- --------------------------------------------------------
 
@@ -394,30 +395,31 @@ INSERT INTO `permission` (`id`, `module_id`, `user_id`, `user_type_id`, `view`, 
 (228, 20, 2, 0, 0, 0, 0, 0, 0, 0),
 (229, 21, 2, 0, 1, 0, 0, 0, 0, 0),
 (230, 22, 2, 0, 1, 0, 0, 0, 0, 0),
-(714, 2, 2, 1, 1, 1, 1, 1, 1, 1),
-(715, 3, 2, 1, 1, 1, 1, 1, 1, 1),
-(716, 5, 2, 1, 1, 1, 1, 1, 1, 1),
-(717, 7, 2, 1, 1, 1, 1, 1, 1, 1),
-(718, 19, 2, 1, 1, 1, 1, 1, 1, 1),
-(719, 20, 2, 1, 1, 1, 1, 1, 1, 1),
-(720, 21, 2, 1, 1, 1, 1, 1, 1, 1),
-(721, 22, 2, 1, 1, 1, 1, 1, 1, 1),
-(722, 23, 2, 1, 1, 1, 1, 1, 1, 1),
-(723, 24, 2, 1, 1, 1, 1, 1, 1, 1),
-(724, 26, 2, 1, 1, 1, 1, 1, 1, 1),
-(725, 27, 2, 1, 1, 1, 1, 1, 1, 1),
-(726, 28, 2, 1, 1, 1, 1, 1, 1, 1),
-(727, 29, 2, 1, 1, 1, 1, 1, 1, 1),
-(728, 30, 2, 1, 1, 1, 1, 1, 1, 1),
-(729, 31, 2, 1, 1, 1, 1, 1, 1, 1),
-(730, 32, 2, 1, 1, 1, 1, 1, 1, 1),
-(731, 33, 2, 1, 1, 1, 1, 1, 1, 1),
-(732, 34, 2, 1, 1, 1, 1, 1, 1, 1),
-(733, 35, 2, 1, 1, 1, 1, 1, 1, 1),
-(734, 36, 2, 1, 1, 1, 1, 1, 1, 1),
-(735, 37, 2, 1, 1, 1, 1, 1, 1, 1),
-(736, 38, 2, 1, 1, 1, 1, 1, 1, 1),
-(737, 39, 2, 1, 1, 1, 1, 1, 1, 1);
+(738, 2, 2, 1, 1, 1, 1, 1, 1, 1),
+(739, 3, 2, 1, 1, 1, 1, 1, 1, 1),
+(740, 5, 2, 1, 1, 1, 1, 1, 1, 1),
+(741, 7, 2, 1, 1, 1, 1, 1, 1, 1),
+(742, 19, 2, 1, 1, 1, 1, 1, 1, 1),
+(743, 20, 2, 1, 1, 1, 1, 1, 1, 1),
+(744, 21, 2, 1, 1, 1, 1, 1, 1, 1),
+(745, 22, 2, 1, 1, 1, 1, 1, 1, 1),
+(746, 23, 2, 1, 1, 1, 1, 1, 1, 1),
+(747, 24, 2, 1, 1, 1, 1, 1, 1, 1),
+(748, 26, 2, 1, 1, 1, 1, 1, 1, 1),
+(749, 27, 2, 1, 1, 1, 1, 1, 1, 1),
+(750, 28, 2, 1, 1, 1, 1, 1, 1, 1),
+(751, 29, 2, 1, 1, 1, 1, 1, 1, 1),
+(752, 30, 2, 1, 1, 1, 1, 1, 1, 1),
+(753, 31, 2, 1, 1, 1, 1, 1, 1, 1),
+(754, 32, 2, 1, 1, 1, 1, 1, 1, 1),
+(755, 33, 2, 1, 1, 1, 1, 1, 1, 1),
+(756, 34, 2, 1, 1, 1, 1, 1, 1, 1),
+(757, 35, 2, 1, 1, 1, 1, 1, 1, 1),
+(758, 36, 2, 1, 1, 1, 1, 1, 1, 1),
+(759, 37, 2, 1, 1, 1, 1, 1, 1, 1),
+(760, 38, 2, 1, 1, 1, 1, 1, 1, 1),
+(761, 39, 2, 1, 1, 1, 1, 1, 1, 1),
+(762, 40, 2, 1, 1, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -880,7 +882,7 @@ ALTER TABLE `ledger_entries`
 -- AUTO_INCREMENT for table `modules`
 --
 ALTER TABLE `modules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT for table `modules_fileds`
 --
@@ -890,7 +892,7 @@ ALTER TABLE `modules_fileds`
 -- AUTO_INCREMENT for table `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=738;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=763;
 --
 -- AUTO_INCREMENT for table `product`
 --
