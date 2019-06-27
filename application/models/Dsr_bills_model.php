@@ -107,6 +107,24 @@ class Dsr_bills_model extends MY_Model
         return $this->db->get()->result_array();    
     }
 
+    public function get_product_sales_report($data)
+    {
+        $this->db->select('sum(billing_detail.final_total) as bills_total, product.Name as name')
+                 ->from('billing')
+                 ->join('billing_detail', 'billing_detail.bill_id = billing.id')
+                 ->join('product', 'billing_detail.product_id = product.id')
+                 ->where('billing.Date >=', $data['start'])
+                 ->where('billing.Date <=', $data['end'])
+                 ->group_by('product.id');
+        if ($data['booker']) {
+            $this->db->where('billing.Booker', $data['booker']);
+        }
+        if ($data['company']) {
+            $this->db->where('billing.Company', $data['company']);
+        }     
+        return $this->db->get()->result_array();    
+    }
+
     public function get_type_report($data)
     {
         $this->db->select('product_type.Name, sum(billing_detail.final_total) as amount')
