@@ -174,6 +174,9 @@ $(window).load(function() {
         $('.after-add-sub').last().find('.product-list').val(row.product_id).change();
         $(last_row).find('.qty').val(row.qty);
         $(last_row).find('.rate').val(row.rate);
+        $(last_row).find('.gross_value').val(row.rate * row.qty );
+        $(last_row).find('.discount').val(row.discount);
+        $(last_row).find('.total').val(row.total);
     }
 
     $('.panel-body').on('change', '.product-list', function() {

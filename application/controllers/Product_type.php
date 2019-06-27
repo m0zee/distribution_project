@@ -69,4 +69,15 @@
 			}
 			$this->Product_type_model->delete('product_type',array('id'=>$id));
 			redirect('product_type');
-		}}
+		}
+
+
+		public function get_product_type_by_company_id()
+		{
+			$company_id = $this->input->post('company_id');
+			$product_type =  $this->Product_type_model->get_rows('product_type', ['Company' => $company_id]);
+			echo json_encode(['status' => 200, 'data' => $product_type]);
+		}
+
+
+	}

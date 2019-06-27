@@ -123,8 +123,12 @@
 			$id = $data['id'];
 			$quantity = $data['quantity'];
 			$product = $data['product'];
+			$rate = $data['rate'];
+			$gross = $data['gross'];
+			$product_discount = $data['product_discount'];
+			$product_total = $data['product_total'];
 			$data['Total_Amount'] = round($data['Total_Amount']);
-			unset($data['id'], $data['quantity'], $data['product']);
+			unset($data['id'], $data['quantity'], $data['product'], $data['rate'], $data['gross'], $data['product_discount'], $data['product_total']);
 			$this->Billing_model->update('billing',$data,array('id'=>$id));
 			$data['quantity'] = $quantity;
 			$data['product'] = $product;
@@ -139,7 +143,11 @@
 					$bill_detail = array(
 						'bill_id' => $id, 
 						'product_id	' => $v, 
-						'qty' => $data['quantity'][$key][$k], 
+						'qty' => $quantity[$key][$k], 
+						'rate' => $rate[$key][$k], 
+						'gross' => $gross[$key][$k], 
+						'product_discount' => $product_discount[$key][$k], 
+						'product_total' => $product_total[$key][$k], 
 					);
 					$this->Billing_model->insert('billing_detail',$bill_detail);
 					$product = $this->Product_model->get_row_single('product', ['id' => $v]);
@@ -150,7 +158,6 @@
 					];
 					$this->Product_model->update('product', $stock_data, ['id' => $v]);
 			}
-
 			$data2                 = array('Booker'=>$data['Booker'], 'Date'=>$data['Date']);
         	
         	$data2['Total_Amount'] = $this->Dsr_bills_model->get_bills($data2);
