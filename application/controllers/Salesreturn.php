@@ -8,6 +8,8 @@
 	        $this->module = 'salesreturn';
 	        $this->user_type = $this->session->userdata('user_type');
 	        $this->id = $this->session->userdata('user_id');
+
+	        $this->load->model('product_model');
 	        $this->permission = $this->get_permission($this->module,$this->user_type);
 	    }public function index()
 		{
@@ -43,10 +45,19 @@
 				$p['damage_qty'] = $p['d_qty'];
 				$p['user_id'] = $this->session->userdata('user_id');
 				unset($p['d_qty'], $p['f_qty']);
+				$qty[$p['product_id']] = $p['fresh_qty'];
+				$product_ids[] = $p['product_id'];
 			}
 
 			$data =  $data['product'];
 			$id = $this->Salesreturn_model->insert_batch('salesreturn',$data);
+
+			$products = $this->product_model->get_product_by_ids($product_ids);
+			foreach ($products as $product) {
+				$quantity = $product['stock_in_hand'] - $qty[$product['id']];
+				$affected = $this->Salesreturn_model->update('product',['stock_in_hand' => $quantity], ['id' => $product['id']]);
+			}
+
 			if ($id) {
 				redirect('salesreturn');
 			}
@@ -73,10 +84,18 @@
 			}
 			$data = $this->input->post();
 			$id = $data['id'];
-			unset($data['id']);$id = $this->Salesreturn_model->update('salesreturn',$data,array('id'=>$id));
-			if ($id) {
+			$sale = $this->Salesreturn_model->get_row_single('salesreturn',array('id'=>$id));
+			$id = $this->Salesreturn_model->update('salesreturn',$data,array('id'=>$id));
+			unset($data['id']);
+
+			$products = $this->product_model->get_row_single('product', ['id' => $sale['product_id']]);
+			
+			$quantity = $products['stock_in_hand'] + ( $sale['fresh_qty'] - $data['fresh_qty'] );
+			$affected = $this->Salesreturn_model->update('product',['stock_in_hand' => $quantity], ['id' => $products['id'], ]);
+
+			// if ($id) {
 				redirect('salesreturn');
-			}
+			// }
 		}public function delete($id)
 		{
 			if ( $this->permission['deleted'] == '0') 

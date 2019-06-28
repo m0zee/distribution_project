@@ -56,9 +56,6 @@
 			$this->product_model->insert_batch('purchase_details', $product_data);
 
 			$products = $this->product_model->get_product_by_ids($product_ids);
-			// echo '<pre>FILE: ' . __FILE__ . '<br>LINE: ' . __LINE__ . '<br>';
-			// print_r( $qty );
-			// echo '</pre>'; die;
 			foreach ($products as $product) {
 				$quantity = $product['stock_in_hand'] + $qty[$product['id']];
 				$affected = $this->Purchase_model->update('product',['stock_in_hand' => $quantity], ['id' => $product['id']]);
